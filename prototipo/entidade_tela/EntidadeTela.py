@@ -1,3 +1,5 @@
 from abc import ABC
-class EntidadeTela (ABC):
+from entidade.Entidade import Entidade
+
+class EntidadeTela (Entidade, ABC):
     pass
