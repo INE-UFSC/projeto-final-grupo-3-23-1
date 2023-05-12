@@ -1,4 +1,4 @@
-from Entidade import Entidade
+from entidade import Entidade
 from sala import Sala
 
 class MapaJogo(Entidade):

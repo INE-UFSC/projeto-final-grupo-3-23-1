@@ -1,4 +1,4 @@
-from EntidadeTela import EntidadeTela
+from entidadeTela import EntidadeTela
 
 class Porta(EntidadeTela):
     def __init__(self, sala_portas: list):

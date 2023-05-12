@@ -1,5 +1,5 @@
 from abc import ABC
-from Entidade import Entidade
+from entidade import Entidade
 from aparencia.Aparencia import Aparencia
 
 class Sala(Entidade, ABC):

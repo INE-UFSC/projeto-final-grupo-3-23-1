@@ -1,4 +1,4 @@
-from EntidadeTela import EntidadeTela
+from entidadeTela import EntidadeTela
 
 class Puzzle(EntidadeTela):
     def __init__(self):

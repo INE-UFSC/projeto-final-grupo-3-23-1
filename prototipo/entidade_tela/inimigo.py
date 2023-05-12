@@ -1,4 +1,6 @@
-from EntidadeTela import EntidadeTela
+from entidadeTela import EntidadeTela
+
+
 class Inimigo(EntidadeTela):
     def __init__(self):
         self.__dano = float
