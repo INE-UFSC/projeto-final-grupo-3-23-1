@@ -1,2 +1,0 @@
-class Musica:
-    pass
