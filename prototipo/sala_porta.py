@@ -1,6 +1,6 @@
 from abc import ABC
 from entidade.sala import Sala
-from entidade_tela.Porta import Porta
+from entidade_tela.porta import Porta
 
 
 class SalaPorta(ABC):
