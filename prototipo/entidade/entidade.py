@@ -1,4 +1,9 @@
 from abc import ABC
 
 class Entidade(ABC):
-    pass
+    def atualizar(eventos: list):
+        pass
+
+    def desenhar():
+        pass
+
