@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 
-from entidade_tela.entidadeTela import EntidadeTela, FiguraRetangulo
+from entidade_tela.entidadeTela import EntidadeTela, DesenhavelRetangulo
 
 pg.init()
 tela = pg.display.set_mode((500, 400))
@@ -11,8 +11,8 @@ cor_rect = (255, 0, 0)
 
 tela.fill(cor_fundo)
 
-figura = FiguraRetangulo(tela, cor_rect)
-personagem = EntidadeTela((30, 40), (100, 100), figura)
+figura = DesenhavelRetangulo(cor_rect)
+personagem = EntidadeTela(tela, (30, 40), (100, 100), figura)
 
 while True:
     for event in pg.event.get():

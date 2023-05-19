@@ -6,10 +6,12 @@ from entidade.entidade import Entidade
 class EntidadeTela(Entidade, ABC):
     def __init__(
         self,
+        tela,
         pos_tela,
         dimensoes,
         desenhavel
     ):
+        self.tela = tela
         self.pos_tela = pos_tela
         self.dimensoes = dimensoes
         self.desenhavel = desenhavel
@@ -34,13 +36,12 @@ class EntidadeTela(Entidade, ABC):
                 or self_y0 < outro_y1 < self_y1)
 
     def desenhar(self):
-        self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
+        self.desenhavel.desenhar(self.tela, self.pos_tela, self.dimensoes)
 
-class FiguraRetangulo:
-    def __init__(self, tela, cor):
-        self.tela = tela
+class DesenhavelRetangulo:
+    def __init__(self, cor):
         self.cor = cor
 
-    def desenhar(self, pos_tela, dimensoes):
-        pg.draw.rect(self.tela, self.cor, (*pos_tela, *dimensoes))
+    def desenhar(self, tela, pos_tela, dimensoes):
+        pg.draw.rect(tela, self.cor, (*pos_tela, *dimensoes))
 
