@@ -1,4 +1,4 @@
-from entidadeTela import EntidadeTela
+from basico.entidadeTela import EntidadeTela
 
 
 class Inimigo(EntidadeTela):

@@ -1,6 +1,6 @@
 from abc import ABC
-from entidade import Entidade
-from aparencia.Aparencia import Aparencia
+from basico.entidade import Entidade
+from aparencia import Aparencia
 
 class Sala(Entidade, ABC):
     def __init__(self, aparencia: Aparencia, sala_portas: list, powerups: list):

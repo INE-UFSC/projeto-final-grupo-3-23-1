@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 
-from entidade_tela.entidadeTela import EntidadeTela, DesenhavelRetangulo
+from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
 
 pg.init()
 tela = pg.display.set_mode((500, 400))

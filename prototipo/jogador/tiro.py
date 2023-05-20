@@ -1,4 +1,4 @@
-from entidadeTela import EntidadeTela
+from basico.entidadeTela import EntidadeTela
 
 class Tiro(EntidadeTela):
     def __init__(self, pos_tela, largura, comprimento, sprite, dano, velocidade):

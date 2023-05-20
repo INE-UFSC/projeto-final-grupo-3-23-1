@@ -1,7 +1,7 @@
 from abc import ABC
 import pygame as pg
 
-from entidade.entidade import Entidade
+from entidade import Entidade
 
 class EntidadeTela(Entidade, ABC):
     def __init__(

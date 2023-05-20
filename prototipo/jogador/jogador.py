@@ -1,4 +1,4 @@
-from entidadeTela import EntidadeTela
+from basico.entidadeTela import EntidadeTela
 
 class Jogador(EntidadeTela):
     def __init__(self, pos_tela, dimensoes, arma):
