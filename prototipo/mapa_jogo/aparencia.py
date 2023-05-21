@@ -1,5 +1,5 @@
-from musica import Musica
-from textura import Textura
+from .musica import Musica
+from .textura import Textura
 
 class Aparencia:
     def __init__(self, musica: Musica, textura: Textura):
