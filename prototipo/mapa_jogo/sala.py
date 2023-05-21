@@ -1,8 +1,10 @@
-from abc import ABC, abstractmethod
-from basico.entidade import Entidade
-from aparencia import Aparencia
 import pygame as pg
 from pygame.locals import *
+
+from abc import ABC, abstractmethod
+from basico.entidade import Entidade
+from .aparencia import Aparencia
+
 
 class Sala(Entidade, ABC):
     def __init__(self, aparencia, sala_portas):
@@ -44,6 +46,10 @@ class Sala(Entidade, ABC):
     def altura(self):
         return self.__altura
     
+    @property
+    def sala_portas(self,):
+        return self.__sala_portas
+
     @sala_portas.setter
     def sala_portas(self, sala_portas):
         self.__sala_portas = sala_portas

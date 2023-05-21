@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from sala import Sala
-from porta import Porta
+from .sala import Sala
+from .porta import Porta
 from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
 
 class SalaPorta(EntidadeTela, ABC):
