@@ -1,6 +1,6 @@
-from basico.entidadeTela import EntidadeTela
+#from basico.entidadeTela import EntidadeTela
 
-class Porta(EntidadeTela):
+class Porta:
     def __init__(self, sala_portas: list):
         self.__sala_portas = sala_portas
         self.__aberta = False
