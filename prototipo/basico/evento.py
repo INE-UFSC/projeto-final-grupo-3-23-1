@@ -2,7 +2,7 @@ from abc import ABC
 import pygame
 class Evento(ABC):
     # lembrar que no pygame eventos são coletados de forma geral, não estão ligados a uma entidade.
-    def __init__(self,  o):
+    def __init__(self,  jogo):
         # para poder acessar todos os dados jo jogo, precisa ter o jogo como atributo
         self.__jogo = jogo
         #verifica eventos coletados pelo pygame no frame:
