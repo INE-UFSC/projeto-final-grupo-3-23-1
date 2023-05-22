@@ -13,7 +13,6 @@ class Inimigo(EntidadeTela):
         self.__dano = dano
         self.__velocidade = velocidade
         self.__vida = vida_inicial
-        self.__ativo = True
         self.__alvo = jogador
         # Crie um objeto Clock para controlar o tempo
         self.__clock = pg.time.Clock()
@@ -83,7 +82,7 @@ class Inimigo(EntidadeTela):
     # se a vida for 0, inimigo morre:
     def verificar_vida(self):
         if self.__vida == 0:
-            self.__ativo = False
+            self.ativo = False
 
     
 
