@@ -5,6 +5,7 @@ from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
 from basico.evento import EventoPygame
 from jogador.jogador import Jogador
 from mapa_tela.mapa_tela import MapaTela
+from mapa_jogo.mapaJogo import MapaJogo
 
 pg.init()
 tela = pg.display.set_mode((500, 400))

@@ -8,8 +8,14 @@ class SalaInimigo(Sala):
     
     def desenhar_resto(self):
         for inimigo in self.__inimigos:
-            inimigo.desenhar()
+            if inimigo.ativo:
+                inimigo.desenhar()
+        #desenhar powerups quando forem implementados
     
     def atualizar_resto(self):
         for inimigo in self.__inimigos:
             inimigo.atualizar()
+
+    @property
+    def inimigos(self):
+        return self.__inimigos
