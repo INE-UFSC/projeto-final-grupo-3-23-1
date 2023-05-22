@@ -36,7 +36,8 @@ class EntidadeTela(Entidade, ABC):
         dimensoes,
         desenhavel
     ):
-        self.tela = tela
+        super().__init__(tela)
+
         self.pos_tela = pos_tela
         self.dimensoes = dimensoes
         self.desenhavel = desenhavel
