@@ -7,9 +7,9 @@ from .aparencia import Aparencia
 
 
 class Sala(Entidade, ABC):
-    def __init__(self, aparencia, sala_portas):
+    def __init__(self, aparencia):
         self.__aparencia = aparencia
-        self.__sala_portas = sala_portas
+        self.__sala_portas = []
 
     def desenhar(self):
         for sala_porta in self.sala_portas:
@@ -31,6 +31,9 @@ class Sala(Entidade, ABC):
     def atualizar_resto(self):
         pass
 
+    def adicionar_sala_porta(self, sala_porta):
+        self.__sala_portas.append(sala_porta)
+
     @property
     def desenho(self):
         return self.__desenho
@@ -47,7 +50,5 @@ class Sala(Entidade, ABC):
     def sala_portas(self,):
         return self.__sala_portas
 
-    @sala_portas.setter
-    def sala_portas(self, sala_portas):
-        self.__sala_portas = sala_portas
+
     

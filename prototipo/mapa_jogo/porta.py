@@ -1,8 +1,8 @@
 #from basico.entidadeTela import EntidadeTela
 
 class Porta:
-    def __init__(self, sala_portas: list):
-        self.__sala_portas = sala_portas
+    def __init__(self):
+        self.__sala_portas = []
         self.__aberta = False
     
     def abrir(self):
@@ -10,3 +10,6 @@ class Porta:
     
     def fechar(self):
         self.__aberta = False
+    
+    def adicionar_sala_porta(self, sala_porta):
+        self.__sala_portas.append(sala_porta)
