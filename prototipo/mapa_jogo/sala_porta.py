@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from .sala import Sala
 from .porta import Porta
 from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
+from salaInimigo import SalaInimigo
 
 class SalaPorta(EntidadeTela, ABC):
     def __init__(self, sala: Sala, porta: Porta, pos_tela, dimensoes):
@@ -11,7 +12,13 @@ class SalaPorta(EntidadeTela, ABC):
         self.__porta = porta
     
     def atualizar(self):
-        pass #fazer!!
+        if isinstance(self.__sala, SalaInimigo):
+            if len(self.__sala.inimigos) == 0:
+                self.__porta.abrir()
+        
+        else:
+            if self.__sala.resolvido:
+                self.__porta.abrir()
     
 
 class SalaPortaBaixo(SalaPorta):

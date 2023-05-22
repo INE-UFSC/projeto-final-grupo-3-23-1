@@ -8,9 +8,6 @@ from .aparencia import Aparencia
 
 class Sala(Entidade, ABC):
     def __init__(self, aparencia, sala_portas):
-        self.__largura = 1300 #definir
-        self.__altura = 700 #definir
-        self.__desenho = pg.display.set_mode((self.__largura, self.__altura))
         self.__aparencia = aparencia
         self.__sala_portas = sala_portas
 
