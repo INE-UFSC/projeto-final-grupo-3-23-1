@@ -8,7 +8,7 @@ class Tiro(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, direcao, dano = 1, velocidade = 1):
 
         self.__tela = tela
-        self.__pos_tela = pos_tela
+        self.__pos_tela = list(pos_tela)
         self.__dimensoes = dimensoes
         self.__direcao = direcao
         self.__desenhavel = DesenhavelRetangulo((0, 0, 0))
