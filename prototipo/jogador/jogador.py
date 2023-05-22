@@ -1,52 +1,65 @@
 import pygame as pg
 
 from basico.entidadeTela import EntidadeTela
+from basico.evento import *
 from mapa_jogo.inimigo import Inimigo
 from mapa_jogo.sala_porta import *
-from .arma import Arma
+from .tiro import Tiro
 
 class Jogador(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, desenhavel, arma = ""):
-        super().__init__(tela, pos_tela, dimensoes, desenhavel)
+    def __init__(self, tela, pos_tela, dimensoes, direcao, desenhavel, coord_sala_atual,  arma = ""):
+
         self.__tela = tela
-        self.__pos_tela = pos_tela
+        self.__pos_tela = list(pos_tela)
         self.__dimensoes = dimensoes
+        self.__direcao = direcao
+        self.__desenhavel = desenhavel
+
         self.__vida = 3
-        self.__arma = arma
         self.__powerups = []
+        self.__tiros = []
 
     def atualizar(self, eventos: list):
         for evento in eventos:
-            if evento.type == pg.KEYDOWN:
-                if evento.key == pg.K_w:
-                    if self.__pos_tela != 0: #arrumar
-                        self.__pos_tela[1] += 1
-                elif evento.key == pg.K_s:
-                    if self.__pos_tela != 0:
+            if type(evento) == EventoTeclaApertada:
+
+                if evento.tecla == pg.K_UP:
+                    if self.__pos_tela < self.__tela[1]:
                         self.__pos_tela[1] -= 1
-                elif evento.key == pg.K_a:
+                    self.__direcao = 90
+                elif evento.tecla == pg.K_DOWN:
+                    if self.__pos_tela != 0:
+                        self.__pos_tela[1] += 1
+                    self.__direcao == 270
+                elif evento.tecla == pg.K_LEFT:
                     if self.__pos_tela != 0:
                         self.__pos_tela[0] -= 1
-                elif evento.key == pg.K_d:
-                    if self.__pos_tela != 0: #arrumar
+                    self.__direcao == 180
+                elif evento.tecla == pg.K_RIGHT:
+                    if self.__pos_tela < self.__tela[0]:
                         self.__pos_tela[0] += 1 
+                    self.__direcao == 0
+                
+                elif evento.tecla == pg.K_a:
+                    self.atirar(self.__powerups)
 
-            if evento.py == pg.MOUSEBUTTONDOWN:
-                if evento.button == 1:
-                    self.__arma.atirar(self.__powerups)
+            if type(evento) == EventoColisao:
 
-    def eventoColisao(self, outro):
-        if isinstance(outro, Inimigo):
-            self.__vida -= 1
+                if type(evento.colisores[0]) == Jogador:
+                    if type(evento.colisores[1]) == Inimigo:
+                        self.__vida -= 1
+                elif type(evento.colisores[1]) == Jogador:
+                    if type(evento.colisores[0]) == Inimigo:
+                        self.__vida -= 1
 
-        if isinstance(outro, SalaPortaCima):
-            pass
-        if isinstance(outro, SalaPortaBaixo):
-            pass
-        if isinstance(outro, SalaPortaEsquerda):
-            pass
-        if isinstance(outro, SalaPortaDireita):
-            pass
+        for t in self.__tiros:
+            t.atualizar()
 
     def desenhar(self):
-        self.desenhavel.desenhar(self.__tela, self.__pos_tela, self.__dimensoes)
+        self.__desenhavel.desenhar(self.__tela, self.__pos_tela, self.__dimensoes)
+
+        for t in self.__tiros:
+            t.desenhar()
+
+    def atirar(self, powerups):
+        self.__tiros.append(Tiro(self.__pos_tela, self.__dimensoes, self.__direcoes))
