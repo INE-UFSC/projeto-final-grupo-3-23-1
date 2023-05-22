@@ -2,6 +2,7 @@ import pygame as pg
 from pygame.locals import *
 
 from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
+from basico.evento import EventoPygame
 #from jogador.jogador import Jogador
 
 pg.init()
@@ -14,9 +15,28 @@ class TesteJogador(EntidadeTela):
         figura = DesenhavelRetangulo((0, 255, 0))
         super().__init__(tela, (30, 40), (20, 20), figura)
 
+    def atualizar(self, eventos):
+        for evento in eventos:
+            if isinstance(evento, EventoPygame) and evento.evento_pygame.type == pg.KEYDOWN:
+                tecla = evento.evento_pygame.key
+
+                nova_pos = list(teste_jogador.pos_tela) 
+
+                if tecla == pg.K_LEFT:
+                    nova_pos[0] -= 2
+                if tecla == pg.K_RIGHT:
+                    nova_pos[0] += 2
+                if tecla == pg.K_UP:
+                    nova_pos[1] -= 2
+                if tecla == pg.K_DOWN:
+                    nova_pos[1] += 2
+
+                teste_jogador.pos_tela = tuple(nova_pos)
+
     def eventoColisao(self, outro):
         if isinstance(outro, TesteInimigo):
             print('jogador perdendo vida')
+            self.ativo = False
 
 class TesteInimigo(EntidadeTela):
     def __init__(self):
@@ -33,31 +53,26 @@ teste_inimigo = TesteInimigo()
 #figura = DesenhavelRetangulo((0, 255, 0))
 #j = Jogador(tela, (330,100), (100, 100), figura)
 
-
 while True:
-    for event in pg.event.get():
-        if event.type == QUIT:
+    eventos = []
+    for evento in pg.event.get():
+        if evento.type == QUIT:
             pg.quit()
             exit()
-        if event.type == pg.KEYDOWN:
-            nova_pos = list(teste_jogador.pos_tela) 
-            if event.key == pg.K_LEFT:
-                nova_pos[0] -= 2
-            if event.key == pg.K_RIGHT:
-                nova_pos[0] += 2
-            if event.key == pg.K_UP:
-                nova_pos[1] -= 2
-            if event.key == pg.K_DOWN:
-                nova_pos[1] += 2
-
-            teste_jogador.pos_tela = tuple(nova_pos)
+        if evento.type == pg.KEYDOWN:
+            eventos.append(EventoPygame(evento))
 
     EntidadeTela.sistema_colisao.checarColisoes()
+
+    teste_jogador.atualizar(eventos)
+    teste_inimigo.atualizar(eventos)
 
     tela.fill(cor_fundo)
     teste_jogador.desenhar()
     teste_inimigo.desenhar()
 #    j.desenhar()
+
+    EntidadeTela.sistema_colisao.removerNaoAtivos()
 
     pg.display.update()
     pg.time.delay(int(1000/60))

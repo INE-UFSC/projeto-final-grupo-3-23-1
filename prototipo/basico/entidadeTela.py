@@ -26,6 +26,15 @@ class SistemaColisao:
                     a.eventoColisao(b)
                     b.eventoColisao(a)
 
+    def removerNaoAtivos(self):
+        rems = []
+        for entidade in self.entidades:
+            if not entidade.ativo:
+                rems.append(entidade)
+        
+        for rem in rems:
+            self.entidades.remove(rem)
+
 class EntidadeTela(Entidade, ABC):
     sistema_colisao = SistemaColisao()
 
@@ -43,6 +52,8 @@ class EntidadeTela(Entidade, ABC):
         self.desenhavel = desenhavel
 
         self.sistema_colisao.adicionarEntidadeTela(self)
+
+        self.ativo = True
 
     def eventoColisao(self, outro):
         pass

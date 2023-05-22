@@ -4,7 +4,7 @@ class Entidade(ABC):
     def __init__(self, tela):
         self.tela = tela
 
-    def atualizar(eventos: list):
+    def atualizar(self, eventos: list):
         pass
 
     def desenhar():
