@@ -1,9 +1,34 @@
 from abc import ABC
 import pygame as pg
 
-from .entidade import Entidade
+from basico.entidade import Entidade
+
+class SistemaColisao:
+    def __init__(self):
+        self.entidades = []
+
+    def adicionarEntidadeTela(self, entidade):
+        self.entidades.append(entidade)
+
+    @staticmethod
+    def colidiu(a, b):
+        rect_a = pg.Rect(*a.pos_tela, *a.dimensoes) 
+        rect_b = pg.Rect(*b.pos_tela, *b.dimensoes) 
+
+        return rect_a.colliderect(rect_b)
+        
+    def checarColisoes(self):
+        for i in range(len(self.entidades)):
+            for j in range(i+1, len(self.entidades)):
+                a = self.entidades[i]
+                b = self.entidades[j]
+                if self.colidiu(a, b):
+                    a.eventoColisao(b)
+                    b.eventoColisao(a)
 
 class EntidadeTela(Entidade, ABC):
+    sistema_colisao = SistemaColisao()
+
     def __init__(
         self,
         tela,
@@ -16,24 +41,10 @@ class EntidadeTela(Entidade, ABC):
         self.dimensoes = dimensoes
         self.desenhavel = desenhavel
 
+        self.sistema_colisao.adicionarEntidadeTela(self)
+
     def eventoColisao(self, outro):
         pass
-
-    def colidiu(self, outro):
-        self_x0 = self.pos_tela[0]
-        self_x1 = self.pos_tela[0] + self.dimensoes[0]
-        self_y0 = self.pos_tela[1]
-        self_y1 = self.pos_tela[1] + self.dimensoes[1]
-
-        outro_x0 = outro.pos_tela[0]
-        outro_x1 = outro.pos_tela[0] + outro.dimensoes[0]
-        outro_y0 = outro.pos_tela[1]
-        outro_y1 = outro.pos_tela[1] + outro.dimensoes[1]
-
-        return (self_x0 < outro_x0 < self_x1 \
-                or self_x0 < outro_x1 < self_x1) \
-            and (self_y0 < outro_y0 < self_y1 \
-                or self_y0 < outro_y1 < self_y1)
 
     def desenhar(self):
         self.desenhavel.desenhar(self.tela, self.pos_tela, self.dimensoes)
