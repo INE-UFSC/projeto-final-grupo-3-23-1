@@ -4,10 +4,14 @@ class Evento(ABC):
     pass
 
 class EventoColisao(Evento):
-    def __init__(self, outro):
-        self.outro = outro
+    def __init__(self, a, b):
+        self.colisores = [a, b]
 
-class EventoPygame(Evento):
-    def __init__(self, evento_pygame):
-        self.evento_pygame = evento_pygame
+class EventoTeclaApertada(Evento):
+    def __init__(self, tecla):
+        self.tecla = tecla
+
+class EventoApertouTecla(Evento):
+    def __init__(self, tecla):
+        self.tecla = tecla
 
