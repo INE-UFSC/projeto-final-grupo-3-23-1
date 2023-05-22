@@ -5,6 +5,7 @@ from basico.entidadeTela import EntidadeTela, DesenhavelRetangulo
 from basico.evento import EventoPygame
 from jogador.jogador import Jogador
 from mapa_tela.mapa_tela import MapaTela
+from mapa_jogo.mapaJogo import MapaJogo
 
 pg.init()
 tela = pg.display.set_mode((500, 400))
@@ -21,16 +22,23 @@ while True:
             pg.quit()
             exit()
         if evento.type == pg.KEYDOWN:
-            eventos.append(EventoPygame(evento))
+            eventos.append(EventoApertouTecla(evento))
+
+        teclas_apertadas = pg.key.get_pressed()
+        for tecla in teclas_apertadas:
+            eventos.append(EventoTeclaApertada(tecla))
+
+    eventos.extend(EntidadeTela.sistema_colisao.getColisoes())
 
     jogador.atualizar(eventos)
     mapa_jogo.atualizar(eventos)
             
-    EntidadeTela.sistema_colisao.checarColisoes()
-
     tela.fill(cor_fundo)
-    teste_jogador.desenhar()
-    teste_inimigo.desenhar()
+
+    jogador.desenhar()
+    mapa_jogo.desenhar()
+
+    EntidadeTela.sistema_colisao.removerNaoAtivos()
 
     pg.display.update()
     pg.time.delay(int(1000/60))
