@@ -1,5 +1,6 @@
 from basico.entidadeTela import EntidadeTela
 from basico.evento import Evento
+
 class Inimigo(EntidadeTela):
 
     def __init__(self,tela, pos_tela, dimensoes, desenhavel, dano, velocidade ):
@@ -7,15 +8,16 @@ class Inimigo(EntidadeTela):
         self.pos_atual = super.pos_tela
         self.__dano = dano
         self.__velocidade = velocidade
-        #inicializando classe evento:
-        self.__gerenciador_eventos = Evento()
+        self.__vida = 5
+
 
     @property
     def dano(self):
         return self.__dano
     
     def eventoColisão(self):
-        self.__gerenciador_eventos.verificarColisão(self, tiros)
+        if Evento.verificarColisão(self, "bala") == True:
+            self.__vida =- 1
 
 
 

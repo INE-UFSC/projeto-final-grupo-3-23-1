@@ -16,8 +16,13 @@ class Evento(ABC):
                 ...
 
             #interar com dmais tipos de eventos
+    @classmethod
+    def verificarColisão(cls, entidade_eu, tipo_entidade):
+        instancia = cls('Verificar_colisão')
+        instancia.verificarColisão_2(entidade_eu, tipo_entidade)
 
     def verificarColisão_2(self, entidade_eu, atributo_entidade_outro):
+        
         #pode verificar colisão entre tipos de objetos específicos
         #acessa objeto ou lista de objetos específica da sala a ser analizada a colisão:
         atributo_entidade_outro = self.__jogo.mapa_jogo.sala_atual.atributo_entidade_outro
