@@ -29,7 +29,8 @@ def lerEventos():
             if teclas_apertadas[tecla]:
                 eventos.append(EventoTeclaApertada(tecla))
 
-    eventos.extend(EntidadeTela.sistema_colisao.getColisoes())
+    colisoes = EntidadeTela.sistema_colisao.getColisoes()
+    eventos.extend(colisoes)
 
     return eventos
 
@@ -81,6 +82,8 @@ def criarMapaJogo(tela, jogador):
                     3, 1, 1,
                     jogador
                 ))
+
+            inimigos = []
 
             linha.append(SalaInimigo(
                 Aparencia(Musica(), Textura()),
