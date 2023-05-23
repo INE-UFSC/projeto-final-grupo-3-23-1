@@ -25,25 +25,25 @@ class SalaPorta(EntidadeTela, ABC):
 
 class SalaPortaBaixo(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (550, 0)
-        dimensoes = (200, 100)
+        pos_tela = (200, 0)
+        dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 
 class SalaPortaCima(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (550, 600)
-        dimensoes = (200, 100)
+        pos_tela = (200, 325)
+        dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 class SalaPortaDireita(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (1200, 250)
-        dimensoes = (100, 200)
+        pos_tela = (425, 150)
+        dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 class SalaPortaEsquerda(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (000, 250)
-        dimensoes = (100, 200)
+        pos_tela = (0, 150)
+        dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)

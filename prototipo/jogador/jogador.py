@@ -33,7 +33,7 @@ class Jogador(EntidadeTela):
                         self.__pos_tela[1] -= 5
                     self.__direcao = 90
                 if evento.tecla == pg.K_s:
-                    if self.__pos_tela[1] < 400:
+                    if self.__pos_tela[1] < 400-self.__dimensoes[1]:
                         self.__pos_tela[1] += 5
                     self.__direcao == 270
                 if evento.tecla == pg.K_a:
@@ -41,7 +41,7 @@ class Jogador(EntidadeTela):
                         self.__pos_tela[0] -= 5
                     self.__direcao == 180
                 if evento.tecla == pg.K_d:
-                    if self.__pos_tela[0] < 500:
+                    if self.__pos_tela[0] < 500-self.__dimensoes[0]:
                         self.__pos_tela[0] += 5 
                     self.__direcao == 0
                 
