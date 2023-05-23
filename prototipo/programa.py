@@ -14,7 +14,6 @@ from mapa_jogo.mapaJogo import MapaJogo
 from mapa_jogo.salaInimigo import SalaInimigo
 from mapa_jogo.sala_porta import *
 
-
 def lerEventos():
     eventos = []
     for evento in pg.event.get():
@@ -34,9 +33,13 @@ def lerEventos():
 
     return eventos
 
+contador = 0
+
 def tentarMudarSala(coord_sala_atual, mapa_jogo, eventos):
     for evento in eventos:
-        if isinstance(evento, EventoColisao):
+        if isinstance(evento, EventoColisao) \
+                and any(isinstance(x, SalaPorta) for x in evento.colisores) \
+                and any(isinstance(x, Jogador) for x in evento.colisores):
             movimentacao = {
                 SalaPortaEsquerda: [-1, 0],
                 SalaPortaDireita:  [1, 0],
@@ -44,19 +47,20 @@ def tentarMudarSala(coord_sala_atual, mapa_jogo, eventos):
                 SalaPortaBaixo:    [0, 1]
             }
 
+            tipo_sala_porta = None
             for colisor in evento.colisores:
-                tipo_sala_porta = None
                 if isinstance(colisor, SalaPorta):
                     tipo_sala_porta = type(colisor)
 
-                if tipo_sala_porta is not None:
-                    sala_atual = list(coord_sala_atual)
+            sala_atual = coord_sala_atual
 
-                    for i in range(len(sala_atual)):
-                        sala_atual[i] = (sala_atual[i] + movimentacao[tipo_sala_porta][i]) % 2
+            for i in range(len(sala_atual)):
+                sala_atual[i] = (sala_atual[i] + movimentacao[tipo_sala_porta][i]) % 2
 
-                        if sala_atual[i] < 0:
-                            sala_atual[i] += 2
+                if sala_atual[i] < 0:
+                    sala_atual[i] += 2
+            return True
+    return False
 
 def criarMapaJogo(tela, jogador):
     salas = []
@@ -82,8 +86,6 @@ def criarMapaJogo(tela, jogador):
                     3, 1, 1,
                     jogador
                 ))
-
-            inimigos = []
 
             linha.append(SalaInimigo(
                 Aparencia(Musica(), Textura()),
@@ -112,18 +114,17 @@ def criarMapaJogo(tela, jogador):
     adicionarSalaPorta(salas[1][0], portas[3], SalaPortaCima)
     adicionarSalaPorta(salas[0][0], portas[3], SalaPortaBaixo)
 
-    return MapaJogo(salas, portas)
+    return MapaJogo(salas, portas), inimigos
 
 pg.init()
 tela = pg.display.set_mode((500, 400))
 
-cor_fundo = (0, 0, 0)
 
 jogador = Jogador(
         tela, (20, 20), (50, 50),
         DesenhavelRetangulo((0, 255, 0)))
         
-mapa_jogo = criarMapaJogo(tela, jogador)
+mapa_jogo, inimigos = criarMapaJogo(tela, jogador)
 
 coord_sala_atual = [0, 0]
 
@@ -133,14 +134,34 @@ while True:
     jogador.atualizar(eventos)
     mapa_jogo.atualizar(eventos)
             
+    t_sala_atual = tuple(coord_sala_atual)
+
+    if t_sala_atual == (0, 0):
+        cor_fundo = (255, 255, 255)
+    elif t_sala_atual == (0, 1):
+        cor_fundo = (0, 0, 0)
+    elif t_sala_atual == (1, 0):
+        cor_fundo = (200, 230, 255)
+    elif t_sala_atual == (1, 1):
+        cor_fundo = (232, 202, 45)
+
     tela.fill(cor_fundo)
 
     jogador.desenhar()
     mapa_jogo.desenhar()
 
+#    for inimigo in inimigos:
+#        if EntidadeTela.sistema_colisao.colidiu(inimigo, jogador):
+#            print('colidiu')
+
     EntidadeTela.sistema_colisao.removerNaoAtivos()
 
-    tentarMudarSala(coord_sala_atual, mapa_jogo, eventos)
+    if (tentarMudarSala(coord_sala_atual, mapa_jogo, eventos)):
+        jogador.pos_tela = (250, 200)
+
+    if jogador.vida <= 0:
+        print('Fim de jogo')
+        exit()
 
     pg.display.update()
     pg.time.delay(int(1000/60))

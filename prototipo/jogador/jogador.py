@@ -7,19 +7,18 @@ from .tiro import Tiro
 
 class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, arma = ""):
-        self.__tela = tela
-        self.__pos_tela = list(pos_tela)
-        self.__dimensoes = dimensoes
-        self.__direcao = 90
-        self.__desenhavel = desenhavel
+        super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
-        self.__vida = 3
+        self.__vida = 1000
         self.__powerups = []
         self.__tiros = []
+        self.__direcao = 0
+
+    contador = 0
 
     @property
-    def pos_tela(self):
-        return self.__pos_tela
+    def vida(self):
+        return self.__vida
 
     def atualizar(self, eventos: list):
         for evento in eventos:
@@ -28,43 +27,57 @@ class Jogador(EntidadeTela):
                     self.atirar(self.__powerups)
 
             if isinstance(evento, EventoTeclaApertada):
-                print('apertada')
+                nova_pos = list(self.pos_tela)
+
                 if evento.tecla == pg.K_w:
-                    if self.__pos_tela[1] > 0:
-                        self.__pos_tela[1] -= 5
+                    if nova_pos[1] > 0:
+                        nova_pos[1] -= 5
                     self.__direcao = 270
                 if evento.tecla == pg.K_s:
-                    if self.__pos_tela[1] < 400-self.__dimensoes[1]:
-                        self.__pos_tela[1] += 5
+                    if nova_pos[1] < 400-self.dimensoes[1]:
+                        nova_pos[1] += 5
                     self.__direcao = 90
                 if evento.tecla == pg.K_a:
-                    if self.__pos_tela[0] > 0:
-                        self.__pos_tela[0] -= 5
+                    if nova_pos[0] > 0:
+                        nova_pos[0] -= 5
                     self.__direcao = 180
                 if evento.tecla == pg.K_d:
-                    if self.__pos_tela[0] < 500-self.__dimensoes[0]:
-                        self.__pos_tela[0] += 5 
+                    if nova_pos[0] < 500-self.dimensoes[0]:
+                        nova_pos[0] += 5 
                     self.__direcao = 0
+
+                self.pos_tela = tuple(nova_pos)
                 
 
-            if type(evento) == EventoColisao:
+            if isinstance(evento, EventoColisao) \
+                    and any(isinstance(x, Jogador) for x in evento.colisores):
                 from mapa_jogo.inimigo import Inimigo
 
-                if type(evento.colisores[0]) == Jogador:
-                    if type(evento.colisores[1]) == Inimigo:
-                        self.__vida -= 1
-                elif type(evento.colisores[1]) == Jogador:
-                    if type(evento.colisores[0]) == Inimigo:
-                        self.__vida -= 1
+                if any(isinstance(x, Inimigo) for x in evento.colisores):
+                    self.__vida -= 1
+                
+                if any(isinstance(x, SalaPorta) for x in evento.colisores):
+                    pass
 
+        tiros_rem = []
         for t in self.__tiros:
-            t.atualizar(eventos)
+            if not t.ativo:
+                tiros_rem.append(t)
+            else:
+                t.atualizar(eventos)
+
+        for tiro in tiros_rem:
+            self.__tiros.remove(tiro)
 
     def desenhar(self):
-        self.__desenhavel.desenhar(self.__tela, self.__pos_tela, self.__dimensoes)
+        super().desenhar()
 
         for t in self.__tiros:
             t.desenhar()
 
     def atirar(self, powerups):
-        self.__tiros.append(Tiro(self.__tela, self.__pos_tela, (10, 10), self.__direcao))
+        self.__tiros.append(Tiro(
+            self.tela,
+            (self.pos_tela[0] + (self.dimensoes[0] - 10)/2,
+                self.pos_tela[1] + (self.dimensoes[1]-10)/2),
+            (20, 20), self.__direcao))

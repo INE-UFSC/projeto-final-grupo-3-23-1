@@ -25,6 +25,8 @@ class Inimigo(EntidadeTela):
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
             self.__vida -= 1
+            if self.__vida <= 0:
+                self.ativo = False
 
     def atualizar(self,eventos):
          
@@ -64,12 +66,6 @@ class Inimigo(EntidadeTela):
 #        return borda_clock
     
     def movimentacao(self):
-
-        if self.__alvo.pos_tela[0]*self.__alvo.__dimensoes <= self.pos_tela[0]*self.dimensoes:
-            return
-        if self.__alvo.pos_tela[1]*self.__alvo.__dimensoes <= self.pos_tela[1]*self.dimensoes:
-            return
-
         #verificar se jogador está à esquerda ou à direita (x):
         if self.__alvo.pos_tela[0] < self.pos_tela[0]:
             self.pos_tela[0] -= 1
