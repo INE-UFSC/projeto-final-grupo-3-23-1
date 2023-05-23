@@ -1,20 +1,21 @@
 from basico.entidade import Entidade
-from sala import Sala
-from programa.jogo import Jogo
+from .sala import Sala
 
 class MapaJogo(Entidade):
-    def __init__(self, salas: list, jogo: Jogo):
+    def __init__(self, salas: list, portas: list):
         self.__salas = salas
-        self.__jogo = jogo
+        self.__portas = portas
     
     def getSala(self):
         (x, y) = self.__jogo.coord_sala_atual
         return self.__salas[x[y]]
     
     def desenhar(self):
-        for sala in self.__salas:
-            sala.desenhar()
+        for linha in self.__salas:
+            for sala in linha:
+                sala.desenhar()
     
-    def atualizar(self):
-        for sala in self.__salas:
-            sala.atualizar()
+    def atualizar(self, eventos):
+        for linha in self.__salas:
+            for sala in linha:
+                sala.atualizar(eventos)

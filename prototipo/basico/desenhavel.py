@@ -1,8 +1,10 @@
+import pygame as pg
+
 from abc import ABC, abstractmethod
 
 class Desenhavel:
     @abstractmethod
-    def desenhar(self, tela, pos_tela, dimensoes):
+    def desenhar(self):
         pass
 
 class DesenhavelRetangulo(Desenhavel):

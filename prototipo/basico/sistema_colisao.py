@@ -1,3 +1,5 @@
+import pygame as pg
+
 from basico.evento import EventoColisao
 
 class SistemaColisao:

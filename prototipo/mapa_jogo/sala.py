@@ -21,14 +21,14 @@ class Sala(Entidade, ABC):
     def desenhar_resto(self):
         pass
     
-    def atualizar(self):
+    def atualizar(self, eventos):
         for sala_porta in self.__sala_portas:
-            sala_porta.atualizar()
+            sala_porta.atualizar(eventos)
 
-        self.atualizar_resto()        
+        self.atualizar_resto(eventos)        
 
     @abstractmethod
-    def atualizar_resto(self):
+    def atualizar_resto(self, eventos):
         pass
 
     def adicionar_sala_porta(self, sala_porta):

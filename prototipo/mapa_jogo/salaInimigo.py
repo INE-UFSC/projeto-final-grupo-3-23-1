@@ -1,8 +1,8 @@
-from sala import Sala
+from .sala import Sala
 
 class SalaInimigo(Sala):
-    def __init__(self, aparencia, sala_portas, powerups, inimigos):
-        super().__init__(self, aparencia, sala_portas)
+    def __init__(self, aparencia, powerups, inimigos):
+        super().__init__(aparencia)
         self.__powerups = powerups
         self.__inimigos = inimigos
     
@@ -12,9 +12,9 @@ class SalaInimigo(Sala):
                 inimigo.desenhar()
         #desenhar powerups quando forem implementados
     
-    def atualizar_resto(self):
+    def atualizar_resto(self, eventos):
         for inimigo in self.__inimigos:
-            inimigo.atualizar()
+            inimigo.atualizar(eventos)
 
     @property
     def inimigos(self):

@@ -13,3 +13,4 @@ class Aparencia:
     @property
     def textura(self):
         return self.__textura
+

@@ -1,4 +1,4 @@
-from sala import Sala
+from .sala import Sala
 
 class SalaPuzzle(Sala):
     def __init__(self, aparencia, sala_portas, powerups, puzzle):

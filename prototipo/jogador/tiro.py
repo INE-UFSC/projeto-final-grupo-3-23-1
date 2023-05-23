@@ -1,7 +1,6 @@
 import pygame as pg
 from math import cos, sin, radians
 from basico.entidadeTela import EntidadeTela
-from mapa_jogo.inimigo import Inimigo
 from basico.desenhavel import DesenhavelRetangulo
 
 class Tiro(EntidadeTela):
@@ -11,7 +10,7 @@ class Tiro(EntidadeTela):
         self.__pos_tela = list(pos_tela)
         self.__dimensoes = dimensoes
         self.__direcao = direcao
-        self.__desenhavel = DesenhavelRetangulo((0, 0, 0))
+        self.__desenhavel = DesenhavelRetangulo((0, 255, 255))
 
         self.__dano = dano
         self.__velocidade = velocidade
@@ -21,9 +20,11 @@ class Tiro(EntidadeTela):
         self.__pos_tela[1] += self.__velocidade * sin(radians(self.__direcao))
 
     def desenhar(self):
-        self.__desenhavel.desenhar()
+        self.__desenhavel.desenhar(self.__tela, self.__pos_tela, self.__dimensoes)
 
     def eventoColisao(self, outro):
+        from mapa_jogo.inimigo import Inimigo
+
         if isinstance(outro, Inimigo):
             self.kill()
 

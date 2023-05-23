@@ -21,7 +21,7 @@ class EntidadeTela(Entidade, ABC):
         self.dimensoes = dimensoes
         self.desenhavel = desenhavel
 
-        self.sistema_colisao.adicionarEntidadeTela(self)
+        self.sistema_colisao.adicionarColisor(self)
 
         self.ativo = True
 
