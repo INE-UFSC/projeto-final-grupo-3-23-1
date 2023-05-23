@@ -26,24 +26,25 @@ class Jogador(EntidadeTela):
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_z:
                     self.atirar(self.__powerups)
+
             if isinstance(evento, EventoTeclaApertada):
                 print('apertada')
                 if evento.tecla == pg.K_w:
                     if self.__pos_tela[1] > 0:
                         self.__pos_tela[1] -= 5
-                    self.__direcao = 90
+                    self.__direcao = 270
                 if evento.tecla == pg.K_s:
                     if self.__pos_tela[1] < 400:
                         self.__pos_tela[1] += 5
-                    self.__direcao == 270
+                    self.__direcao = 90
                 if evento.tecla == pg.K_a:
                     if self.__pos_tela[0] > 0:
                         self.__pos_tela[0] -= 5
-                    self.__direcao == 180
+                    self.__direcao = 180
                 if evento.tecla == pg.K_d:
                     if self.__pos_tela[0] < 500:
                         self.__pos_tela[0] += 5 
-                    self.__direcao == 0
+                    self.__direcao = 0
                 
 
             if type(evento) == EventoColisao:
@@ -66,4 +67,4 @@ class Jogador(EntidadeTela):
             t.desenhar()
 
     def atirar(self, powerups):
-        self.__tiros.append(Tiro(self.__tela, self.__pos_tela, self.__dimensoes, self.__direcao))
+        self.__tiros.append(Tiro(self.__tela, self.__pos_tela, (10, 10), self.__direcao))
