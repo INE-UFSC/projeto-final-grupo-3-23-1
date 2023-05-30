@@ -1,6 +1,6 @@
 import pygame as pg
 
-from basico.entidadeTela import EntidadeTela
+from basico.entidade_tela import EntidadeTela
 from basico.evento import *
 from mapa_jogo.sala_porta import *
 from .tiro import Tiro

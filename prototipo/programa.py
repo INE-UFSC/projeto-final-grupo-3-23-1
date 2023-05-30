@@ -1,7 +1,7 @@
 import pygame as pg
 from pygame.locals import *
 
-from basico.entidadeTela import EntidadeTela
+from basico.entidade_tela import EntidadeTela
 from basico.desenhavel import DesenhavelRetangulo
 from basico.evento import *
 from mapa_jogo.porta import Porta
@@ -10,8 +10,8 @@ from mapa_jogo.aparencia import Aparencia
 from mapa_jogo.musica import Musica
 from mapa_jogo.textura import Textura
 from mapa_jogo.inimigo import Inimigo
-from mapa_jogo.mapaJogo import MapaJogo
-from mapa_jogo.salaInimigo import SalaInimigo
+from mapa_jogo.mapa_jogo import MapaJogo
+from mapa_jogo.sala_inimigo import SalaInimigo
 from mapa_jogo.sala_porta import *
 
 def lerEventos():

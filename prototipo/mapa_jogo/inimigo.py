@@ -1,4 +1,4 @@
-from basico.entidadeTela import EntidadeTela
+from basico.entidade_tela import EntidadeTela
 from basico.evento import Evento, EventoColisao
 from jogador.jogador import Jogador
 import pygame as pg

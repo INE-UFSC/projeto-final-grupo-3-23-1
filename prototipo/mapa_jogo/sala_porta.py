@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from .sala import Sala
 from .porta import Porta
-from basico.entidadeTela import EntidadeTela
+from basico.entidade_tela import EntidadeTela
 from basico.desenhavel import DesenhavelRetangulo
-from .salaInimigo import SalaInimigo
-from .salaPuzzle import SalaPuzzle
+from .sala_inimigo import SalaInimigo
+from .sala_puzzle import SalaPuzzle
 
 class SalaPorta(EntidadeTela, ABC):
     def __init__(self, tela, sala: Sala, porta: Porta, pos_tela, dimensoes):

@@ -1,6 +1,6 @@
 import pygame as pg
 from math import cos, sin, radians
-from basico.entidadeTela import EntidadeTela
+from basico.entidade_tela import EntidadeTela
 from basico.desenhavel import DesenhavelRetangulo
 from basico.evento import EventoColisao
 
