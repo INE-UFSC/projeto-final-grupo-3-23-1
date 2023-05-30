@@ -1,18 +1,18 @@
 import pygame as pg
 from pygame.locals import *
 
-from ..basico.entidade_tela import EntidadeTela
-from ..basico.desenhavel import DesenhavelRetangulo
-from ..basico.evento import *
-from ..mapa_jogo.porta import Porta
-from ..jogador.jogador import Jogador
-from ..mapa_jogo.aparencia import Aparencia
-from ..mapa_jogo.musica import Musica
-from ..mapa_jogo.textura import Textura
-from ..mapa_jogo.inimigo import Inimigo
-from ..mapa_jogo.mapa_jogo import MapaJogo
-from ..mapa_jogo.sala_inimigo import SalaInimigo
-from ..mapa_jogo.sala_porta import *
+from basico.entidade_tela import EntidadeTela
+from basico.desenhavel import DesenhavelRetangulo
+from basico.evento import *
+from jogo.mapa_jogo.porta import Porta
+from jogo.jogador.jogador import Jogador
+from jogo.mapa_jogo.aparencia import Aparencia
+from jogo.mapa_jogo.musica import Musica
+from jogo.mapa_jogo.textura import Textura
+from jogo.mapa_jogo.inimigo import Inimigo
+from jogo.mapa_jogo.mapa_jogo import MapaJogo
+from jogo.mapa_jogo.sala_inimigo import SalaInimigo
+from jogo.mapa_jogo.sala_porta import *
 
 class Jogo:
     def __init__(self, tela):

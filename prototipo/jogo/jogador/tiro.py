@@ -25,7 +25,7 @@ class Tiro(EntidadeTela):
         for evento in eventos:
             if isinstance(evento, EventoColisao) \
                     and any(isinstance(x, Tiro) for x in evento.colisores):
-                from mapa_jogo.inimigo import Inimigo
+                from jogo.mapa_jogo.inimigo import Inimigo
                 if any(isinstance(x, Inimigo) for x in evento.colisores):
                     self.ativo = False
 

@@ -1,6 +1,6 @@
 from basico.entidade_tela import EntidadeTela
 from basico.evento import Evento, EventoColisao
-from jogador.jogador import Jogador
+from jogo.jogador.jogador import Jogador
 import pygame as pg
 
 class Inimigo(EntidadeTela):
@@ -20,7 +20,7 @@ class Inimigo(EntidadeTela):
         return self.__dano
     
     def eventoColisao(self, colisor):
-        from jogador.tiro import Tiro
+        from jogo.jogador.tiro import Tiro
 
         # se for tiro, perde vida:
         if type(colisor) == Tiro:

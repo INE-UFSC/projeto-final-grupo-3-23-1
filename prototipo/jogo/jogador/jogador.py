@@ -2,7 +2,7 @@ import pygame as pg
 
 from basico.entidade_tela import EntidadeTela
 from basico.evento import *
-from mapa_jogo.sala_porta import *
+from jogo.mapa_jogo.sala_porta import *
 from .tiro import Tiro
 
 class Jogador(EntidadeTela):
@@ -51,7 +51,7 @@ class Jogador(EntidadeTela):
 
             if isinstance(evento, EventoColisao) \
                     and any(isinstance(x, Jogador) for x in evento.colisores):
-                from mapa_jogo.inimigo import Inimigo
+                from jogo.mapa_jogo.inimigo import Inimigo
 
                 if any(isinstance(x, Inimigo) for x in evento.colisores):
                     self.__vida -= 1

@@ -1,13 +1,16 @@
 import pygame as pg
 from pygame.locals import *
 
-from jogo import Jogo
+from jogo.jogo import Jogo
 
-pg.init()
-tela = pg.display.set_mode((500, 400))
+class Programa:
+    def __init__(self):
+        pg.init()
+        tela = pg.display.set_mode((500, 400))
 
-jogo = Jogo(tela)
+        self.jogo = Jogo(tela)
 
-while True:
-    jogo.rodar()
+    def rodar(self):
+        while True:
+            self.jogo.rodar()
 
