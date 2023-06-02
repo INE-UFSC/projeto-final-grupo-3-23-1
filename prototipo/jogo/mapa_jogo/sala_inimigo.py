@@ -5,6 +5,17 @@ class SalaInimigo(Sala):
         super().__init__(aparencia)
         self.__powerups = powerups
         self.__inimigos = inimigos
+
+    def getColisores(self):
+        colisores = super().getColisores()
+        
+        for inimigo in self.__inimigos:
+            if inimigo.ativo:
+                colisores.append(inimigo)
+
+        colisores.extend(self.__powerups)
+
+        return colisores
     
     def desenhar_resto(self):
         for inimigo in self.__inimigos:
@@ -14,7 +25,8 @@ class SalaInimigo(Sala):
     
     def atualizar_resto(self, eventos):
         for inimigo in self.__inimigos:
-            inimigo.atualizar(eventos)
+            if inimigo.ativo:
+                inimigo.atualizar(eventos)
 
     @property
     def inimigos(self):

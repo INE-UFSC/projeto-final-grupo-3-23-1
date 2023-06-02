@@ -1,16 +1,20 @@
 import pygame as pg
 from pygame.locals import *
 
+from basico.sistema_colisao import SistemaColisao
+from basico.evento import *
+from basico.entidade import Entidade
+
 from jogo.jogo import Jogo
 from menu.menu import Menu
 
-class Programa:
+class Programa(Entidade):
     def __init__(self):
         pg.init()
-        tela = pg.display.set_mode((500, 400))
+        self.tela = pg.display.set_mode((500, 400))
 
-        self.jogo = Jogo(tela)
-        self.menu = Menu(tela)
+        self.jogo = Jogo(self.tela)
+        self.menu = Menu(self.tela)
 
         self.modo = 1
 
@@ -19,9 +23,49 @@ class Programa:
 #            if self.modo == 1:
 #                self.menu.rodar()
 #            elif self.modo == 2:
-            self.jogo.rodar()
+
+            eventos = self.getEventos()
+
+            self.atualizar(eventos)
+            self.desenhar()
+
+            pg.display.update()
+            pg.time.delay(int(1000/60))
 
 #            self.trocarModo()
+
+    def atualizar(self, eventos):
+        self.jogo.atualizar(eventos)
+#        self.menu.atualizar(eventos)
+
+    def desenhar(self):
+        self.tela.fill((0, 0, 0))
+        self.jogo.desenhar()
+#        self.menu.desenhar()
+
+    def getEventos(self):
+        eventos = []
+        for evento in pg.event.get():
+            if evento.type == QUIT:
+                pg.quit()
+                exit()
+            if evento.type == pg.KEYDOWN:
+                eventos.append(EventoApertouTecla(evento.key))
+
+            teclas_apertadas = pg.key.get_pressed()
+            for tecla in range(len(teclas_apertadas)):
+                if teclas_apertadas[tecla]:
+                    eventos.append(EventoTeclaApertada(tecla))
+
+        colisores = self.getColisores()
+        colisoes = SistemaColisao.getColisoes(colisores)
+        eventos.extend(colisoes)
+
+        return eventos
+
+    def getColisores(self):
+        # if modo == jogo
+        return self.jogo.getColisores()
 
     def trocarModo(self):
         if self.menu.botoes[0].ativo:

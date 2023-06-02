@@ -11,7 +11,7 @@ class Botao(EntidadeTela):
 
         self.apertou = False
     def desenhar(self):
-        self.desenhavel.desenhar()
+        self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
 
     def atualizar(self, eventos):
         for evento in eventos:

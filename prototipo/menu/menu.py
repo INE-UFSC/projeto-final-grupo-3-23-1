@@ -7,7 +7,7 @@ class Menu(Entidade):
         super().__init__(tela)
         self.tela = tela
 
-        self.botoes = [Botao(tela, (150, 125), (20,20), DesenhavelRetangulo((255, 0, 0)))]
+        self.botoes = [Botao(tela, (150, 125), (20,20), DesenhavelRetangulo(tela, (255, 0, 0)))]
         self.modo = ""
 
     def atualizar(self, eventos: list):

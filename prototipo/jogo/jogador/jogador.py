@@ -9,7 +9,7 @@ class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, arma = ""):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
-        self.__vida = 1000
+        self.__vida = 3
         self.__powerups = []
         self.__tiros = []
         self.__direcao = 0
@@ -22,6 +22,12 @@ class Jogador(EntidadeTela):
     @property
     def vida(self):
         return self.__vida
+
+    def getColisores(self):
+        colisores = []
+        colisores.append(self)
+        colisores.extend(self.__tiros)
+        return colisores
 
     def atualizar(self, eventos: list):
         if pg.time.get_ticks() - self.__ultima_colisao > 3000:
@@ -56,17 +62,17 @@ class Jogador(EntidadeTela):
                 
 
             if isinstance(evento, EventoColisao) \
-                    and any(isinstance(x, Jogador) for x in evento.colisores):
+                    and evento.possuiTipo(Jogador):
                 from jogo.mapa_jogo.inimigo import Inimigo
 
-                if any(isinstance(x, Inimigo) for x in evento.colisores):
+                if evento.possuiTipo(Inimigo):
                     if not self.__invulnerabilidade:
                         self.__vida -= 1
                         self.__invulnerabilidade = True
                         self.__ultima_colisao = pg.time.get_ticks()
                 
-                if any(isinstance(x, SalaPorta) for x in evento.colisores):
-                    pass
+                if evento.possuiTipo(SalaPorta):
+                    self.pos_tela = (250, 200)
 
         tiros_rem = []
         for t in self.__tiros:

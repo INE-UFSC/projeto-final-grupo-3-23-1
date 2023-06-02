@@ -8,7 +8,7 @@ from .sala_puzzle import SalaPuzzle
 
 class SalaPorta(EntidadeTela, ABC):
     def __init__(self, tela, sala: Sala, porta: Porta, pos_tela, dimensoes):
-        desenhavel = DesenhavelRetangulo((150, 75, 0))
+        desenhavel = DesenhavelRetangulo(tela, (150, 75, 0))
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
         self.__sala = sala
         self.__porta = porta
@@ -25,14 +25,14 @@ class SalaPorta(EntidadeTela, ABC):
 
 class SalaPortaBaixo(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (200, 0)
+        pos_tela = (200, 325)
         dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 
 class SalaPortaCima(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (200, 325)
+        pos_tela = (200, 0)
         dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
@@ -47,3 +47,4 @@ class SalaPortaEsquerda(SalaPorta):
         pos_tela = (0, 150)
         dimensoes = (100, 75)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
+

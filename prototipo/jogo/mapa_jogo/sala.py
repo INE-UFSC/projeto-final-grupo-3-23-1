@@ -7,9 +7,15 @@ from .aparencia import Aparencia
 
 
 class Sala(Entidade, ABC):
-    def __init__(self, aparencia):
-        self.__aparencia = aparencia
+    def __init__(self, desenhavel):
+        self.__desenhavel = desenhavel
         self.__sala_portas = []
+
+    def getColisores(self):
+        colisores = []
+        colisores.extend(self.__sala_portas)
+
+        return colisores
 
     def desenhar(self):
         for sala_porta in self.sala_portas:

@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 import pygame as pg
 
@@ -13,4 +13,7 @@ class Entidade(ABC):
 
     def desenhar(self):
         pass
+
+    def getColisores(self):
+        return []
 
