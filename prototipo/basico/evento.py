@@ -26,3 +26,6 @@ class EventoApertouTecla(Evento):
     def __init__(self, tecla):
         self.tecla = tecla
 
+class EventoApertouBotaoEsquerdo(Evento):
+    pass
+
