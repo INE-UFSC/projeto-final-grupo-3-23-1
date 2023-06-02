@@ -1,8 +1,8 @@
 from .sala import Sala
 
 class SalaInimigo(Sala):
-    def __init__(self, aparencia, powerups, inimigos):
-        super().__init__(aparencia)
+    def __init__(self, desenhavel, powerups, inimigos):
+        super().__init__(desenhavel)
         self.__powerups = powerups
         self.__inimigos = inimigos
 

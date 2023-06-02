@@ -17,8 +17,6 @@ class Jogador(EntidadeTela):
         self.__invulnerabilidade = False
         self.__ultima_colisao = 0
 
-    contador = 0
-
     @property
     def vida(self):
         return self.__vida
