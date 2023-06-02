@@ -52,10 +52,10 @@ class Programa(Entidade):
             if evento.type == pg.KEYDOWN:
                 eventos.append(EventoApertouTecla(evento.key))
 
-            teclas_apertadas = pg.key.get_pressed()
-            for tecla in range(len(teclas_apertadas)):
-                if teclas_apertadas[tecla]:
-                    eventos.append(EventoTeclaApertada(tecla))
+        teclas_apertadas = pg.key.get_pressed()
+        for tecla in range(len(teclas_apertadas)):
+            if teclas_apertadas[tecla]:
+                eventos.append(EventoTeclaApertada(tecla))
 
         colisores = self.getColisores()
         colisoes = SistemaColisao.getColisoes(colisores)
