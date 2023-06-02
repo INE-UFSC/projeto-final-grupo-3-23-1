@@ -22,10 +22,11 @@ class Tiro(EntidadeTela):
 
         self.pos_tela = tuple(nova_pos)
 
+        from jogo.mapa_jogo.inimigo import Inimigo
+
         for evento in eventos:
             if isinstance(evento, EventoColisao) \
-                    and any(isinstance(x, Tiro) for x in evento.colisores):
-                from jogo.mapa_jogo.inimigo import Inimigo
-                if any(isinstance(x, Inimigo) for x in evento.colisores):
-                    self.ativo = False
+                    and evento.possui(self) \
+                    and evento.possuiTipo(Inimigo):
+                self.ativo = False
 
