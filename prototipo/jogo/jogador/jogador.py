@@ -68,9 +68,12 @@ class Jogador(EntidadeTela):
                         self.__vida -= 1
                         self.__invulnerabilidade = True
                         self.__ultima_colisao = pg.time.get_ticks()
+
+                        print(self.__vida)
                 
                 if evento.possuiTipo(SalaPorta):
                     self.pos_tela = (250, 200)
+                    self.__tiros = []
 
         tiros_rem = []
         for t in self.__tiros:
