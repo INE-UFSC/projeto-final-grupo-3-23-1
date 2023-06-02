@@ -14,6 +14,9 @@ class Jogador(EntidadeTela):
         self.__tiros = []
         self.__direcao = 0
 
+        self.__invulnerabilidade = False
+        self.__ultima_colisao = 0
+
     contador = 0
 
     @property
@@ -21,9 +24,12 @@ class Jogador(EntidadeTela):
         return self.__vida
 
     def atualizar(self, eventos: list):
+        if pg.time.get_ticks() - self.__ultima_colisao > 3000:
+            self.__invulnerabilidade = False
+
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
-                if evento.tecla == pg.K_z:
+                if evento.tecla == pg.K_k:
                     self.atirar(self.__powerups)
 
             if isinstance(evento, EventoTeclaApertada):
@@ -54,7 +60,10 @@ class Jogador(EntidadeTela):
                 from jogo.mapa_jogo.inimigo import Inimigo
 
                 if any(isinstance(x, Inimigo) for x in evento.colisores):
-                    self.__vida -= 1
+                    if not self.__invulnerabilidade:
+                        self.__vida -= 1
+                        self.__invulnerabilidade = True
+                        self.__ultima_colisao = pg.time.get_ticks()
                 
                 if any(isinstance(x, SalaPorta) for x in evento.colisores):
                     pass
