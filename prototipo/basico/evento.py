@@ -27,5 +27,6 @@ class EventoApertouTecla(Evento):
         self.tecla = tecla
 
 class EventoApertouBotaoEsquerdo(Evento):
-    pass
+    def __init__(self, pos_mouse):
+        self.pos_mouse = pos_mouse
 
