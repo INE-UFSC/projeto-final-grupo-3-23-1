@@ -72,8 +72,10 @@ class Jogador(EntidadeTela):
                         print(self.__vida)
                 
                 if evento.possuiTipo(SalaPorta):
-                    self.pos_tela = (250, 200)
-                    self.__tiros = []
+                    sala_porta = evento.getElemDoTipo(SalaPorta)
+                    if sala_porta.porta.aberta:
+                        self.pos_tela = (250, 200)
+                        self.__tiros = []
 
         tiros_rem = []
         for t in self.__tiros:

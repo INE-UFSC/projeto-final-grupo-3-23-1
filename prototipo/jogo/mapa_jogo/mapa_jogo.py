@@ -101,7 +101,8 @@ class MapaJogo(Entidade):
         for evento in eventos:
             if isinstance(evento, EventoColisao) \
                     and evento.possuiTipo(SalaPorta) \
-                    and evento.possuiTipo(Jogador):
+                    and evento.possuiTipo(Jogador) \
+                    and evento.getElemDoTipo(SalaPorta).porta.aberta:
                 movimentacao = {
                     SalaPortaEsquerda: [0, -1],
                     SalaPortaDireita:  [0, 1],

@@ -15,12 +15,21 @@ class SalaPorta(EntidadeTela, ABC):
     
     def atualizar(self, eventos):
         if isinstance(self.__sala, SalaInimigo):
-            if len(self.__sala.inimigos) == 0:
+            abrir = True
+            for inimigo in self.__sala.inimigos:
+                if inimigo.ativo:
+                    abrir = False
+                    break
+            if abrir:
                 self.__porta.abrir()
-        
+
         elif isinstance(self.__sala, SalaPuzzle):
             if self.__sala.resolvido:
                 self.__porta.abrir()
+    
+    @property
+    def porta(self):
+        return self.__porta
     
 
 class SalaPortaBaixo(SalaPorta):

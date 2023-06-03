@@ -8,8 +8,9 @@ class Porta:
     def abrir(self):
         self.__aberta = True
     
-    def fechar(self):
-        self.__aberta = False
-    
     def adicionar_sala_porta(self, sala_porta):
         self.__sala_portas.append(sala_porta)
+    
+    @property
+    def aberta(self):
+        return self.__aberta
