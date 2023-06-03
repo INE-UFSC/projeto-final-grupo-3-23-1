@@ -14,3 +14,7 @@ class Porta:
     @property
     def aberta(self):
         return self.__aberta
+    
+    @property
+    def sala_portas(self):
+        return self.__sala_portas

@@ -18,6 +18,12 @@ class MapaJogo(Entidade):
         i, j = self.coord_sala_atual
         return self.__salas[i][j]
     
+    def getCoorSala(self, sala):
+        for i, linha in enumerate(self.__salas):
+            for j, coluna in enumerate(linha):
+                if coluna == sala:
+                    return [i, j]
+
     def atualizar(self, eventos):
         self.getSala().atualizar(eventos)
         self.tentarMudarSala(eventos)
@@ -103,6 +109,18 @@ class MapaJogo(Entidade):
                     and evento.possuiTipo(SalaPorta) \
                     and evento.possuiTipo(Jogador) \
                     and evento.getElemDoTipo(SalaPorta).porta.aberta:
+                
+                sala_porta_colidida = evento.getElemDoTipo(SalaPorta)
+                porta_colidida = sala_porta_colidida.porta
+                for s in porta_colidida.sala_portas:
+                    if s != sala_porta_colidida:
+                        prox_sala_porta = s
+                        break
+                self.coord_sala_atual = self.getCoorSala(prox_sala_porta.sala)
+                return True
+        return False
+    
+'''
                 movimentacao = {
                     SalaPortaEsquerda: [0, -1],
                     SalaPortaDireita:  [0, 1],
@@ -122,3 +140,4 @@ class MapaJogo(Entidade):
 
 
     
+'''

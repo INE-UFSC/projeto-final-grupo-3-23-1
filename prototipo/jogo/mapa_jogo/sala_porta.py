@@ -31,6 +31,10 @@ class SalaPorta(EntidadeTela, ABC):
     def porta(self):
         return self.__porta
     
+    @property
+    def sala(self):
+        return self.__sala
+    
 
 class SalaPortaBaixo(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
