@@ -51,33 +51,10 @@ class MapaJogo(Entidade):
         self.__salas = []
         self.__portas = [Porta(), Porta(), Porta(), Porta()]
 
-        aparencia = Aparencia(Musica(), Textura())
-
         for i in range(2):
             linha = []
             for j in range(2):
-                posicoes = [
-                    [0, 0],
-                    [0, 200],
-                    [300, 400]
-                ]
-
-                inimigos = []
-                if i == 0 and j == 0:
-                    for inimigo_i in range(3):
-                        inimigos.append(Inimigo(
-                            tela,
-                            posicoes[inimigo_i], [50, 50],
-                            DesenhavelRetangulo(tela, (255, 0, 0)),
-                            3, 1, 1,
-                            jogador
-                        ))
-
-                linha.append(SalaInimigo(
-                    Aparencia(Musica(), Textura()),
-                    [],
-                    inimigos
-                ))
+                linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
 
             self.__salas.append(linha)
 

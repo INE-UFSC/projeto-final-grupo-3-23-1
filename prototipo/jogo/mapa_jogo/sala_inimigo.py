@@ -1,10 +1,28 @@
 from .sala import Sala
+import random
+
+from basico.desenhavel import DesenhavelRetangulo
+
 
 class SalaInimigo(Sala):
-    def __init__(self, desenhavel, powerups, inimigos):
+    def __init__(self, tela, desenhavel, powerups, jogador):
         super().__init__(desenhavel)
         self.__powerups = powerups
-        self.__inimigos = inimigos
+        self.__inimigos = []
+
+        #criando inimigos aleatoriamente
+        from .inimigo import Inimigo
+        for i in range(random.randrange(2, 5)):
+            i = random.randrange(500)
+            j = random.randrange(400)
+            posicoes = [i, j]
+            self.__inimigos.append(Inimigo(
+                            tela,
+                            posicoes,
+                            [50, 50],
+                            DesenhavelRetangulo(tela, (255, 0, 0)),
+                            3, 1, 1,
+                            jogador))
 
     def getColisores(self):
         colisores = super().getColisores()
