@@ -21,16 +21,16 @@ class Jogo:
         self.mapa_jogo = MapaJogo(self.tela, self.jogador)
 
     def atualizar(self, eventos: list[Evento]):
-        self.jogador.atualizar(eventos)
         self.mapa_jogo.atualizar(eventos)
+        self.jogador.atualizar(eventos)
                 
         if self.jogador.vida <= 0:
             print('Fim de jogo')
             exit()
 
     def desenhar(self):
-        self.jogador.desenhar()
         self.mapa_jogo.desenhar()
+        self.jogador.desenhar()
 
     def getColisores(self):
         colisores = []

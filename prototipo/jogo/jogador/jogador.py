@@ -60,7 +60,7 @@ class Jogador(EntidadeTela):
                 
 
             if isinstance(evento, EventoColisao) \
-                    and evento.possuiTipo(Jogador):
+                    and evento.possui(self):
                 from jogo.mapa_jogo.inimigo import Inimigo
 
                 if evento.possuiTipo(Inimigo):

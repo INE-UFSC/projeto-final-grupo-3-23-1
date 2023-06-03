@@ -8,10 +8,10 @@ class EventoColisao(Evento):
         self.colisores = [a, b]
 
     def possuiTipo(self, tipo):
-        return any(isinstance(x, tipo) for x in self.colisores)
+        return isinstance(self.colisores[0], tipo) or isinstance(self.colisores[1], tipo)
 
     def possui(self, elem):
-        return any(x == elem for x in self.colisores)
+        return self.colisores[0] == elem or self.colisores[1] == elem
 
     def getElemDoTipo(self, tipo):
         for colisor in self.colisores:
