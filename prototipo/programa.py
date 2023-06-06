@@ -11,7 +11,10 @@ from menu.menu import Menu
 class Programa(Entidade):
     def __init__(self):
         pg.init()
-        self.tela = pg.display.set_mode((500, 400))
+
+        info = pg.display.Info()
+
+        self.tela = pg.display.set_mode((info.current_w, info.current_h))
 
         self.jogo = Jogo(self.tela)
         self.menu = Menu(self.tela)
