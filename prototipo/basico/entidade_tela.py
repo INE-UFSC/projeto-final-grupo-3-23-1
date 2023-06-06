@@ -20,6 +20,11 @@ class EntidadeTela(Entidade, ABC):
 
         self.ativo = True
 
+    def getRect(self):
+        rect = pg.Rect((0, 0), self.dimensoes)
+        rect.center = self.pos_tela
+        return rect
+
     def desenhar(self):
         self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
 
