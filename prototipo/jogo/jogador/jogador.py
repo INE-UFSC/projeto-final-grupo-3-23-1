@@ -96,6 +96,7 @@ class Jogador(EntidadeTela):
     def atirar(self, powerups):
         self.__tiros.append(Tiro(
             self.tela,
-            (self.pos_tela[0] + (self.dimensoes[0] - 10)/2,
-                self.pos_tela[1] + (self.dimensoes[1]-10)/2),
-            (20, 20), self.__direcao))
+            self.pos_tela,
+            (20, 20),
+            self.__direcao
+        ))
