@@ -16,5 +16,8 @@ class DesenhavelRetangulo(Desenhavel):
         self.cor = cor
 
     def desenhar(self, pos_tela, dimensoes):
-        pg.draw.rect(self.tela, self.cor, (*pos_tela, *dimensoes))
+        rect = pg.Rect((0, 0), dimensoes)
+        rect.center = pos_tela
+
+        pg.draw.rect(self.tela, self.cor, rect)
 
