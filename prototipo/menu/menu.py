@@ -8,21 +8,23 @@ class Menu(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
         self.tela = tela
+        self.tela_h = tela.get_height()
+        self.tela_w = tela.get_width()
 
-        self.botoes = [Botao(tela, (tela.get_width()/2, 3*tela.get_height()/7),(600, 125),
+        self.botoes = [Botao(tela, (self.tela_w/2, 3*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Jogar"),
 
-                       Botao(tela, (tela.get_width()/2, 4*tela.get_height()/7), (600, 125),
+                       Botao(tela, (self.tela_w/2, 4*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Instruções"),
 
-                       Botao(tela, (tela.get_width()/2, 5*tela.get_height()/7), (600, 125),
+                       Botao(tela, (self.tela_w/2, 5*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Créditos"),
 
-                       Botao(tela, (tela.get_width()/2, 6*tela.get_height()/7), (600, 125),
+                       Botao(tela, (self.tela_w/2, 6*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Sair")
                        ]
         self.modo = ""
-        self.font = pg.font.SysFont("Comic Sans MT", 250)
+        self.font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.tela_h))
 
     def atualizar(self, eventos: list):
         for botao in self.botoes:
@@ -30,7 +32,7 @@ class Menu(Entidade):
 
     def desenhar(self):
         self.tela.blit(self.font.render("Labirinto de Talam", False, (255, 255, 255)),
-                        (self.tela.get_width()/11, self.tela.get_height()/6))
+                        (self.tela_w/11, self.tela_h/6))
 
         for botao in self.botoes:
             botao.desenhar()

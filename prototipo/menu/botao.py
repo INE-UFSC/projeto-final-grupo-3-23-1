@@ -4,7 +4,7 @@ from basico.evento import *
 import pygame as pg
 
 class Botao(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, desenhavel, texto):
+    def __init__(self, tela, pos_tela, dimensoes, desenhavel, texto, tamanho_fonte = 75/1080, fonte = "Comic Sans MS"):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
         self.tela = tela
         self.pos_tela = pos_tela
@@ -14,7 +14,7 @@ class Botao(EntidadeTela):
 
         self.apertou = False
     
-        self.font = pg.font.SysFont("Comic Sans MT", 75)
+        self.font = pg.font.SysFont(fonte, int(tamanho_fonte * self.tela.get_height()))
 
     def desenhar(self):
 
