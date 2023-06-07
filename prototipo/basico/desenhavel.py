@@ -20,4 +20,3 @@ class DesenhavelRetangulo(Desenhavel):
         rect.center = pos_tela
 
         pg.draw.rect(self.tela, self.cor, rect)
-

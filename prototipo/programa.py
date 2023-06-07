@@ -77,3 +77,6 @@ class Programa(Entidade):
     def trocarModo(self):
         if self.menu.botoes[0].apertou:
             self.modo = 2
+        if self.menu.botoes[3].apertou:
+            pg.quit()
+            exit()
