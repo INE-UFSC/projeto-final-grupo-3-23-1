@@ -6,7 +6,7 @@ from jogo.mapa_jogo.sala_porta import *
 from .tiro import Tiro
 
 class Jogador(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, desenhavel, arma = ""):
+    def __init__(self, tela, pos_tela, dimensoes, desenhavel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
         self.__vida = 3
@@ -15,7 +15,9 @@ class Jogador(EntidadeTela):
         self.__direcao = 0
 
         self.__invulnerabilidade = False
-        self.__ultima_colisao = 0
+    
+        self.last_tick = 0
+        self.ultima_colisao = 0
 
     @property
     def vida(self):
@@ -28,8 +30,18 @@ class Jogador(EntidadeTela):
         return colisores
 
     def atualizar(self, eventos: list):
-        if pg.time.get_ticks() - self.__ultima_colisao > 3000:
+
+        if pg.time.get_ticks() - self.ultima_colisao > 3000:
             self.__invulnerabilidade = False
+            self.desenhavel.cor = (0, 255, 0)
+
+        if self.__invulnerabilidade:
+            if pg.time.get_ticks() - self.last_tick > 250:
+                if self.desenhavel.cor == (0, 255, 0):
+                    self.desenhavel.cor = (255, 255, 255)
+                elif self.desenhavel.cor == (255, 255, 255):
+                    self.desenhavel.cor = (0, 255, 0) 
+                self.last_tick = pg.time.get_ticks() 
 
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
@@ -67,9 +79,9 @@ class Jogador(EntidadeTela):
                     if not self.__invulnerabilidade:
                         self.__vida -= 1
                         self.__invulnerabilidade = True
-                        self.__ultima_colisao = pg.time.get_ticks()
-
-                        print(self.__vida)
+                        self.desenhavel.cor = (255, 255, 255)
+                        self.ultima_colisao = pg.time.get_ticks()
+                        self.last_tick = pg.time.get_ticks()
                 
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
