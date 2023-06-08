@@ -52,19 +52,19 @@ class Jogador(EntidadeTela):
                 nova_pos = list(self.pos_tela)
 
                 if evento.tecla == pg.K_w:
-                    if nova_pos[1] > 0:
+                    if nova_pos[1] > self.dimensoes[1]/2:
                         nova_pos[1] -= 5
                     self.__direcao = 270
                 if evento.tecla == pg.K_s:
-                    if nova_pos[1] < 400-self.dimensoes[1]:
+                    if nova_pos[1] < self.tela.get_height()-self.dimensoes[1]/2:
                         nova_pos[1] += 5
                     self.__direcao = 90
                 if evento.tecla == pg.K_a:
-                    if nova_pos[0] > 0:
+                    if nova_pos[0] > self.dimensoes[0]/2:
                         nova_pos[0] -= 5
                     self.__direcao = 180
                 if evento.tecla == pg.K_d:
-                    if nova_pos[0] < 500-self.dimensoes[0]:
+                    if nova_pos[0] < self.tela.get_width()-self.dimensoes[0]/2:
                         nova_pos[0] += 5 
                     self.__direcao = 0
 
@@ -86,8 +86,15 @@ class Jogador(EntidadeTela):
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
                     if sala_porta.porta.aberta:
-                        self.pos_tela = (250, 200)
                         self.__tiros = []
+                        if isinstance(sala_porta, SalaPortaBaixo):
+                            self.pos_tela = (self.pos_tela[0], sala_porta.dimensoes[1]+self.dimensoes[1]/2)
+                        elif isinstance(sala_porta, SalaPortaCima):
+                            self.pos_tela = (self.pos_tela[0], self.tela.get_height()-(sala_porta.dimensoes[1]+self.dimensoes[1]/2))
+                        elif isinstance(sala_porta, SalaPortaDireita):
+                            self.pos_tela = (sala_porta.dimensoes[0]+self.dimensoes[0]/2, self.pos_tela[1])
+                        elif isinstance(sala_porta, SalaPortaEsquerda):
+                            self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), self.pos_tela[1])
 
         tiros_rem = []
         for t in self.__tiros:

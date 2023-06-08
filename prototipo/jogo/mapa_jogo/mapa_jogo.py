@@ -44,7 +44,7 @@ class MapaJogo(Entidade):
 #
 #        self.tela.fill(cor_fundo)
 
-        print(self.coord_sala_atual)
+        #print(self.coord_sala_atual)
 
         self.getSala().desenhar()
 
