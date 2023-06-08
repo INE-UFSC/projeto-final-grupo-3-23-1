@@ -98,6 +98,8 @@ class MapaJogo(Entidade):
                         prox_sala_porta = s
                         break
                 self.coord_sala_atual = self.getCoorSala(prox_sala_porta.sala)
+                if isinstance(prox_sala_porta.sala, SalaInimigo):
+                    prox_sala_porta.sala.definirLocalInimigo(prox_sala_porta.tela, eventos)
                 return True
         return False
     

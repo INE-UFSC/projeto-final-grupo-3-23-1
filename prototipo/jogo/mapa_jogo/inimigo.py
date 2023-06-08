@@ -67,16 +67,18 @@ class Inimigo(EntidadeTela):
     
     def movimentacao(self):
         #verificar se jogador está à esquerda ou à direita (x):
+        nova_pos = list(self.pos_tela)
         if self.__alvo.pos_tela[0] < self.pos_tela[0]:
-            self.pos_tela[0] -= 1
+            nova_pos[0] -= 1
         elif self.__alvo.pos_tela[0] > self.pos_tela[0]:
-            self.pos_tela[0] += 1
+            nova_pos[0] += 1
 
         #verificar se jogador está acima ou abaixo (y):
         if self.__alvo.pos_tela[1] < self.pos_tela[1]:
-            self.pos_tela[1]-= 1
+            nova_pos[1]-= 1
         elif self.__alvo.pos_tela[1] > self.pos_tela[1]:
-            self.pos_tela[1] += 1
+            nova_pos[1] += 1
+        self.pos_tela = tuple(nova_pos)
 
         
 
@@ -100,7 +102,9 @@ class Inimigo(EntidadeTela):
         if self.__vida == 0:
             self.ativo = False
 
-    
+    @property
+    def alvo(self):
+        return self.__alvo
 
 
 
