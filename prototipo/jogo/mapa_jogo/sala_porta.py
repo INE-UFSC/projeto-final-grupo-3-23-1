@@ -24,7 +24,7 @@ class SalaPorta(EntidadeTela, ABC):
                 self.__porta.abrir()
 
         elif isinstance(self.__sala, SalaPuzzle):
-            if self.__sala.resolvido:
+            if self.__sala.puzzle.resolvido:
                 self.__porta.abrir()
     
     @property
