@@ -20,7 +20,7 @@ class Botao(EntidadeTela):
 
         self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
 
-        self.tela.blit(self.font.render(self.texto, False, (51, 0, 0)), (self.pos_tela[0] - self.dimensoes[0]/5, self.pos_tela[1] - self.dimensoes[1]/5))
+        self.tela.blit(self.font.render(self.texto, False, (51, 0, 0)), (self.pos_tela[0] - self.dimensoes[0]/3, self.pos_tela[1] - self.dimensoes[1]/2))
 
     def atualizar(self, eventos):
         for evento in eventos:
