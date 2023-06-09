@@ -5,6 +5,7 @@ class inimigo_que_atira(Inimigo):
     def __init__(self, nivel):
         super().__init__()
         self.__nivel = nivel
+        self.__tiros = []
 
    
     def atirar(self):

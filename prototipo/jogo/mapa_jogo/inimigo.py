@@ -60,6 +60,8 @@ class Inimigo(EntidadeTela):
         self.set_direction()
         self.__x += self.__velocidade * cos(radians(self.__direction))
         self.__y += self.__velocidade * sin(radians(self.__direction))
+        self.pos_tela[0] = self.__x
+        self.pos_tela[1] = self.__y 
      
         """
         #verificar se jogador está à esquerda ou à direita (x):
