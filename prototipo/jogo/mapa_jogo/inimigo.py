@@ -2,6 +2,7 @@ from basico.entidade_tela import EntidadeTela
 from basico.evento import Evento, EventoColisao
 from jogo.jogador.jogador import Jogador
 import pygame as pg
+from math import atan2, cos, sin, radians, pi
 
 class Inimigo(EntidadeTela):
 
@@ -9,11 +10,15 @@ class Inimigo(EntidadeTela):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
         self.pos_atual = self.pos_tela
         self.__dano = dano
-        self.__velocidade = velocidade
+        self.__direction = 0
+        self.__nivel_velocidade = velocidade
+        self.__velocidade = 0
         self.__vida = vida_inicial
         self.__alvo = jogador
         # Crie um objeto Clock para controlar o tempo
-        self.__clock = pg.time.Clock()
+        #self.__clock = pg.time.Clock()
+        self.__x = self.pos_tela[0]
+        self.__y = self.pos_tela[1]
 
     @property
     def dano(self):
@@ -51,21 +56,12 @@ class Inimigo(EntidadeTela):
                     self.eventoColisao(evento.colisores[0])
                     
 
-                    
-#    def checagem_tempo(self):
-#        borda_clock = False
-#        # Atualize o tempo acumulado
-#        tempo_acumulado += self.__clock.get_time()
-#        # Defina o intervalo de tempo desejado (em milissegundos)
-#        intervalo_tempo =  100  #  0,1 segundos
-#        # Variável para controlar a contagem do tempo
-#        tempo_acumulado = 0
-#        if tempo_acumulado >= intervalo_tempo:
-#            borda_clock = True
-#        tempo_acumulado = 0  # Reinicie o tempo acumulado
-#        return borda_clock
-    
     def movimentacao(self):
+        self.set_direction()
+        self.__x += self.speed * cos(radians(self.__direction))
+        self.__y += self.speed * sin(radians(self.__direction))
+     
+        """
         #verificar se jogador está à esquerda ou à direita (x):
         if self.__alvo.pos_tela[0] < self.pos_tela[0]:
             self.pos_tela[0] -= 1
@@ -76,30 +72,27 @@ class Inimigo(EntidadeTela):
         if self.__alvo.pos_tela[1] < self.pos_tela[1]:
             self.pos_tela[1]-= 1
         elif self.__alvo.pos_tela[1] > self.pos_tela[1]:
-            self.pos_tela[1] += 1
+            self.pos_tela[1] += 1"""
 
-        
+    def set_direction(self):
+        alvo_x = self.__alvo.pos_tela[0]
+        alvo_y = self.__alvo.pos_tela[1]
 
-#        if self.checagem_tempo():
-#            # deve perseguir jogador. 
-#
-#            #verificar se jogador está à esquerda ou à direita (x):
-#            if self.__alvo.pos_tela[0] < self.pos_tela[0]:
-#                self.pos_tela[0]-=25
-#            elif self.__alvo.pos_tela[0] > self.pos_tela[0]:
-#                self.pos_tela[0] += 25
-#
-#            #verificar se jogador está acima ou abaixo (y):
-#            if self.__alvo.pos_tela[1] < self.pos_tela[1]:
-#                self.pos_tela[1]-= 25
-#            elif self.__alvo.pos_tela[1] > self.pos_tela[1]:
-#                self.pos_tela += 25
+        angle = atan2(alvo_y-self.__y, alvo_x-self.__x) 
+        self.__direction = int(180*angle/pi)
+
+    def set_velocidade(self):
+        niveis_velocidade = {1: 3, 2: 3, 3: 5, 4: 7, 5: 9}
+        self.__velocidade = niveis_velocidade[self.__nivel_velocidade]
 
     # se a vida for 0, inimigo morre:
     def verificar_vida(self):
         if self.__vida == 0:
             self.ativo = False
 
+                    
+
+    
     
 
 
