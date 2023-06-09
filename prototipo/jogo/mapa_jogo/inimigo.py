@@ -58,8 +58,8 @@ class Inimigo(EntidadeTela):
 
     def movimentacao(self):
         self.set_direction()
-        self.__x += self.speed * cos(radians(self.__direction))
-        self.__y += self.speed * sin(radians(self.__direction))
+        self.__x += self.__velocidade * cos(radians(self.__direction))
+        self.__y += self.__velocidade * sin(radians(self.__direction))
      
         """
         #verificar se jogador está à esquerda ou à direita (x):
@@ -75,6 +75,8 @@ class Inimigo(EntidadeTela):
         elif self.__alvo.pos_tela[1] > self.pos_tela[1]:
             self.pos_tela[1] += 1"""
 
+
+#agradecimento de código ao grupo 4. [Artur Soda e xxxxxx]
     def set_direction(self):
         alvo_x = self.__alvo.pos_tela[0]
         alvo_y = self.__alvo.pos_tela[1]
