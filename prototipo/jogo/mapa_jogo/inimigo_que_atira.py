@@ -12,6 +12,6 @@ class inimigo_que_atira(Inimigo):
             self.tela,
             self.pos_tela,
             (20, 20),
-            self.__direcao
+            self.__direction
         ))
 
