@@ -22,7 +22,8 @@ class Jogo:
 
     def atualizar(self, eventos: list[Evento]):
         self.mapa_jogo.atualizar(eventos)
-        self.jogador.atualizar(eventos)
+        if self.jogador.ativo:
+            self.jogador.atualizar(eventos)
                 
         if self.jogador.vida <= 0:
             print('Fim de jogo')
