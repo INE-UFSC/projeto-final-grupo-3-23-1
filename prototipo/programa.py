@@ -11,7 +11,10 @@ from menu.menu import Menu
 class Programa(Entidade):
     def __init__(self):
         pg.init()
-        self.tela = pg.display.set_mode((500, 400))
+
+        info = pg.display.Info()
+
+        self.tela = pg.display.set_mode((info.current_w, info.current_h))
 
         self.jogo = Jogo(self.tela)
         self.menu = Menu(self.tela)
@@ -20,9 +23,6 @@ class Programa(Entidade):
 
     def rodar(self):
         while True:
-#            if self.modo == 1:
-#                self.menu.rodar()
-#            elif self.modo == 2:
 
             eventos = self.getEventos()
 
@@ -32,16 +32,20 @@ class Programa(Entidade):
             pg.display.update()
             pg.time.delay(int(1000/60))
 
-#            self.trocarModo()
+            self.trocarModo()
 
     def atualizar(self, eventos):
-        self.jogo.atualizar(eventos)
-#        self.menu.atualizar(eventos)
+        if self.modo == 1:
+            self.menu.atualizar(eventos)
+        elif self.modo == 2:
+            self.jogo.atualizar(eventos)
 
     def desenhar(self):
         self.tela.fill((0, 0, 0))
-        self.jogo.desenhar()
-#        self.menu.desenhar()
+        if self.modo == 1:
+            self.menu.desenhar()
+        elif self.modo == 2:
+            self.jogo.desenhar()
 
     def getEventos(self):
         eventos = []
@@ -68,9 +72,11 @@ class Programa(Entidade):
         return eventos
 
     def getColisores(self):
-        # if modo == jogo
         return self.jogo.getColisores()
 
     def trocarModo(self):
-        if self.menu.botoes[0].ativo:
+        if self.menu.botoes[0].apertou:
             self.modo = 2
+        if self.menu.botoes[3].apertou:
+            pg.quit()
+            exit()

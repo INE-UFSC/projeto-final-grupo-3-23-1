@@ -9,13 +9,14 @@ class SalaInimigo(Sala):
         super().__init__(desenhavel)
         self.__powerups = powerups
         self.__inimigos = []
-
-        #criando inimigos aleatoriamente
+        self.criarInimigos(jogador, tela)
+        
+    def criarInimigos(self, jogador, tela):
         from .inimigo import Inimigo
         for i in range(random.randrange(2, 5)):
-            i = random.randrange(500)
-            j = random.randrange(400)
-            posicoes = [i, j]
+            i = random.randrange(tela.get_width())
+            j = random.randrange(tela.get_height())
+            posicoes = (i, j)
             self.__inimigos.append(Inimigo(
                             tela,
                             posicoes,
@@ -23,6 +24,18 @@ class SalaInimigo(Sala):
                             DesenhavelRetangulo(tela, (255, 0, 0)),
                             3, 1, 1,
                             jogador))
+
+    def definirLocalInimigo(self, tela, eventos):
+        for inimigo in self.__inimigos:
+            inimigo.alvo.atualizar(eventos)
+            if inimigo.ativo:
+                while inimigo.pos_tela[0] >= inimigo.alvo.pos_tela[0]-inimigo.alvo.dimensoes[0]-inimigo.dimensoes[0] \
+                    and inimigo.pos_tela[0] <= inimigo.alvo.pos_tela[0]+inimigo.alvo.dimensoes[0]+inimigo.dimensoes[0] \
+                    and inimigo.pos_tela[1] >= inimigo.alvo.pos_tela[1]-inimigo.alvo.dimensoes[1]-inimigo.dimensoes[1] \
+                    and inimigo.pos_tela[1] <= inimigo.alvo.pos_tela[1]+inimigo.alvo.dimensoes[1]+inimigo.dimensoes[1]:
+                    i = random.randrange(tela.get_width())
+                    j = random.randrange(tela.get_height())
+                    inimigo.pos_tela = (i, j)
 
     def getColisores(self):
         colisores = super().getColisores()

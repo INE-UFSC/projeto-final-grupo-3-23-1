@@ -8,6 +8,7 @@ from jogo.mapa_jogo.textura import Textura
 from jogo.mapa_jogo.inimigo import Inimigo
 from jogo.mapa_jogo.sala_inimigo import SalaInimigo
 from jogo.mapa_jogo.sala_porta import *
+from jogo.mapa_jogo.puzzle import Puzzle
 
 class MapaJogo(Entidade):
     def __init__(self, tela, jogador):
@@ -43,13 +44,13 @@ class MapaJogo(Entidade):
 #
 #        self.tela.fill(cor_fundo)
 
-        print(self.coord_sala_atual)
+        #print(self.coord_sala_atual)
 
         self.getSala().desenhar()
 
     def initMapaJogo(self, tela, jogador):
         self.__salas = []
-        self.__portas = [Porta(), Porta(), Porta(), Porta()]
+        self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta()]
 
         for i in range(2):
             linha = []
@@ -57,6 +58,7 @@ class MapaJogo(Entidade):
                 linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
 
             self.__salas.append(linha)
+        self.__salas[0].append(SalaPuzzle('definir desenhavel', Puzzle(tela, 'responda "a"', 'a')))
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)
@@ -77,6 +79,8 @@ class MapaJogo(Entidade):
         adicionarSalaPorta(self.__salas[1][0], self.__portas[2], SalaPortaDireita)
         adicionarSalaPorta(self.__salas[1][0], self.__portas[3], SalaPortaCima)
         adicionarSalaPorta(self.__salas[0][0], self.__portas[3], SalaPortaBaixo)
+        adicionarSalaPorta(self.__salas[0][1], self.__portas[4], SalaPortaDireita)
+        adicionarSalaPorta(self.__salas[0][2], self.__portas[4], SalaPortaEsquerda)
 
     def tentarMudarSala(self, eventos):
         from jogo.jogador.jogador import Jogador
@@ -94,6 +98,8 @@ class MapaJogo(Entidade):
                         prox_sala_porta = s
                         break
                 self.coord_sala_atual = self.getCoorSala(prox_sala_porta.sala)
+                if isinstance(prox_sala_porta.sala, SalaInimigo):
+                    prox_sala_porta.sala.definirLocalInimigo(prox_sala_porta.tela, eventos)
                 return True
         return False
     

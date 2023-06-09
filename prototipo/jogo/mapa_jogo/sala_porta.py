@@ -24,7 +24,7 @@ class SalaPorta(EntidadeTela, ABC):
                 self.__porta.abrir()
 
         elif isinstance(self.__sala, SalaPuzzle):
-            if self.__sala.resolvido:
+            if self.__sala.puzzle.resolvido:
                 self.__porta.abrir()
     
     @property
@@ -38,26 +38,26 @@ class SalaPorta(EntidadeTela, ABC):
 
 class SalaPortaBaixo(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (200, 325)
-        dimensoes = (100, 75)
+        pos_tela = (tela.get_width()/2, tela.get_height())
+        dimensoes = (tela.get_height()/4, tela.get_width()/15)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 
 class SalaPortaCima(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (200, 0)
-        dimensoes = (100, 75)
+        pos_tela = (tela.get_width()/2, 0)
+        dimensoes = (tela.get_height()/4, tela.get_width()/15)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 class SalaPortaDireita(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (425, 150)
-        dimensoes = (100, 75)
+        pos_tela = (tela.get_width(), tela.get_height()/2)
+        dimensoes = (tela.get_width()/15, tela.get_height()/4)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 
 class SalaPortaEsquerda(SalaPorta):
     def __init__(self, tela, sala: Sala, porta: Porta):
-        pos_tela = (0, 150)
-        dimensoes = (100, 75)
+        pos_tela = (0, tela.get_height()/2)
+        dimensoes = (tela.get_width()/15, tela.get_height()/4)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
 

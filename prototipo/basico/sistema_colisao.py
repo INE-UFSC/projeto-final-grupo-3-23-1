@@ -6,8 +6,8 @@ from basico.entidade_tela import EntidadeTela
 class SistemaColisao:
     @staticmethod
     def colidiu(a, b):
-        rect_a = pg.Rect(*a.pos_tela, *a.dimensoes) 
-        rect_b = pg.Rect(*b.pos_tela, *b.dimensoes) 
+        rect_a = a.getRect()
+        rect_b = b.getRect()
 
         return rect_a.colliderect(rect_b)
         
