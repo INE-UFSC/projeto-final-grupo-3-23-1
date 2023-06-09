@@ -1,9 +1,10 @@
 from .sala import Sala
+from .puzzle import Puzzle
 
 class SalaPuzzle(Sala):
-    def __init__(self, desenhavel, puzzle):
+    def __init__(self, desenhavel, tela, enigma, resposta, jogador):
         super().__init__(desenhavel)
-        self.__puzzle = puzzle
+        self.__puzzle = Puzzle(tela, enigma, resposta, jogador)
     
     def desenhar_resto(self):
         self.__puzzle.desenhar()

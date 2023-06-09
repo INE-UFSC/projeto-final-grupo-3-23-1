@@ -23,8 +23,9 @@ class EventoTeclaApertada(Evento):
         self.tecla = tecla
 
 class EventoApertouTecla(Evento):
-    def __init__(self, tecla):
+    def __init__(self, tecla, unicode):
         self.tecla = tecla
+        self.unicode = unicode
 
 class EventoApertouBotaoEsquerdo(Evento):
     def __init__(self, pos_mouse):

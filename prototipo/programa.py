@@ -54,7 +54,7 @@ class Programa(Entidade):
                 pg.quit()
                 exit()
             if evento.type == pg.KEYDOWN:
-                eventos.append(EventoApertouTecla(evento.key))
+                eventos.append(EventoApertouTecla(evento.key, evento.unicode))
             if evento.type == pg.MOUSEBUTTONDOWN:
                 if evento.button == 1:
                     eventos.append(EventoApertouBotaoEsquerdo(pg.mouse.get_pos()))

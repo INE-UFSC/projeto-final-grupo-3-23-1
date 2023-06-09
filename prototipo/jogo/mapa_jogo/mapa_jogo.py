@@ -50,7 +50,7 @@ class MapaJogo(Entidade):
 
     def initMapaJogo(self, tela, jogador):
         self.__salas = []
-        self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta()]
+        self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
 
         for i in range(2):
             linha = []
@@ -58,7 +58,8 @@ class MapaJogo(Entidade):
                 linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
 
             self.__salas.append(linha)
-        self.__salas[0].append(SalaPuzzle('definir desenhavel', Puzzle(tela, 'responda "a"', 'a')))
+        self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
+        self.__salas[1].append(SalaPuzzle('definir desenhavel', tela, 'responda b', 'b', jogador))
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)
@@ -81,6 +82,10 @@ class MapaJogo(Entidade):
         adicionarSalaPorta(self.__salas[0][0], self.__portas[3], SalaPortaBaixo)
         adicionarSalaPorta(self.__salas[0][1], self.__portas[4], SalaPortaDireita)
         adicionarSalaPorta(self.__salas[0][2], self.__portas[4], SalaPortaEsquerda)
+        adicionarSalaPorta(self.__salas[0][2], self.__portas[5], SalaPortaBaixo)
+        adicionarSalaPorta(self.__salas[1][2], self.__portas[5], SalaPortaCima)
+        adicionarSalaPorta(self.__salas[1][2], self.__portas[6], SalaPortaEsquerda)
+        adicionarSalaPorta(self.__salas[1][1], self.__portas[6], SalaPortaDireita)
 
     def tentarMudarSala(self, eventos):
         from jogo.jogador.jogador import Jogador
