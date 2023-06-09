@@ -17,10 +17,12 @@ class Botao(EntidadeTela):
         self.font = pg.font.SysFont(fonte, int(tamanho_fonte * self.tela.get_height()))
 
     def desenhar(self):
-
         self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
 
-        self.tela.blit(self.font.render(self.texto, False, (51, 0, 0)), (self.pos_tela[0] - self.dimensoes[0]/3, self.pos_tela[1] - self.dimensoes[1]/2))
+        text_width, text_height = self.font.size(self.texto)
+        print(text_width, text_height)
+        self.tela.blit(self.font.render(self.texto, False, (51, 0, 0)),
+                        (self.pos_tela[0] - text_width/2, self.pos_tela[1] - text_height/2))
 
     def atualizar(self, eventos):
         for evento in eventos:
