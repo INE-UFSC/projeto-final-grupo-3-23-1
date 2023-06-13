@@ -26,12 +26,17 @@ class Inimigo(EntidadeTela):
     
     def eventoColisao(self, colisor):
         from jogo.jogador.tiro import Tiro
-
+        #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
+        if type(colisor) == Inimigo:
+            pass
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
             self.__vida -= 1
             if self.__vida <= 0:
                 self.ativo = False
+        #se for jogador, dá um pulo para trás
+        if type(colisor)== Jogador:
+            self.movimento_nao_sobressair(colisor)
 
     def atualizar(self,eventos):
          
@@ -56,27 +61,35 @@ class Inimigo(EntidadeTela):
                     self.eventoColisao(evento.colisores[0])
                     
 
-    def movimentacao(self):
+    def movimentacao(self, colisao_jogador = False):
         self.set_direction()
         self.set_velocidade()
+
+        if colisao_jogador == True:
+            self.__direction = self.__direction * -1
+
         self.__x += self.__velocidade * cos(self.__direction)
         self.__y += self.__velocidade * sin(self.__direction)
         nova_posicao = [self.__x, self.__y]
         self.pos_tela = tuple(nova_posicao)
      
-        """
-        #verificar se jogador está à esquerda ou à direita (x):
-        nova_pos = list(self.pos_tela)
-        if self.__alvo.pos_tela[0] < self.pos_tela[0]:
-            nova_pos[0] -= 1
-        elif self.__alvo.pos_tela[0] > self.pos_tela[0]:
-            nova_pos[0] += 1
+    def movimento_nao_sobressair(self, colisor):
+        self.movimentacao(True)
 
-        #verificar se jogador está acima ou abaixo (y):
-        if self.__alvo.pos_tela[1] < self.pos_tela[1]:
-            nova_pos[1]-= 1
-        elif self.__alvo.pos_tela[1] > self.pos_tela[1]:
-            self.pos_tela[1] += 1"""
+    """ def pulo_para_tras(self, colisor):
+        if colisor.pos_tela[0] <= self.__x:
+            self.__x += 100
+        elif colisor.pos_tela[0] >= self.__x:
+            self.__x -= 100
+
+        if colisor.pos_tela[1] <= self.__y:
+            self.__y += 100
+
+        elif colisor.pos_tela[1] >= self.__y:
+            self.__y -=100
+        nova_posicao = [self.__x, self.__y]
+        self.pos_tela = tuple(nova_posicao)"""
+
 
 
 #agradecimento de código ao grupo 4. [Artur Soda e xxxxxx]
