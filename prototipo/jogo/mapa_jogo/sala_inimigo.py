@@ -17,11 +17,7 @@ class SalaInimigo(Sala):
             i = random.randrange(tela.get_width())
             j = random.randrange(tela.get_height())
             posicoes = (i, j)
-            self.__inimigos.append(Inimigo(
-                            tela,
-                            posicoes,
-                            [50, 50],
-                            DesenhavelRetangulo(tela, (255, 0, 0)),
+            self.__inimigos.append(Inimigo(tela,posicoes,[50, 50],DesenhavelRetangulo(tela, (255, 0, 0)),
                             3, 1, 1,
                             jogador))
 

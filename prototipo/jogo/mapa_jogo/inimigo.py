@@ -58,10 +58,11 @@ class Inimigo(EntidadeTela):
 
     def movimentacao(self):
         self.set_direction()
-        nova_pos = list(self.pos_tela)
-        nova_pos[0] += self.__velocidade * cos(radians(self.__direction))
-        nova_pos[1] += self.__velocidade * sin(radians(self.__direction))
-        self.pos_tela = tuple(nova_pos)
+        self.set_velocidade()
+        self.__x += self.__velocidade * cos(self.__direction)
+        self.__y += self.__velocidade * sin(self.__direction)
+        nova_posicao = [self.__x, self.__y]
+        self.pos_tela = tuple(nova_posicao)
      
         """
         #verificar se jogador está à esquerda ou à direita (x):
@@ -83,8 +84,10 @@ class Inimigo(EntidadeTela):
         alvo_x = self.__alvo.pos_tela[0]
         alvo_y = self.__alvo.pos_tela[1]
 
-        angle = atan2(alvo_y-self.__y, alvo_x-self.__x) 
-        self.__direction = int(180*angle/pi)
+        dx = alvo_x - self.__x
+        dy = alvo_y - self.__y
+        angle = atan2(dy, dx) 
+        self.__direction = angle
 
     def set_velocidade(self):
         niveis_velocidade = {1: 3, 2: 3, 3: 5, 4: 7, 5: 9}
