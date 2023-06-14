@@ -102,10 +102,18 @@ class Jogador(EntidadeTela):
             print(self.__direcao) 
                 
             nova_pos = list(self.pos_tela)
-            if nova_pos[0] < self.tela.get_width()-self.dimensoes[0]/2 or nova_pos[0] > self.dimensoes[0]/2:
-                nova_pos[0] += 5 * cos(radians(self.__direcao))
-            if nova_pos[1] < self.tela.get_height()-self.dimensoes[1]/2 or nova_pos[1] > self.dimensoes[1]/2:
-                nova_pos[1] += 5 * sin(radians(self.__direcao))
+            nova_pos[1] += 5 * sin(radians(self.__direcao))
+            nova_pos[0] += 5 * cos(radians(self.__direcao))
+
+            if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
+                nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
+            if nova_pos[0] < self.dimensoes[0]/2:
+                nova_pos[0] = self.dimensoes[0]/2
+            if nova_pos[1] > self.tela.get_height()-self.dimensoes[1]/2:
+                nova_pos[1] = self.tela.get_height()-self.dimensoes[1]/2
+            if nova_pos[1] < self.dimensoes[1]/2:
+                nova_pos[1] = self.dimensoes[1]/2
+
             self.pos_tela = tuple(nova_pos)
                 
         tiros_rem = []
