@@ -28,13 +28,15 @@ class Inimigo(EntidadeTela):
         from jogo.jogador.tiro import Tiro
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
         if type(colisor) == Inimigo:
-            pass
+            self.movimento_nao_sobressair(colisor)
+
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
             self.__vida -= 1
             if self.__vida <= 0:
                 self.ativo = False
-        #se for jogador, dá um pulo para trás
+
+        #se for jogador, não sobrepoe ele:
         if type(colisor)== Jogador:
             self.movimento_nao_sobressair(colisor)
 
@@ -61,35 +63,52 @@ class Inimigo(EntidadeTela):
                     self.eventoColisao(evento.colisores[0])
                     
 
-    def movimentacao(self, colisao_jogador = False):
+    def movimentacao(self):
         self.set_direction()
         self.set_velocidade()
-
-        if colisao_jogador == True:
-            self.__direction = self.__direction * -1
 
         self.__x += self.__velocidade * cos(self.__direction)
         self.__y += self.__velocidade * sin(self.__direction)
         nova_posicao = [self.__x, self.__y]
         self.pos_tela = tuple(nova_posicao)
      
+
+    def calcular_sobreposicao(self,colisor):
+        a = 1
+        colisor_x = colisor.pos_tela[0]
+        colisor_y = colisor.pos_tela[1]
+
+        dx_ideal = colisor.dimensoes[0] + a + self.dimensoes[0]
+        dy_ideal = colisor.dimensoes[1] + a + self.dimensoes[1]
+
+        dx_atual = abs(colisor_x - self.__x) +  (colisor.dimensoes[0]/2) + (self.dimensoes[0]/2)
+        dy_atual = abs(colisor_y - self.__y) +  (colisor.dimensoes[1]/2) + (self.dimensoes[1]/2)
+
+        sobreposicao_x = abs(dx_ideal - dx_atual)
+        sobreposicao_y = abs(dy_ideal - dy_atual)
+        sobreposicao = [sobreposicao_x, sobreposicao_y]
+
+        return sobreposicao
+
+
     def movimento_nao_sobressair(self, colisor):
-        self.movimentacao(True)
+            
+            sobreposicao = self.calcular_sobreposicao(colisor)
 
-    """ def pulo_para_tras(self, colisor):
-        if colisor.pos_tela[0] <= self.__x:
-            self.__x += 100
-        elif colisor.pos_tela[0] >= self.__x:
-            self.__x -= 100
+            if colisor.pos_tela[0] >= self.__x:
+                self.__x -= sobreposicao[0]
+            
+            elif colisor.pos_tela[0] <= self.__x:
+                self.__x += sobreposicao[0]
 
-        if colisor.pos_tela[1] <= self.__y:
-            self.__y += 100
+            if colisor.pos_tela[1] <= self.__y:
+                self.__y += sobreposicao[1]
 
-        elif colisor.pos_tela[1] >= self.__y:
-            self.__y -=100
-        nova_posicao = [self.__x, self.__y]
-        self.pos_tela = tuple(nova_posicao)"""
+            elif colisor.pos_tela[1] >= self.__y:
+                self.__y -= sobreposicao[1]
 
+            nova_posicao = [self.__x, self.__y]
+            self.pos_tela = tuple(nova_posicao)
 
 
 #agradecimento de código ao grupo 4. [Artur Soda e xxxxxx]
