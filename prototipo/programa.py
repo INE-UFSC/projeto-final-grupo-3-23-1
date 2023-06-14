@@ -58,7 +58,7 @@ class Programa(Entidade):
             if evento.type == pg.MOUSEBUTTONDOWN:
                 if evento.button == 1:
                     eventos.append(EventoApertouBotaoEsquerdo(pg.mouse.get_pos()))
-                    print(eventos[-1].pos_mouse)
+#                    print(eventos[-1].pos_mouse)
 
         teclas_apertadas = pg.key.get_pressed()
         for tecla in range(len(teclas_apertadas)):

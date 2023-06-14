@@ -15,6 +15,10 @@ class MapaJogo(Entidade):
         self.coord_sala_atual = [0, 0]
         self.initMapaJogo(tela, jogador)
 
+    @property
+    def salas(self):
+        return self.__salas
+
     def getSala(self):
         i, j = self.coord_sala_atual
         return self.__salas[i][j]
