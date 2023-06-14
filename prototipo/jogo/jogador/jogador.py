@@ -19,6 +19,7 @@ class Jogador(EntidadeTela):
     
         self.last_tick = 0
         self.ultima_colisao = 0
+        self.ultimo_tiro = 0 
 
     @property
     def vida(self):
@@ -99,8 +100,6 @@ class Jogador(EntidadeTela):
                         elif isinstance(sala_porta, SalaPortaEsquerda):
                             self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), self.pos_tela[1])
         if moveu:
-            print(self.__direcao) 
-                
             nova_pos = list(self.pos_tela)
             nova_pos[1] += 5 * sin(radians(self.__direcao))
             nova_pos[0] += 5 * cos(radians(self.__direcao))
@@ -133,9 +132,11 @@ class Jogador(EntidadeTela):
             t.desenhar()
 
     def atirar(self, powerups):
-        self.__tiros.append(Tiro(
-            self.tela,
-            self.pos_tela,
-            (20, 20),
-            self.__direcao
-        ))
+        if pg.time.get_ticks() - self.ultimo_tiro > 500:
+            self.ultimo_tiro = pg.time.get_ticks()
+            self.__tiros.append(Tiro(
+                self.tela,
+                self.pos_tela,
+                (20, 20),
+                self.__direcao
+            ))
