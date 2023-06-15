@@ -3,6 +3,7 @@ from basico.evento import Evento, EventoColisao
 from jogo.jogador.jogador import Jogador
 import pygame as pg
 from math import atan2, cos, sin, radians, pi
+from basico.sistema_colisao import SistemaColisao
 
 class Inimigo(EntidadeTela):
 
@@ -19,37 +20,22 @@ class Inimigo(EntidadeTela):
         #self.__clock = pg.time.Clock()
         self.__x = self.pos_tela[0]
         self.__y = self.pos_tela[1]
+        self.__colidindo = False
 
     @property
     def dano(self):
         return self.__dano
-    
-    def eventoColisao(self, colisor):
-        from jogo.jogador.tiro import Tiro
-        #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
-        if type(colisor) == Inimigo:
-            self.movimento_nao_sobressair(colisor)
-
-        # se for tiro, perde vida:
-        if type(colisor) == Tiro:
-            self.__vida -= 1
-            if self.__vida <= 0:
-                self.ativo = False
-
-        #se for jogador, não sobrepoe ele:
-        if type(colisor)== Jogador:
-            self.movimento_nao_sobressair(colisor)
-
     def atualizar(self,eventos):
-         
+        self.__colidindo = False
         #trata eventos:
         self.tratar_eventos(eventos)
-        
+    
         # movimento:
         self.movimentacao()
         
         #verifica se tá vivo ainda
         self.verificar_vida()
+
 
     def tratar_eventos(self, eventos):
         #checa a lista de eventos:
@@ -61,20 +47,43 @@ class Inimigo(EntidadeTela):
                     self.eventoColisao(evento.colisores[1])
                 if evento.colisores[1] == self:
                     self.eventoColisao(evento.colisores[0])
+
+    def eventoColisao(self, colisor):
+        from jogo.jogador.tiro import Tiro
+        #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
+        if type(colisor) == Inimigo:
+            pass
+            #self.movimentacao(-1)
+            #self.movimento_nao_sobressair(colisor)
+
+        # se for tiro, perde vida:
+        if type(colisor) == Tiro:
+            self.__vida -= 1
+            if self.__vida <= 0:
+                self.ativo = False
+
+        #se for jogador, não sobrepoe ele:
+        if type(colisor)== Jogador:
+            while SistemaColisao.colidiu(self, colisor) == True:
+                self.movimentacao(-1)
+            
+            #self.movimento_nao_sobressair(colisor)
+
+
                     
 
-    def movimentacao(self):
+    def movimentacao(self, sentido = 1):
         self.set_direction()
         self.set_velocidade()
-
-        self.__x += self.__velocidade * cos(self.__direction)
-        self.__y += self.__velocidade * sin(self.__direction)
+        sentido = sentido
+        self.__x += (self.__velocidade * cos(self.__direction))*sentido
+        self.__y += (self.__velocidade * sin(self.__direction))*sentido
         nova_posicao = [self.__x, self.__y]
         self.pos_tela = tuple(nova_posicao)
      
 
     def calcular_sobreposicao(self,colisor):
-        a = 1
+        a = 0
         colisor_x = colisor.pos_tela[0]
         colisor_y = colisor.pos_tela[1]
 
@@ -122,7 +131,7 @@ class Inimigo(EntidadeTela):
         self.__direction = angle
 
     def set_velocidade(self):
-        niveis_velocidade = {1: 3, 2: 3, 3: 5, 4: 7, 5: 9}
+        niveis_velocidade = {1: 1, 2: 2, 3: 3, 4: 4, 5: 5}
         self.__velocidade = niveis_velocidade[self.__nivel_velocidade]
 
     # se a vida for 0, inimigo morre:
