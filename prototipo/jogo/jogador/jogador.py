@@ -46,8 +46,9 @@ class Jogador(EntidadeTela):
         for evento in eventos:
             if isinstance(evento, EventoTeclaApertada):
                 if evento.tecla == pg.K_k:
-                    self.atirar(self.__powerups)
+                    self.atirar(self.powerups)
 
+            if isinstance(evento, EventoTeclaApertada):
                 if evento.tecla == pg.K_w or evento.tecla == pg.K_s or evento.tecla == pg.K_a or evento.tecla == pg.K_d:
                     apertadas.append(evento.tecla)
                     moveu = True
@@ -96,8 +97,8 @@ class Jogador(EntidadeTela):
                             self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), self.pos_tela[1])
         if moveu:
             nova_pos = list(self.pos_tela)
-            nova_pos[1] += 5 * sin(radians(self.direcao))
             nova_pos[0] += 5 * cos(radians(self.direcao))
+            nova_pos[1] += 5 * sin(radians(self.direcao))
 
             if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
                 nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
@@ -111,19 +112,19 @@ class Jogador(EntidadeTela):
             self.pos_tela = tuple(nova_pos)
                 
         tiros_rem = []
-        for t in self.__tiros:
+        for t in self.tiros:
             if not t.ativo:
                 tiros_rem.append(t)
             else:
                 t.atualizar(eventos)
 
         for tiro in tiros_rem:
-            self.__tiros.remove(tiro)
+            self.tiros.remove(tiro)
 
     def desenhar(self):
         super().desenhar()
 
-        for t in self.__tiros:
+        for t in self.tiros:
             t.desenhar()
 
     def atirar(self, powerups):

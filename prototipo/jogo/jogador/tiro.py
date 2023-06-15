@@ -17,8 +17,8 @@ class Tiro(EntidadeTela):
     def atualizar(self, eventos):
         nova_pos = list(self.pos_tela)
 
-        nova_pos[0] += self.__velocidade * cos(radians(self.__direcao))
-        nova_pos[1] += self.__velocidade * sin(radians(self.__direcao))
+        nova_pos[0] += self.velocidade * cos(radians(self.direcao))
+        nova_pos[1] += self.velocidade * sin(radians(self.direcao))
 
         self.pos_tela = tuple(nova_pos)
 
@@ -39,3 +39,14 @@ class Tiro(EntidadeTela):
                     and evento.possuiTipo(Inimigo):
                 self.ativo = False
 
+    @property
+    def direcao(self):
+        return self.__direcao
+
+    @property
+    def dano(self):
+        return self.__dano
+
+    @property
+    def velocidade(self):
+        return self.__velocidade
