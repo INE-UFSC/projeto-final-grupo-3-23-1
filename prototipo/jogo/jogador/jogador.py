@@ -4,6 +4,7 @@ from math import sin, cos, radians
 from basico.entidade_tela import EntidadeTela
 from basico.evento import *
 from jogo.mapa_jogo.sala_porta import *
+from jogo.mapa_jogo.powerup import *
 from .tiro import Tiro
 
 class Jogador(EntidadeTela):
@@ -19,13 +20,6 @@ class Jogador(EntidadeTela):
         self.__ultimo_tick_inv = 0
         self.__ultima_colisao = 0
         self.__ultimo_tiro = 0 
-
-
-    def getColisores(self):
-        colisores = []
-        colisores.append(self)
-        colisores.extend(self.tiros)
-        return colisores
 
     def atualizar(self, eventos: list):
 
@@ -44,12 +38,13 @@ class Jogador(EntidadeTela):
         apertadas = []
         moveu = False
         for evento in eventos:
-            if isinstance(evento, EventoTeclaApertada):
+            if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_k:
                     self.atirar(self.powerups)
 
             if isinstance(evento, EventoTeclaApertada):
-                if evento.tecla == pg.K_w or evento.tecla == pg.K_s or evento.tecla == pg.K_a or evento.tecla == pg.K_d:
+                if evento.tecla == pg.K_w or evento.tecla == pg.K_s \
+                        or evento.tecla == pg.K_a or evento.tecla == pg.K_d:
                     apertadas.append(evento.tecla)
                     moveu = True
 
@@ -70,7 +65,6 @@ class Jogador(EntidadeTela):
                 if pg.K_s in apertadas and pg.K_d in apertadas:
                     self.direcao = 45
 
-
             if isinstance(evento, EventoColisao) \
                     and evento.possui(self):
                 from jogo.mapa_jogo.inimigo import Inimigo
@@ -82,19 +76,27 @@ class Jogador(EntidadeTela):
                         self.desenhavel.cor = (255, 255, 255)
                         self.ultima_colisao = pg.time.get_ticks()
                         self.last_tick = pg.time.get_ticks()
+
+                if evento.possuiTipo(Powerup):
+                    self.powerups.append(evento.getElemDoTipo(Powerup))
                 
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
                     if sala_porta.porta.aberta:
                         self.__tiros = []
                         if isinstance(sala_porta, SalaPortaBaixo):
-                            self.pos_tela = (self.pos_tela[0], sala_porta.dimensoes[1]+self.dimensoes[1]/2)
+                            self.pos_tela = (self.pos_tela[0], 
+                                             sala_porta.dimensoes[1]+self.dimensoes[1]/2)
                         elif isinstance(sala_porta, SalaPortaCima):
-                            self.pos_tela = (self.pos_tela[0], self.tela.get_height()-(sala_porta.dimensoes[1]+self.dimensoes[1]/2))
+                            self.pos_tela = (self.pos_tela[0], 
+                                             self.tela.get_height()-(sala_porta.dimensoes[1]+self.dimensoes[1]/2))
                         elif isinstance(sala_porta, SalaPortaDireita):
-                            self.pos_tela = (sala_porta.dimensoes[0]+self.dimensoes[0]/2, self.pos_tela[1])
+                            self.pos_tela = (sala_porta.dimensoes[0]+self.dimensoes[0]/2, 
+                                             self.pos_tela[1])
                         elif isinstance(sala_porta, SalaPortaEsquerda):
-                            self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), self.pos_tela[1])
+                            self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), 
+                                             self.pos_tela[1])
+
         if moveu:
             nova_pos = list(self.pos_tela)
             nova_pos[0] += 5 * cos(radians(self.direcao))
@@ -127,15 +129,29 @@ class Jogador(EntidadeTela):
         for t in self.tiros:
             t.desenhar()
 
+    def getColisores(self):
+        colisores = []
+        colisores.append(self)
+        colisores.extend(self.tiros)
+        return colisores
+
     def atirar(self, powerups):
-        if pg.time.get_ticks() - self.ultimo_tiro > 500:
+        dano, cadencia, velocidade = 1, 500, 10
+        for powerup in powerups:
+            if isinstance(powerup, PowerupCadencia):
+                cadencia -= powerup.incremento
+            
+            if isinstance(powerup, PowerupVelocidadeTiro):
+                velocidade += powerup.incremento
+
+            if isinstance(powerup, PowerupDano):
+                dano += powerup.incremento
+
+        if pg.time.get_ticks() - self.ultimo_tiro > cadencia:
             self.ultimo_tiro = pg.time.get_ticks()
-            self.tiros.append(Tiro(
-                self.tela,
-                self.pos_tela,
-                (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
-                self.direcao
-            ))
+            self.tiros.append(Tiro(self.tela, self.pos_tela,
+                                   (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
+                                    self.direcao, dano, velocidade))
 
     @property
     def direcao(self):
