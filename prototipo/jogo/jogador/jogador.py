@@ -10,34 +10,30 @@ class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
+        self.__direcao = 0
         self.__vida = 3
         self.__powerups = []
         self.__tiros = []
-        self.__direcao = 0
 
         self.__invulnerabilidade = False
-    
-        self.last_tick = 0
-        self.ultima_colisao = 0
-        self.ultimo_tiro = 0 
+        self.__ultimo_tick_inv = 0
+        self.__ultima_colisao = 0
+        self.__ultimo_tiro = 0 
 
-    @property
-    def vida(self):
-        return self.__vida
 
     def getColisores(self):
         colisores = []
         colisores.append(self)
-        colisores.extend(self.__tiros)
+        colisores.extend(self.tiros)
         return colisores
 
     def atualizar(self, eventos: list):
 
         if pg.time.get_ticks() - self.ultima_colisao > 3000:
-            self.__invulnerabilidade = False
+            self.invulnerabilidade = False
             self.desenhavel.cor = (0, 255, 0)
 
-        if self.__invulnerabilidade:
+        if self.invulnerabilidade:
             if pg.time.get_ticks() - self.last_tick > 250:
                 if self.desenhavel.cor == (0, 255, 0):
                     self.desenhavel.cor = (255, 255, 255)
@@ -57,21 +53,21 @@ class Jogador(EntidadeTela):
                     moveu = True
 
                 if pg.K_w in apertadas:
-                    self.__direcao = 270
+                    self.direcao = 270
                 if pg.K_s in apertadas:
-                    self.__direcao = 90
+                    self.direcao = 90
                 if pg.K_a in apertadas:
-                    self.__direcao = 180
+                    self.direcao = 180
                 if pg.K_d in apertadas:
-                    self.__direcao = 0
+                    self.direcao = 0
                 if pg.K_w in apertadas and pg.K_a in apertadas:
-                    self.__direcao = 225
+                    self.direcao = 225
                 if pg.K_w in apertadas and pg.K_d in apertadas:
-                    self.__direcao = 315
+                    self.direcao = 315
                 if pg.K_s in apertadas and pg.K_a in apertadas:
-                    self.__direcao = 135
+                    self.direcao = 135
                 if pg.K_s in apertadas and pg.K_d in apertadas:
-                    self.__direcao = 45
+                    self.direcao = 45
 
 
             if isinstance(evento, EventoColisao) \
@@ -79,9 +75,9 @@ class Jogador(EntidadeTela):
                 from jogo.mapa_jogo.inimigo import Inimigo
 
                 if evento.possuiTipo(Inimigo):
-                    if not self.__invulnerabilidade:
-                        self.__vida -= 1
-                        self.__invulnerabilidade = True
+                    if not self.invulnerabilidade:
+                        self.vida -= 1
+                        self.invulnerabilidade = True
                         self.desenhavel.cor = (255, 255, 255)
                         self.ultima_colisao = pg.time.get_ticks()
                         self.last_tick = pg.time.get_ticks()
@@ -100,8 +96,8 @@ class Jogador(EntidadeTela):
                             self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), self.pos_tela[1])
         if moveu:
             nova_pos = list(self.pos_tela)
-            nova_pos[1] += 5 * sin(radians(self.__direcao))
-            nova_pos[0] += 5 * cos(radians(self.__direcao))
+            nova_pos[1] += 5 * sin(radians(self.direcao))
+            nova_pos[0] += 5 * cos(radians(self.direcao))
 
             if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
                 nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
@@ -133,9 +129,65 @@ class Jogador(EntidadeTela):
     def atirar(self, powerups):
         if pg.time.get_ticks() - self.ultimo_tiro > 500:
             self.ultimo_tiro = pg.time.get_ticks()
-            self.__tiros.append(Tiro(
+            self.tiros.append(Tiro(
                 self.tela,
                 self.pos_tela,
                 (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
-                self.__direcao
+                self.direcao
             ))
+
+    @property
+    def direcao(self):
+        return self.__direcao
+
+    @property
+    def vida(self):
+        return self.__vida
+
+    @property
+    def powerups(self):
+        return self.__powerups
+
+    @property
+    def tiros(self):
+        return self.__tiros
+
+    @property
+    def invulnerabilidade(self):
+        return self.__invulnerabilidade
+
+    @property
+    def ultimo_tick_inv(self):
+        return self.__ultimo_tick_inv
+
+    @property 
+    def ultima_colisao(self):
+        return self.__ultima_colisao
+    
+    @property
+    def ultimo_tiro(self):
+        return self.__ultimo_tiro
+    
+    @direcao.setter
+    def direcao(self, direcao):
+        self.__direcao = direcao
+
+    @vida.setter
+    def vida(self, vida):
+        self.__vida = vida 
+
+    @invulnerabilidade.setter
+    def invulnerabilidade(self, invul):
+        self.__invulnerabilidade = invul
+    
+    @ultimo_tick_inv.setter
+    def ultimo_tick_inv(self, ultimo):
+        self.__ultimo_tick_inv = ultimo
+    
+    @ultima_colisao.setter
+    def ultima_colisao(self, ultima):
+        self.__ultima_colisao = ultima
+    
+    @ultimo_tiro.setter
+    def ultimo_tiro(self, ultimo):
+        self.__ultimo_tiro = ultimo
