@@ -20,7 +20,7 @@ class Botao(EntidadeTela):
         self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
 
         text_width, text_height = self.font.size(self.texto)
-        print(text_width, text_height)
+#        print(text_width, text_height)
         self.tela.blit(self.font.render(self.texto, False, (51, 0, 0)),
                         (self.pos_tela[0] - text_width/2, self.pos_tela[1] - text_height/2))
 

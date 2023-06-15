@@ -1,5 +1,7 @@
 import pygame as pg
 from basico.entidade import Entidade
+from basico.desenhavel import DesenhavelRetangulo
+from jogo.mapa_jogo.sala_porta import *
 
 class MapaTela(Entidade):
     def __init__(self, tela, salas):
@@ -7,10 +9,15 @@ class MapaTela(Entidade):
         self.salas = salas
         self.marcadores = []
 
-        self.comprimento_sala = 20
-        self.expessura_porta = 10 
+        self.desenhavel_sala = DesenhavelRetangulo(tela, (255, 255, 255))
+        self.desenhavel_porta = DesenhavelRetangulo(tela, (0, 255, 0))
+        self.desenhavel_marcador = DesenhavelRetangulo(tela, (0, 0, 255))
+
+        self.dimens_tela = tela.get_size()
 
     def atualizar(eventos):
+        pass
+        """
         for evento in eventos:
             if isinstance(evento, EventoClique):
                 pos = evento.pos
@@ -34,59 +41,94 @@ class MapaTela(Entidade):
                                 self.marcadores.append(Marcador((i, j)))
                             else:
                                 self.marcadores.remove(marcador)
+        """
 
-    def desenhar():
+    def desenhar(self):
         qtd_lin = len(self.salas)
-        qtd_col = len(self.salas[0])
+        qtd_col = 0
+        for linha in self.salas:
+            if len(linha) > qtd_col:
+                qtd_col = len(linha)
+        qtd_salas = max(qtd_lin, qtd_col)
 
+        dimens_min = min(self.dimens_tela)
+        unidade = dimens_min / (3*qtd_salas+1)
 
-        cor_porta = (255, 255, 255)
+        """
+        print(unidade)
+        print(dimens_min)
+        """
 
-        cor_porta_aberta = (0, 0, 255)
-        cor_porta_fechada = (255, 0, 0)
+        def centralizar(pos):
+            nova_pos = list(pos)
+            
+            if self.dimens_tela[0] != dimens_min:
+                nova_pos[0] += (self.dimens_tela[0]-dimens_min)/2
+            if self.dimens_tela[1] != dimens_min:
+                nova_pos[1] += (self.dimens_tela[1]-dimens_min)/2
 
-        x = 0
-        y = 0
-        for i, linha in enumerate(self.salas):
-            for j, sala in enumerate(linha):
-                def tem(sala, tipo_porta):
+            return tuple(nova_pos)
+
+        for i in range(qtd_salas):
+            for j in range(qtd_salas):
+                try:
+                    self.salas[i][j]
+                except:
+                    continue
+
+                offset_x = 3*unidade
+                offset_y = 3*unidade
+
+                tam_sala = 2*unidade
+                tam_porta = unidade
+
+                pos = {
+                    SalaPortaEsquerda:  (tam_porta/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y),
+                    SalaPortaCima:     (tam_porta + tam_sala/2 + j*offset_x, tam_porta/2 + i*offset_y),
+                    SalaPortaDireita: (tam_porta + tam_sala + tam_porta/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y),
+                    SalaPortaBaixo:    (tam_porta + tam_sala/2 + j*offset_x, tam_porta + tam_sala + tam_porta/2 + i*offset_y)
+                }
+
+                dimensoes = {
+                    SalaPortaDireita:  (tam_porta, tam_sala),
+                    SalaPortaEsquerda: (tam_porta, tam_sala),
+                    SalaPortaCima:     (tam_sala, tam_porta),
+                    SalaPortaBaixo:    (tam_sala, tam_porta)
+                }
+
+                def possui(sala, tipo_porta):
                     return any(isinstance(x, tipo_porta) for x in sala.sala_portas)
 
-                cor_parede = (0, 255, 0)
+                for tipo_porta in pos:
+                    if possui(self.salas[i][j], tipo_porta):
+                        self.desenhavel_porta.desenhar(
+                            centralizar(pos[tipo_porta]),
+                            dimensoes[tipo_porta]
+                        )
 
-                if not tem(sala, SalaPortaCima):
-                    pg.draw.rect(tela, cor_parede, (
-                        x, y, 
-                        self.comprimento_sala, self.expessura_porta
-                    ))
-
-                if not tem(sala, SalaPortaBaixo):
-                    pg.draw.rect(tela, cor_parede, (
-                        x, y + self.expessura_porta + self.comprimento_sala,
-                        self.comprimento_sala, self.expessura_porta
-                    ))
-
-                if not tem(sala, SalaPortaEsquerda):
-                    pg.draw.rect(tela, cor_parede, (
-                        x, y,
-                        self.expessura_porta, self.comprimento_sala
-                    ))
-
-                if not tem(sala, SalaPortaDireita):
-                    pg.draw.rect(tela, cor_parede, (
-                        x + self.expessura_porta + self.comprimento_sala, y
-                        self.expessura_porta, self.comprimento_sala
-                    ))
-
+                tem_marcador = False
                 for marcador in self.marcadores:
-                    cor = (0, 0, 0)
                     if marcador.pos == (i, j):
-                        cor = marcador.cor
+                        tem_marcador = True
 
-                    pg.draw.rect(tela, cor, (
-                        x + self.expessura_porta, y + self.expessura_porta,
-                        self.comprimento_sala, self.comprimento_sala
-                    ))
+                pos = (tam_porta + tam_sala/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y)
+                dimens = (2*unidade, 2*unidade)
+
+                """
+                print('i, j =', i, j)
+                print('pos =', pos)
+                """
+
+                if tem_marcador:
+                    self.desenhavel_marcador.desenhar(
+                        centralizar(pos),
+                        dimens
+                    )
+                else:
+                    self.desenhavel_sala.desenhar(
+                        centralizar(pos),
+                        dimens
+                    )
 
 class Marcador:
     cores = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
