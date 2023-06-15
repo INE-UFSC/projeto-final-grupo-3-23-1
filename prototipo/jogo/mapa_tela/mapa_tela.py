@@ -13,7 +13,7 @@ class MapaTela(Entidade):
         self.desenhavel_porta = DesenhavelRetangulo(tela, (0, 255, 0))
         self.desenhavel_marcador = DesenhavelRetangulo(tela, (0, 0, 255))
 
-        self.dimens_mapa = tela.get_size()
+        self.dimens_tela = tela.get_size()
 
     def atualizar(eventos):
         pass
@@ -51,13 +51,23 @@ class MapaTela(Entidade):
                 qtd_col = len(linha)
         qtd_salas = max(qtd_lin, qtd_col)
 
-        dimens_min = min(self.dimens_mapa)
+        dimens_min = min(self.dimens_tela)
         unidade = dimens_min / (3*qtd_salas+1)
 
         """
         print(unidade)
         print(dimens_min)
         """
+
+        def centralizar(pos):
+            nova_pos = list(pos)
+            
+            if self.dimens_tela[0] != dimens_min:
+                nova_pos[0] += (self.dimens_tela[0]-dimens_min)/2
+            if self.dimens_tela[1] != dimens_min:
+                nova_pos[1] += (self.dimens_tela[1]-dimens_min)/2
+
+            return tuple(nova_pos)
 
         for i in range(qtd_salas):
             for j in range(qtd_salas):
@@ -72,16 +82,11 @@ class MapaTela(Entidade):
                 tam_sala = 2*unidade
                 tam_porta = unidade
 
-                self.desenhavel_sala.desenhar(
-                    (tam_porta + tam_sala/2 + i*offset_x, tam_porta + tam_sala/2 + j*offset_y),
-                    (2*unidade, 2*unidade)
-                )
-
                 pos = {
-                    SalaPortaEsquerda:  (tam_porta/2 + i*offset_x, tam_porta + tam_sala/2 + j*offset_y),
-                    SalaPortaCima:     (tam_porta + tam_sala/2 + i*offset_x, tam_porta/2 + j*offset_y),
-                    SalaPortaDireita: (tam_porta + tam_sala + tam_porta/2 + i*offset_x, tam_porta + tam_sala/2 + j*offset_y),
-                    SalaPortaBaixo:    (tam_porta + tam_sala/2 + i*offset_x, tam_porta + tam_sala + tam_porta/2 + j*offset_y)
+                    SalaPortaEsquerda:  (tam_porta/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y),
+                    SalaPortaCima:     (tam_porta + tam_sala/2 + j*offset_x, tam_porta/2 + i*offset_y),
+                    SalaPortaDireita: (tam_porta + tam_sala + tam_porta/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y),
+                    SalaPortaBaixo:    (tam_porta + tam_sala/2 + j*offset_x, tam_porta + tam_sala + tam_porta/2 + i*offset_y)
                 }
 
                 dimensoes = {
@@ -97,24 +102,33 @@ class MapaTela(Entidade):
                 for tipo_porta in pos:
                     if possui(self.salas[i][j], tipo_porta):
                         self.desenhavel_porta.desenhar(
-                            pos[tipo_porta],
+                            centralizar(pos[tipo_porta]),
                             dimensoes[tipo_porta]
                         )
 
+                tem_marcador = False
                 for marcador in self.marcadores:
-                    pos = (tam_porta + tam_sala/2 + i*offset_x, tam_porta + tam_sala/2 + j*offset_y),
-                    dimens = (2*unidade, 2*unidade)
-
                     if marcador.pos == (i, j):
-                        self.desenhavel_marcador.desenhar(
-                            pos,
-                            dimens
-                        )
-                    else:
-                        self.desenhavel_sala.desenhar(
-                            pos,
-                            dimens
-                        )
+                        tem_marcador = True
+
+                pos = (tam_porta + tam_sala/2 + j*offset_x, tam_porta + tam_sala/2 + i*offset_y)
+                dimens = (2*unidade, 2*unidade)
+
+                """
+                print('i, j =', i, j)
+                print('pos =', pos)
+                """
+
+                if tem_marcador:
+                    self.desenhavel_marcador.desenhar(
+                        centralizar(pos),
+                        dimens
+                    )
+                else:
+                    self.desenhavel_sala.desenhar(
+                        centralizar(pos),
+                        dimens
+                    )
 
 class Marcador:
     cores = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
