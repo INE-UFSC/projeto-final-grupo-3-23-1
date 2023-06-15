@@ -5,7 +5,7 @@ from basico.desenhavel import DesenhavelRetangulo
 from basico.evento import EventoColisao
 
 class Tiro(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, direcao, dano = 1, velocidade = 1):
+    def __init__(self, tela, pos_tela, dimensoes, direcao, dano = 1, velocidade = 10):
         desenhavel = DesenhavelRetangulo(tela, (0, 255, 255))
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
@@ -21,6 +21,15 @@ class Tiro(EntidadeTela):
         nova_pos[1] += self.__velocidade * sin(radians(self.__direcao))
 
         self.pos_tela = tuple(nova_pos)
+
+        if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
+            self.ativo = False
+        if nova_pos[0] < self.dimensoes[0]/2:
+            self.ativo = False
+        if nova_pos[1] > self.tela.get_height()-self.dimensoes[1]/2:
+            self.ativo = False
+        if nova_pos[1] < self.dimensoes[1]/2:
+            self.ativo = False
 
         from jogo.mapa_jogo.inimigo import Inimigo
 
