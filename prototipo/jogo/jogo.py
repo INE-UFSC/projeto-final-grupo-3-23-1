@@ -14,7 +14,7 @@ class Jogo:
         self.tela = tela
 
         self.jogador = Jogador(
-            self.tela, (tela.get_width()/2, tela.get_height()/2), (50, 50),
+            self.tela, (tela.get_width()/2, tela.get_height()/2), (50*tela.get_width()/1960, 50*tela.get_height()/1080),
             DesenhavelRetangulo(self.tela, (0, 255, 0))
         )
 

@@ -48,11 +48,10 @@ class Jogador(EntidadeTela):
         apertadas = []
         moveu = False
         for evento in eventos:
-            if isinstance(evento, EventoApertouTecla):
+            if isinstance(evento, EventoTeclaApertada):
                 if evento.tecla == pg.K_k:
                     self.atirar(self.__powerups)
 
-            if isinstance(evento, EventoTeclaApertada):
                 if evento.tecla == pg.K_w or evento.tecla == pg.K_s or evento.tecla == pg.K_a or evento.tecla == pg.K_d:
                     apertadas.append(evento.tecla)
                     moveu = True
@@ -137,6 +136,6 @@ class Jogador(EntidadeTela):
             self.__tiros.append(Tiro(
                 self.tela,
                 self.pos_tela,
-                (20, 20),
+                (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
                 self.__direcao
             ))
