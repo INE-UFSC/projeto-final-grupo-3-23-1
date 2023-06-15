@@ -45,7 +45,7 @@ class Inimigo(EntidadeTela):
                 #se um dos colisores for o self inimigo:
                 if evento.colisores[0] == self:
                     self.eventoColisao(evento.colisores[1])
-                if evento.colisores[1] == self:
+                elif evento.colisores[1] == self:
                     self.eventoColisao(evento.colisores[0])
 
     def eventoColisao(self, colisor):
@@ -58,7 +58,7 @@ class Inimigo(EntidadeTela):
 
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
-            self.__vida -= 1
+            self.__vida -= colisor.dano
             if self.__vida <= 0:
                 self.ativo = False
 

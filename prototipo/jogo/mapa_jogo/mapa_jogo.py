@@ -9,10 +9,13 @@ from jogo.mapa_jogo.inimigo import Inimigo
 from jogo.mapa_jogo.sala_inimigo import SalaInimigo
 from jogo.mapa_jogo.sala_porta import *
 from jogo.mapa_jogo.puzzle import Puzzle
+from jogo.mapa_jogo.powerup import *
 
 class MapaJogo(Entidade):
     def __init__(self, tela, jogador):
         self.coord_sala_atual = [0, 0]
+        self.tela_w = tela.get_width()
+        self.tela_h = tela.get_height()
         self.initMapaJogo(tela, jogador)
 
     @property
@@ -56,14 +59,23 @@ class MapaJogo(Entidade):
         self.__salas = []
         self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
 
+        powerups =        [PowerupVelocidadeTiro(tela, (self.tela_w/1980*300, self.tela_h/1080*400),
+                                                (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (255, 255, 0)), 2),
+                           PowerupCadencia(tela, (self.tela_w/1980*300, self.tela_h/1080*600),
+                                          (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (115, 41, 165)), 200),
+                           PowerupDano(tela, (self.tela_w/1980*300, self.tela_h/1080*800), 
+                                      (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
+
         for i in range(2):
             linha = []
             for j in range(2):
                 linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
 
             self.__salas.append(linha)
+
         self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
         self.__salas[1].append(SalaPuzzle('definir desenhavel', tela, 'responda b', 'b', jogador))
+        self.__salas[0][0].powerups = powerups
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)

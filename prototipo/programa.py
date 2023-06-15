@@ -14,8 +14,9 @@ class Programa(Entidade):
 
         info = pg.display.Info()
 
-        self.tela = pg.display.set_mode((info.current_w, info.current_h))
-
+        self.tela = pg.display.set_mode((1366, 768))
+        #self.tela = pg.display.set_mode((info.current_w, info.current_h))
+        
         self.jogo = Jogo(self.tela)
         self.menu = Menu(self.tela)
 

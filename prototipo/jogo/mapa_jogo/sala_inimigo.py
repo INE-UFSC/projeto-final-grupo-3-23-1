@@ -2,18 +2,14 @@ from .sala import Sala
 import random
 
 from basico.desenhavel import DesenhavelRetangulo
-from .powerup import *
 
 
 class SalaInimigo(Sala):
     def __init__(self, tela, desenhavel, powerups, jogador):
         super().__init__(desenhavel)
+        self.__powerups = powerups
         self.__inimigos = []
         self.criarInimigos(jogador, tela)
-
-        self.__powerups = [PowerupVelocidadeTiro(tela, (300, 400), (40, 40), DesenhavelRetangulo(tela, (255, 255, 0)), 2),
-                           PowerupCadencia(tela, (300, 600), (40, 40), DesenhavelRetangulo(tela, (115, 41, 165)), 100),
-                           PowerupDano(tela, (300, 800), (40, 40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
 
     def criarInimigos(self, jogador, tela):
         from .inimigo import Inimigo
@@ -44,7 +40,9 @@ class SalaInimigo(Sala):
             if inimigo.ativo:
                 colisores.append(inimigo)
 
-        colisores.extend(self.__powerups)
+        for powerup in self.powerups:
+            if powerup.ativo:
+                colisores.append(powerup)
 
         return colisores
     
@@ -73,3 +71,7 @@ class SalaInimigo(Sala):
     @property
     def powerups(self):
         return self.__powerups
+    
+    @powerups.setter
+    def powerups(self, powerups):
+        self.__powerups = powerups 
