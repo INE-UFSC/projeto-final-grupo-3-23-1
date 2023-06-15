@@ -112,13 +112,14 @@ class Jogador(EntidadeTela):
                 nova_pos[1] = self.dimensoes[1]/2
 
             self.pos_tela = tuple(nova_pos)
-                
+
+        for tiro in self.tiros:
+            tiro.atualizar(eventos)
+
         tiros_rem = []
         for t in self.tiros:
             if not t.ativo:
                 tiros_rem.append(t)
-            else:
-                t.atualizar(eventos)
 
         for tiro in tiros_rem:
             self.tiros.remove(tiro)
