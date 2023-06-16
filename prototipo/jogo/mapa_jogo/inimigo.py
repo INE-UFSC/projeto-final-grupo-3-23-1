@@ -25,6 +25,7 @@ class Inimigo(EntidadeTela):
     @property
     def dano(self):
         return self.__dano
+    
     def atualizar(self,eventos):
         self.__colidindo = False
         #trata eventos:
