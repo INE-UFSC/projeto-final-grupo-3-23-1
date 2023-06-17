@@ -2,6 +2,7 @@ from .inimigo import Inimigo
 from jogo.jogador.tiro import Tiro
 import pygame as pg
 from jogo.jogador.jogador import Jogador
+import math
 
 class inimigo_que_atira(Inimigo):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador, nivel):
@@ -16,6 +17,8 @@ class inimigo_que_atira(Inimigo):
                                2: (850, 1, 10) ,
                                3: (800, 1 , 11)}
         self.set_valores()
+    
+        self.__distancia_max_jogador = self.set_distancia_maxima_jogador()
 
     def set_valores(self):
         self.__cadencia = self.__valores_tiro[self.__nivel][0]
@@ -23,7 +26,29 @@ class inimigo_que_atira(Inimigo):
         self.__velocidade_tiro = self.__valores_tiro[self.__nivel][2]
 
     def atualizar(self, eventos):
-        super().atualizar(eventos)
+        # parte igual ao super:
+        self.__colidindo = False
+        #trata eventos:
+        self.tratar_eventos(eventos)
+
+        
+        # dados de movimento:
+        self.set_direction()
+        print("direçao de movimento:", self.direction)
+        self.set_velocidade()
+
+        #limitando movimento
+        print("distancia do jogador:", self.get_distancia(self.alvo))
+        print("distancia maxima:", self.__distancia_max_jogador)
+
+        #while  self.get_distancia(self.alvo) < self.__distancia_max_jogador:
+            #self.movimentacao(-1)
+        
+        self.movimentacao()
+
+        #verifica se tá vivo ainda
+        self.verificar_vida()
+
         self.atualizar_meus_tiros(eventos)
         self.atirar()
 
@@ -48,6 +73,15 @@ class inimigo_que_atira(Inimigo):
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
                                    tiro_direcao, self.__forca_tiro, self.__velocidade_tiro))
             print("direção do tiro:" , tiro_direcao)
+
+    def set_distancia_maxima_jogador(self):
+        minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
+        alvo_diagonal = math.sqrt(self.alvo.dimensoes[0]**2 + self.alvo.dimensoes[1]**2)
+
+        d_max = (minha_diagonl + alvo_diagonal)/2 + 1000
+
+        return d_max
+ 
 
     def desenhar(self):
         super().desenhar()
