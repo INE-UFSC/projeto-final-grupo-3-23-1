@@ -78,6 +78,10 @@ class Programa(Entidade):
     def trocarModo(self):
         if self.menu.botoes[0].apertou:
             self.modo = 2
-        if self.menu.botoes[3].apertou:
+            self.menu.botoes[0].resetApertou()
+        if self.menu.botoes[3].apertou or self.jogo.mapa_jogo.sala_final.botoes[0].apertou:
             pg.quit()
             exit()
+        if self.jogo.mapa_jogo.sala_final.botoes[1].apertou:
+            self.modo = 1
+            self.jogo.mapa_jogo.sala_final.botoes[1].resetApertou()

@@ -6,10 +6,10 @@ class SalaPuzzle(Sala):
         super().__init__(desenhavel)
         self.__puzzle = Puzzle(tela, enigma, resposta, jogador)
     
-    def desenhar_resto(self):
+    def desenharResto(self):
         self.__puzzle.desenhar()
     
-    def atualizar_resto(self, eventos):
+    def atualizarResto(self, eventos):
         self.__puzzle.atualizar(eventos)
 
     def getColisores(self):
