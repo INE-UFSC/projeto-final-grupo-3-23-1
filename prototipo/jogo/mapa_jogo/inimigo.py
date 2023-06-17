@@ -75,6 +75,7 @@ class Inimigo(EntidadeTela):
 
     def movimentacao(self, sentido = 1):
         self.set_direction()
+        print("direçao de movimento:", self.__direction)
         self.set_velocidade()
         sentido = sentido
         self.__x += (self.__velocidade * cos(self.__direction))*sentido
@@ -143,6 +144,11 @@ class Inimigo(EntidadeTela):
     @property
     def alvo(self):
         return self.__alvo
+    
+    @property
+    def direction(self):
+        return self.__direction
+
 
 
 

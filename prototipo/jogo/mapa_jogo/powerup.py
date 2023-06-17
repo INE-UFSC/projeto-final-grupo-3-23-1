@@ -18,6 +18,7 @@ class Powerup(EntidadeTela, ABC):
                 from jogo.jogador.jogador import Jogador
                 if evento.possuiTipo(Jogador) and evento.possui(self):
                     self.ativo = False
+                    print("jogador pegou powerup")
     
 
 class PowerupCadencia(Powerup):
