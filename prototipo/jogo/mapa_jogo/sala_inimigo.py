@@ -51,7 +51,7 @@ class SalaInimigo(Sala):
 
         return colisores
     
-    def desenhar_resto(self):
+    def desenharResto(self):
         for inimigo in self.__inimigos:
             if inimigo.ativo:
                 inimigo.desenhar()
@@ -60,7 +60,7 @@ class SalaInimigo(Sala):
             if powerup.ativo:
                 powerup.desenhar()
     
-    def atualizar_resto(self, eventos):
+    def atualizarResto(self, eventos):
         for inimigo in self.__inimigos:
             if inimigo.ativo:
                 inimigo.atualizar(eventos)
