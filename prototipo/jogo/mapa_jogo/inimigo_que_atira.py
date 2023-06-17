@@ -24,10 +24,11 @@ class inimigo_que_atira(Inimigo):
 
     def atualizar(self, eventos):
         super().atualizar(eventos)
-        self.atirar()
         self.atualizar_meus_tiros(eventos)
+        self.atirar()
 
     def atualizar_meus_tiros(self, eventos):
+
         for tiro in self.__tiros:
             tiro.atualizar(eventos)
 
@@ -42,10 +43,11 @@ class inimigo_que_atira(Inimigo):
     def atirar(self):
         if pg.time.get_ticks() - self.__tempo_ultimo_tiro > self.__cadencia:
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
+            tiro_direcao = self.direction
             self.__tiros.append(Tiro(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
-                                   self.direction, self.__forca_tiro, self.__velocidade_tiro))
-        print("direção do tiro:" , self.direction)
+                                   tiro_direcao, self.__forca_tiro, self.__velocidade_tiro))
+            print("direção do tiro:" , tiro_direcao)
 
     def desenhar(self):
         super().desenhar()

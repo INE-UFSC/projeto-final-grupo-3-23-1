@@ -30,8 +30,11 @@ class Inimigo(EntidadeTela):
         self.__colidindo = False
         #trata eventos:
         self.tratar_eventos(eventos)
-    
+
         # movimento:
+        self.set_direction()
+        print("direçao de movimento:", self.__direction)
+        self.set_velocidade()
         self.movimentacao()
         
         #verifica se tá vivo ainda
@@ -74,9 +77,9 @@ class Inimigo(EntidadeTela):
                     
 
     def movimentacao(self, sentido = 1):
-        self.set_direction()
-        print("direçao de movimento:", self.__direction)
-        self.set_velocidade()
+        #self.set_direction()
+        #print("direçao de movimento:", self.__direction)
+        #self.set_velocidade()
         sentido = sentido
         self.__x += (self.__velocidade * cos(self.__direction))*sentido
         self.__y += (self.__velocidade * sin(self.__direction))*sentido
