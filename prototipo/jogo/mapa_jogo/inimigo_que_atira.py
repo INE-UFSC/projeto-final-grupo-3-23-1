@@ -34,12 +34,9 @@ class inimigo_que_atira(Inimigo):
         
         # dados de movimento:
         self.set_direction()
-        print("direçao de movimento:", self.direction)
         self.set_velocidade()
 
         #limitando movimento
-        print("distancia do jogador:", self.get_distancia(self.alvo))
-        print("distancia maxima:", self.__distancia_max_jogador)
 
         #while  self.get_distancia(self.alvo) < self.__distancia_max_jogador:
             #self.movimentacao(-1)
@@ -68,11 +65,10 @@ class inimigo_que_atira(Inimigo):
     def atirar(self):
         if pg.time.get_ticks() - self.__tempo_ultimo_tiro > self.__cadencia:
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
-            tiro_direcao = self.direction
+            tiro_direcao = math.degrees(self.direction)
             self.__tiros.append(Tiro(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
                                    tiro_direcao, self.__forca_tiro, self.__velocidade_tiro))
-            print("direção do tiro:" , tiro_direcao)
 
     def set_distancia_maxima_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
