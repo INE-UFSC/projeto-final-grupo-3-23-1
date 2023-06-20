@@ -12,10 +12,10 @@ class inimigo_que_atira(Inimigo):
         self.__cadencia = 0
         self.__forca_tiro = 0
         self.__tempo_ultimo_tiro = 0
-        self.__valores_tiro = {0: (1000, 0.5, 7) ,
-                               1: (900, 0,5, 9) , 
-                               2: (850, 1, 10) ,
-                               3: (800, 1 , 11)}
+        self.__valores_tiro = {0: (3000, 0.5, 7) ,
+                               1: (2700, 0,5, 9) , 
+                               2: (2450, 1, 10) ,
+                               3: (2400, 1 , 11)}
         self.set_valores()
     
         self.__distancia_min_jogador = self.set_distancia_min_jogador()

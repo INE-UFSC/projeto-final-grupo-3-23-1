@@ -23,10 +23,6 @@ class EntidadeTela(Entidade, ABC):
 
     def get_distancia(self, outro):
         d = math.sqrt((self.pos_tela[0]-outro.pos_tela[0])**2 + (self.pos_tela[1] - outro.pos_tela[1])**2)
-        print("meu x atual:", self.pos_tela[0])
-        print("meu y atual:", self.pos_tela[1])
-        print("x atual jogador:", outro.pos_tela[0])
-        print("y atual jogador:", outro.pos_tela[1])
         return d
 
     def getRect(self):

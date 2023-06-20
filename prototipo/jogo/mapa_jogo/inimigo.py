@@ -33,7 +33,6 @@ class Inimigo(EntidadeTela):
 
         # movimento:
         self.set_direction()
-        print("direçao de movimento:", self.__direction)
         self.set_velocidade()
         self.movimentacao()
         
@@ -56,9 +55,9 @@ class Inimigo(EntidadeTela):
         from jogo.jogador.tiro import Tiro
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
         if type(colisor) == Inimigo:
-            pass
-            #self.movimentacao(-1)
-            #self.movimento_nao_sobressair(colisor)
+
+            while SistemaColisao.colidiu(self, colisor) == True:
+                self.movimento_desvio(colisor)
 
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
@@ -87,8 +86,47 @@ class Inimigo(EntidadeTela):
         self.pos_tela = tuple(nova_posicao)
      
 
+    def calculo_desvio(self, colisor):
+        
+        alvo_x = self.__alvo.pos_tela[0]
+        alvo_y = self.__alvo.pos_tela[1]
+
+        colisor_x = colisor.pos_tela[0]
+        colisor_y = colisor.pos_tela[1]
+
+        #calculo coordenada menor (direção): 
+        dx_ideal = colisor.dimensoes[0] + self.dimensoes[0]
+        dy_ideal = colisor.dimensoes[1] + self.dimensoes[1]
+
+        dx_atual = abs(colisor_x - self.__x)
+        dy_atual = abs(colisor_y - self.__y)
+
+        if dy_atual < dy_ideal: 
+            a = "y"
+
+        if dx_atual < dx_ideal: 
+            a = "x"
+
+        else:
+            a = "diagonal"
+
+        return a
+
+    def movimento_desvio(self, colisor):
+        a = self.calculo_desvio(colisor)
+
+        if a == "y":
+            self.__y += (self.__velocidade * sin(self.__direction))
+
+        if a == "x":
+            self.__x += (self.__velocidade * cos(self.__direction))
+
+        else:
+             self.__y += (self.__velocidade * sin(self.__direction))
+
+
     def calcular_sobreposicao(self,colisor):
-        a = 0
+        a = 2
         colisor_x = colisor.pos_tela[0]
         colisor_y = colisor.pos_tela[1]
 
