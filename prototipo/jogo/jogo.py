@@ -52,7 +52,7 @@ class Jogo:
                 print('Fim de jogo')
                 exit()
         else:
-            self.mapa_tela.atualizar()
+            self.mapa_tela.atualizar(eventos)
 
     def desenhar(self):
         if self.modo == Modo.MapaJogo:
