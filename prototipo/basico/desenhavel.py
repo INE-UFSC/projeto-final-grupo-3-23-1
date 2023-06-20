@@ -29,17 +29,20 @@ class DesenhavelTexto(Desenhavel):
         fonte = pg.font.SysFont(nome_fonte, int(tamanho_fonte*self.tela.get_height()))
         self.__superficie = fonte.render(texto, True, cor_texto)
         self.__espaco_linha = fonte.get_linesize()
+        self.__rect = self.__superficie.get_rect()
     
     def desenharSuperiorDireito(self, pos_tela):
         self.tela.blit(self.__superficie, pos_tela)
-        print(self.__superficie, pos_tela)
 
     def desenhar(self, pos_tela):
-        rect = self.__superficie.get_rect()
-        rect.center = pos_tela
-        self.tela.blit(self.__superficie, rect)
+        self.__rect.center = pos_tela
+        self.tela.blit(self.__superficie, self.__rect)
 
     @property
     def espaco_linha(self):
         return self.__espaco_linha
+    
+    @property
+    def rect(self):
+        return self.__rect
 
