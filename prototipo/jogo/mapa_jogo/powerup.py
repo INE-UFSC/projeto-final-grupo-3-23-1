@@ -5,7 +5,7 @@ from basico.evento import *
 class Powerup(EntidadeTela, ABC):
     @abstractmethod
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, incremento):
-        super().__init__(tela, pos_tela, dimensoes, desenhavel)
+        super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=False, movel=False)
         self.__incremento = incremento
 
     @property
@@ -18,7 +18,6 @@ class Powerup(EntidadeTela, ABC):
                 from jogo.jogador.jogador import Jogador
                 if evento.possuiTipo(Jogador) and evento.possui(self):
                     self.ativo = False
-                    print("jogador pegou powerup")
     
 
 class PowerupCadencia(Powerup):

@@ -22,12 +22,25 @@ class Programa(Entidade):
 
         self.modo = 1
 
+        self.colisoes = []
+
     def rodar(self):
         while True:
-
             eventos = self.getEventos()
+            eventos.extend(self.colisoes)
 
             self.atualizar(eventos)
+
+            colisores = self.getColisores()
+            self.colisoes = SistemaColisao.getColisoes(colisores)
+
+            """
+            for colisao in self.colisoes:
+                print(colisao.colisores)
+            """
+
+            SistemaColisao.atualizarSolidos(self.getColisores())
+
             self.desenhar()
 
             pg.display.update()
@@ -65,10 +78,6 @@ class Programa(Entidade):
         for tecla in range(len(teclas_apertadas)):
             if teclas_apertadas[tecla]:
                 eventos.append(EventoTeclaApertada(tecla))
-
-        colisores = self.getColisores()
-        colisoes = SistemaColisao.getColisoes(colisores)
-        eventos.extend(colisoes)
 
         return eventos
 

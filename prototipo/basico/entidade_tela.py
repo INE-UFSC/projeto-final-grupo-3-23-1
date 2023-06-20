@@ -11,7 +11,9 @@ class EntidadeTela(Entidade, ABC):
         tela: pg.Surface,
         pos_tela: tuple[int, int],
         dimensoes: tuple[int, int],
-        desenhavel: Desenhavel
+        desenhavel: Desenhavel,
+        solido: bool = False,
+        movel: bool  = False
     ):
         super().__init__(tela)
 
@@ -21,12 +23,11 @@ class EntidadeTela(Entidade, ABC):
 
         self.ativo = True
 
+        self.solido = solido
+        self.movel = movel
+
     def get_distancia(self, outro):
         d = math.sqrt((self.pos_tela[0]-outro.pos_tela[0])**2 + (self.pos_tela[1] - outro.pos_tela[1])**2)
-        print("meu x atual:", self.pos_tela[0])
-        print("meu y atual:", self.pos_tela[1])
-        print("x atual jogador:", outro.pos_tela[0])
-        print("y atual jogador:", outro.pos_tela[1])
         return d
 
     def getRect(self):

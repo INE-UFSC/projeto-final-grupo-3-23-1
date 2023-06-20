@@ -8,7 +8,7 @@ from basico.sistema_colisao import SistemaColisao
 class Inimigo(EntidadeTela):
 
     def __init__(self,tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador ):
-        super().__init__(tela, pos_tela, dimensoes, desenhavel)
+        super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=True)
         self.pos_atual = self.pos_tela
         self.__dano = dano
         self.__direction = 0
@@ -33,7 +33,6 @@ class Inimigo(EntidadeTela):
 
         # movimento:
         self.set_direction()
-        print("direçao de movimento:", self.__direction)
         self.set_velocidade()
         self.movimentacao()
         
@@ -67,9 +66,11 @@ class Inimigo(EntidadeTela):
                 self.ativo = False
 
         #se for jogador, não sobrepoe ele:
+        """
         if type(colisor)== Jogador:
             while SistemaColisao.colidiu(self, colisor) == True:
                 self.movimentacao(-1)
+        """
             
             #self.movimento_nao_sobressair(colisor)
 

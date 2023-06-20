@@ -10,7 +10,7 @@ from .tiro import Tiro
 
 class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel):
-        super().__init__(tela, pos_tela, dimensoes, desenhavel)
+        super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=True)
 
         self.__velocidade = 5
         self.__direcao = 0
@@ -119,6 +119,7 @@ class Jogador(EntidadeTela):
                 nova_pos[1] = self.dimensoes[1]/2
             
             
+            """
             for obstaculo in self.obstaculos:
                 #xn
                 if abs(obstaculo.getRect().top - self.getRect().bottom) < 10:
@@ -132,6 +133,7 @@ class Jogador(EntidadeTela):
                 #yw
                 if abs(obstaculo.getRect().right - self.getRect().left) < 10:
                     nova_pos[0] = obstaculo.getRect().right + self.dimensoes[0]/2 
+            """
 
             self.pos_tela = tuple(nova_pos)
         

@@ -7,7 +7,7 @@ from basico.evento import EventoColisao
 class Tiro(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, direcao, dano = 1, velocidade = 10):
         desenhavel = DesenhavelRetangulo(tela, (0, 255, 255))
-        super().__init__(tela, pos_tela, dimensoes, desenhavel)
+        super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=False, movel=False)
 
         self.__direcao = direcao
 

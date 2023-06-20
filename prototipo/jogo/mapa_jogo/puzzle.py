@@ -11,7 +11,8 @@ class Puzzle(EntidadeTela):
         super().__init__(tela,
                         (self.tela_w/2, self.tela_h*5/8),
                         (self.tela_w/8, self.tela_h/8),
-                        DesenhavelRetangulo(tela, (128, 128, 128)))
+                        DesenhavelRetangulo(tela, (128, 128, 128)),
+                        solido=False, movel=False)
         self.__enigma = enigma
         self.__resposta = resposta
         self.__chute = ''
