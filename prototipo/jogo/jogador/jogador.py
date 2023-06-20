@@ -5,16 +5,19 @@ from basico.entidade_tela import EntidadeTela
 from basico.evento import *
 from jogo.mapa_jogo.sala_porta import *
 from jogo.mapa_jogo.powerup import *
+from jogo.mapa_jogo.obstaculo import *
 from .tiro import Tiro
 
 class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel)
 
+        self.__velocidade = 5
         self.__direcao = 0
         self.__vida = 3
         self.__powerups = []
         self.__tiros = []
+        self.__obstaculos = []
 
         self.__invulnerabilidade = False
         self.__ultimo_tick_inv = 0
@@ -22,6 +25,7 @@ class Jogador(EntidadeTela):
         self.__ultimo_tiro = 0 
 
     def atualizar(self, eventos: list):
+        self.obstaculos = []
 
         if pg.time.get_ticks() - self.ultima_colisao > 3000:
             self.invulnerabilidade = False
@@ -96,11 +100,14 @@ class Jogador(EntidadeTela):
                         elif isinstance(sala_porta, SalaPortaEsquerda):
                             self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), 
                                              self.pos_tela[1])
-
+                
+                if evento.possuiTipo(Obstaculo):
+                    self.obstaculos.append(evento.getElemDoTipo(Obstaculo))
+                    
         if moveu:
             nova_pos = list(self.pos_tela)
-            nova_pos[0] += 5 * cos(radians(self.direcao))
-            nova_pos[1] += 5 * sin(radians(self.direcao))
+            nova_pos[0] += self.velocidade * cos(radians(self.direcao))
+            nova_pos[1] += self.velocidade * sin(radians(self.direcao))
 
             if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
                 nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
@@ -110,9 +117,24 @@ class Jogador(EntidadeTela):
                 nova_pos[1] = self.tela.get_height()-self.dimensoes[1]/2
             if nova_pos[1] < self.dimensoes[1]/2:
                 nova_pos[1] = self.dimensoes[1]/2
+            
+            
+            for obstaculo in self.obstaculos:
+                #xn
+                if abs(obstaculo.getRect().top - self.getRect().bottom) < 5:
+                    self.velocidade *= -1
+                #xs
+                if abs(obstaculo.getRect().bottom - self.getRect().top) < 6:
+                    self.velocidade *= -1
+                #ye
+                if abs(obstaculo.getRect().left - self.getRect().right) < 6:
+                    self.velocidade *= -1
+                #yw
+                if abs(obstaculo.getRect().right - self.getRect().left) < 7:
+                    self.velocidade *= -1
 
             self.pos_tela = tuple(nova_pos)
-
+        
         for tiro in self.tiros:
             tiro.atualizar(eventos)
 
@@ -155,6 +177,10 @@ class Jogador(EntidadeTela):
                                     self.direcao, dano, velocidade))
 
     @property
+    def velocidade(self):
+        return self.__velocidade
+
+    @property
     def direcao(self):
         return self.__direcao
 
@@ -169,6 +195,10 @@ class Jogador(EntidadeTela):
     @property
     def tiros(self):
         return self.__tiros
+    
+    @property
+    def obstaculos(self):
+        return self.__obstaculos
 
     @property
     def invulnerabilidade(self):
@@ -185,7 +215,11 @@ class Jogador(EntidadeTela):
     @property
     def ultimo_tiro(self):
         return self.__ultimo_tiro
-    
+
+    @velocidade.setter
+    def velocidade(self, vel):
+        self.__velocidade = vel
+
     @direcao.setter
     def direcao(self, direcao):
         self.__direcao = direcao
@@ -193,6 +227,10 @@ class Jogador(EntidadeTela):
     @vida.setter
     def vida(self, vida):
         self.__vida = vida 
+    
+    @obstaculos.setter
+    def obstaculos(self, obs):
+        self.__obstaculos = obs
 
     @invulnerabilidade.setter
     def invulnerabilidade(self, invul):

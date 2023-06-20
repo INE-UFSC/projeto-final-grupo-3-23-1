@@ -11,6 +11,7 @@ from jogo.mapa_jogo.sala_porta import *
 from jogo.mapa_jogo.puzzle import Puzzle
 from jogo.mapa_jogo.powerup import *
 from jogo.mapa_jogo.sala_final import SalaFinal
+from jogo.mapa_jogo.obstaculo import *
 
 class MapaJogo(Entidade):
     def __init__(self, tela, jogador):
@@ -67,18 +68,22 @@ class MapaJogo(Entidade):
                            PowerupDano(tela, (self.tela_w/1980*300, self.tela_h/1080*800), 
                                       (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
 
+        obstaculos = [Obstaculo(tela, (self.tela_w/1980*500, self.tela_h/1080*800), 
+                                      (self.tela_w/1980*60, self.tela_h/1080*60), DesenhavelRetangulo(tela, (27, 27, 27)))]
+
         for i in range(2):
             linha = []
             for j in range(2):
                 linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
 
             self.__salas.append(linha)
-
+        
         self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
         self.__salas[1].append(SalaPuzzle('definir desenhavel', tela, 'responda b', 'b', jogador))
         self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
         self.__salas.append([self.sala_final])
         self.__salas[0][0].powerups = powerups
+        self.__salas[0][0].obstaculos = obstaculos
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)

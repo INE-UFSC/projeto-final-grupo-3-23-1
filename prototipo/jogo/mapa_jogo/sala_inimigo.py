@@ -9,7 +9,8 @@ class SalaInimigo(Sala):
         super().__init__(desenhavel)
         self.__powerups = powerups
         self.__inimigos = []
-        self.criarInimigos(jogador, tela)
+        self.__obstaculos = []
+        #self.criarInimigos(jogador, tela)
 
     def criarInimigos(self, jogador, tela):
         from .inimigo import Inimigo
@@ -49,6 +50,8 @@ class SalaInimigo(Sala):
             if powerup.ativo:
                 colisores.append(powerup)
 
+        colisores.extend(self.obstaculos)
+
         return colisores
     
     def desenharResto(self):
@@ -59,6 +62,9 @@ class SalaInimigo(Sala):
         for powerup in self.powerups:
             if powerup.ativo:
                 powerup.desenhar()
+
+        for obstaculo in self.obstaculos:
+            obstaculo.desenhar()
     
     def atualizarResto(self, eventos):
         for inimigo in self.__inimigos:
@@ -77,6 +83,16 @@ class SalaInimigo(Sala):
     def powerups(self):
         return self.__powerups
     
+    @property
+    def obstaculos(self):
+        return self.__obstaculos
+
     @powerups.setter
     def powerups(self, powerups):
-        self.__powerups = powerups 
+        self.__powerups = powerups
+
+    @obstaculos.setter
+    def obstaculos(self, obstaculos):
+        self.__obstaculos = obstaculos
+
+    
