@@ -10,7 +10,7 @@ class SalaInimigo(Sala):
         self.__powerups = powerups
         self.__inimigos = []
         self.__obstaculos = []
-        #self.criarInimigos(jogador, tela)
+        self.criarInimigos(jogador, tela)
 
     def criarInimigos(self, jogador, tela):
         from .inimigo import Inimigo

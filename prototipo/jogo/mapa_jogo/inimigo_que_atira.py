@@ -18,7 +18,7 @@ class inimigo_que_atira(Inimigo):
                                3: (800, 1 , 11)}
         self.set_valores()
     
-        self.__distancia_max_jogador = self.set_distancia_maxima_jogador()
+        self.__distancia_min_jogador = self.set_distancia_min_jogador()
 
     def set_valores(self):
         self.__cadencia = self.__valores_tiro[self.__nivel][0]
@@ -38,8 +38,8 @@ class inimigo_que_atira(Inimigo):
 
         #limitando movimento
 
-        #while  self.get_distancia(self.alvo) < self.__distancia_max_jogador:
-            #self.movimentacao(-1)
+        while  self.get_distancia(self.alvo) < self.__distancia_min_jogador:
+            self.movimentacao(-1)
         
         self.movimentacao()
 
@@ -70,13 +70,13 @@ class inimigo_que_atira(Inimigo):
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
                                    tiro_direcao, self.__forca_tiro, self.__velocidade_tiro))
 
-    def set_distancia_maxima_jogador(self):
+    def set_distancia_min_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
         alvo_diagonal = math.sqrt(self.alvo.dimensoes[0]**2 + self.alvo.dimensoes[1]**2)
 
-        d_max = (minha_diagonl + alvo_diagonal)/2 + 1000
+        d_min = (minha_diagonl + alvo_diagonal)/2 + 200
 
-        return d_max
+        return d_min
  
 
     def desenhar(self):
