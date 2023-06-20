@@ -20,3 +20,26 @@ class DesenhavelRetangulo(Desenhavel):
         rect.center = pos_tela
 
         pg.draw.rect(self.tela, self.cor, rect)
+
+class DesenhavelTexto(Desenhavel):
+    def __init__(self, tela, texto, tamanho_fonte = 40/1080,
+                  nome_fonte = "Comic Sans MS",
+                  cor_texto = (255, 255, 255)):
+        super().__init__(tela)
+        fonte = pg.font.SysFont(nome_fonte, int(tamanho_fonte*self.tela.get_height()))
+        self.__superficie = fonte.render(texto, True, cor_texto)
+        self.__espaco_linha = fonte.get_linesize()
+    
+    def desenharSuperiorDireito(self, pos_tela):
+        self.tela.blit(self.__superficie, pos_tela)
+        print(self.__superficie, pos_tela)
+
+    def desenhar(self, pos_tela):
+        rect = self.__superficie.get_rect()
+        rect.center = pos_tela
+        self.tela.blit(self.__superficie, rect)
+
+    @property
+    def espaco_linha(self):
+        return self.__espaco_linha
+

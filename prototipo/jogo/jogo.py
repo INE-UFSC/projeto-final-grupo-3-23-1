@@ -72,19 +72,19 @@ class Jogo:
         return colisores
 
     def desenharInformacoes(self):
-        import pygame as pg
-        fonte = pg.font.SysFont("Comic Sans MS", int(25/1080 * self.tela.get_height()))
-        espaco_linha = fonte.get_linesize()
-        text_vida = fonte.render(f'pontos de foco: {self.jogador.vida}', True, (255, 255, 255))
-        self.tela.blit(text_vida, (0, 0))
-        text_poderes = fonte.render('poderes da varinha:', True, (255, 255, 255))
-        self.tela.blit(text_poderes, (0, espaco_linha))
-        text_dano = fonte.render(f'- dano: {self.jogador.dano_tiros}', True, (255, 255, 255))
-        self.tela.blit(text_dano, (espaco_linha, espaco_linha*2))
-        text_velocidade = fonte.render(f'- velocidade: {self.jogador.velocidade_tiros}', True, (255, 255, 255))
-        self.tela.blit(text_velocidade, (espaco_linha, espaco_linha*3))
-        text_cadencia = fonte.render(f'- cadencia: {self.jogador.cadencia_tiros}', True, (255, 255, 255))
-        self.tela.blit(text_cadencia, (espaco_linha, espaco_linha*4))
+        from basico.desenhavel import DesenhavelTexto
+        tamanho_fonte = 25/1080
+        text_vida = DesenhavelTexto(self.tela, f'pontos de foco: {self.jogador.vida}', tamanho_fonte)
+        text_vida.desenharSuperiorDireito((0, 0))
+        espaco_linha = text_vida.espaco_linha
+        text_poderes = DesenhavelTexto(self.tela, 'poderes da varinha:', tamanho_fonte)
+        text_poderes.desenharSuperiorDireito((0, espaco_linha))
+        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_tiros}', tamanho_fonte)
+        text_dano.desenharSuperiorDireito((espaco_linha, espaco_linha*2))
+        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_tiros}', tamanho_fonte)
+        text_velocidade.desenharSuperiorDireito((espaco_linha, espaco_linha*3))
+        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_tiros}', tamanho_fonte)
+        text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
 
 
 
