@@ -121,17 +121,17 @@ class Jogador(EntidadeTela):
             
             for obstaculo in self.obstaculos:
                 #xn
-                if abs(obstaculo.getRect().top - self.getRect().bottom) < 6:
+                if abs(obstaculo.getRect().top - self.getRect().bottom) < 10:
                     nova_pos[1] = obstaculo.getRect().top - self.dimensoes[1]/2
                 #xs
-                if abs(obstaculo.getRect().bottom - self.getRect().top) < 6:
+                if abs(obstaculo.getRect().bottom - self.getRect().top) < 10:
                     nova_pos[1] = obstaculo.getRect().bottom + self.dimensoes[1]/2
                 #ye
-                if abs(obstaculo.getRect().left - self.getRect().right) < 6:
+                if abs(obstaculo.getRect().left - self.getRect().right) < 10:
                     nova_pos[0] = obstaculo.getRect().left - self.dimensoes[0]/2
                 #yw
-                if abs(obstaculo.getRect().right - self.getRect().left) < 6:
-                    nova_pos[0] = obstaculo.getRect().right + self.dimensoes[0]/2
+                if abs(obstaculo.getRect().right - self.getRect().left) < 10:
+                    nova_pos[0] = obstaculo.getRect().right + self.dimensoes[0]/2 
 
             self.pos_tela = tuple(nova_pos)
         

@@ -32,12 +32,16 @@ class Tiro(EntidadeTela):
             self.ativo = False
 
         from jogo.mapa_jogo.inimigo import Inimigo
-
+        from jogo.mapa_jogo.obstaculo import Obstaculo
         for evento in eventos:
-            if isinstance(evento, EventoColisao) \
-                    and evento.possui(self) \
-                    and evento.possuiTipo(Inimigo):
-                self.ativo = False
+            if isinstance(evento, EventoColisao):
+                if evento.possui(self) and evento.possuiTipo(Inimigo):
+                    self.ativo = False
+                if evento.possui(self) and evento.possuiTipo(Obstaculo):
+                    self.ativo = False
+
+
+            
 
     @property
     def direcao(self):
