@@ -54,10 +54,10 @@ class Inimigo(EntidadeTela):
     def eventoColisao(self, colisor):
         from jogo.jogador.tiro import Tiro
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
-        if type(colisor) == Inimigo:
+        #if type(colisor) == Inimigo:
 
-            while SistemaColisao.colidiu(self, colisor) == True:
-                self.movimento_desvio(colisor)
+            #while SistemaColisao.colidiu(self, colisor) == True:
+                #self.movimento_desvio(colisor)
 
         # se for tiro, perde vida:
         if type(colisor) == Tiro:
