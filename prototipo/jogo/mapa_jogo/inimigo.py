@@ -120,6 +120,18 @@ class Inimigo(EntidadeTela):
 
     def movimento_desvio(self, colisor):
 
+        #calcular sinal movimento x :
+        if  sin(self.__direction) > 0:
+            sinal_x = 1
+        elif sin(self.__direction) < 0:
+            sinal_x = -1
+
+        #calcular sinal movimento y:
+        if cos(self.__direction) > 0:
+            sinal_y = 1
+        elif cos(self.__direction) > 0:
+            sinal_y = 1
+        
         if self.get_distancia(self, self.alvo) > self.get_distancia(colisor, self.alvo):
             a = self.calculo_desvio(colisor)
 
