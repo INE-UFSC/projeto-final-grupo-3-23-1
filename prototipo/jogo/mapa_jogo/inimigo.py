@@ -4,6 +4,7 @@ from jogo.jogador.jogador import Jogador
 import pygame as pg
 from math import atan2, cos, sin, radians, pi
 from basico.sistema_colisao import SistemaColisao
+from .obstaculo import Obstaculo
 
 class Inimigo(EntidadeTela):
 
@@ -21,20 +22,23 @@ class Inimigo(EntidadeTela):
         self.__x = self.pos_tela[0]
         self.__y = self.pos_tela[1]
         self.__colidindo = False
+        self.__pode_mexer = True
 
     @property
     def dano(self):
         return self.__dano
     
     def atualizar(self,eventos):
-        self.__colidindo = False
+        self.__pode_mexer = True
         #trata eventos:
         self.tratar_eventos(eventos)
 
         # movimento:
         self.set_direction()
         self.set_velocidade()
-        self.movimentacao()
+        
+        if self.__pode_mexer:
+            self.movimentacao()
         
         #verifica se tá vivo ainda
         self.verificar_vida()
@@ -54,7 +58,9 @@ class Inimigo(EntidadeTela):
     def eventoColisao(self, colisor):
         from jogo.jogador.tiro import Tiro
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
-        #if type(colisor) == Inimigo:
+        if type(colisor) == Inimigo:
+            self.ver_se_pode_mexer(colisor)
+            #self.movimento_desvio(colisor)
 
             #while SistemaColisao.colidiu(self, colisor) == True:
                 #self.movimento_desvio(colisor)
@@ -70,15 +76,15 @@ class Inimigo(EntidadeTela):
             while SistemaColisao.colidiu(self, colisor) == True:
                 self.movimentacao(-1)
             
-            #self.movimento_nao_sobressair(colisor)
+        """if type(colisor)== Obstaculo:
+            self.__pode_mexer = False
+            self.movimento_desvio(colisor)"""
+                
 
 
                     
 
     def movimentacao(self, sentido = 1):
-        #self.set_direction()
-        #print("direçao de movimento:", self.__direction)
-        #self.set_velocidade()
         sentido = sentido
         self.__x += (self.__velocidade * cos(self.__direction))*sentido
         self.__y += (self.__velocidade * sin(self.__direction))*sentido
@@ -113,17 +119,25 @@ class Inimigo(EntidadeTela):
         return a
 
     def movimento_desvio(self, colisor):
-        a = self.calculo_desvio(colisor)
 
-        if a == "y":
-            self.__y += (self.__velocidade * sin(self.__direction))
+        if self.get_distancia(self, self.alvo) > self.get_distancia(colisor, self.alvo):
+            a = self.calculo_desvio(colisor)
 
-        if a == "x":
-            self.__x += (self.__velocidade * cos(self.__direction))
+            if a == "y":
+                self.__y += (self.__velocidade * sin(self.__direction))
 
-        else:
-             self.__y += (self.__velocidade * sin(self.__direction))
+            elif a == "x":
+                self.__x += (self.__velocidade * cos(self.__direction))
 
+            else:
+                self.__y += (self.__velocidade * sin(self.__direction))
+
+            nova_posicao = [self.__x, self.__y]
+            self.pos_tela = tuple(nova_posicao)
+
+    def ver_se_pode_mexer(self, colisor):
+        if self.get_distancia(self, self.alvo) > self.get_distancia(colisor, self.alvo):
+            self.__pode_mexer = False
 
     def calcular_sobreposicao(self,colisor):
         a = 2

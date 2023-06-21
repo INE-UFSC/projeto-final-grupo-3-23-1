@@ -21,8 +21,8 @@ class EntidadeTela(Entidade, ABC):
 
         self.ativo = True
 
-    def get_distancia(self, outro):
-        d = math.sqrt((self.pos_tela[0]-outro.pos_tela[0])**2 + (self.pos_tela[1] - outro.pos_tela[1])**2)
+    def get_distancia(self, entidade1, entidade2):
+        d = math.sqrt((entidade1.pos_tela[0]-entidade2.pos_tela[0])**2 + (entidade1.pos_tela[1] - entidade2.pos_tela[1])**2)
         return d
 
     def getRect(self):

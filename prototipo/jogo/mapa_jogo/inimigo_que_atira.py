@@ -38,7 +38,7 @@ class inimigo_que_atira(Inimigo):
 
         #limitando movimento
 
-        while  self.get_distancia(self.alvo) < self.__distancia_min_jogador:
+        while  self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
             self.movimentacao(-1)
         
         self.movimentacao()
