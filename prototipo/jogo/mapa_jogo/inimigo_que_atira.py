@@ -1,5 +1,5 @@
 from .inimigo import Inimigo
-from jogo.jogador.tiro import Tiro
+from jogo.jogador.projetil import Projetil
 import pygame as pg
 from jogo.jogador.jogador import Jogador
 import math
@@ -8,11 +8,11 @@ class InimigoQueAtira(Inimigo):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador, nivel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador)
         self.__nivel = nivel
-        self.__tiros = []
+        self.__projeteis = []
         self.__cadencia = 0
         self.__forca_tiro = 0
         self.__tempo_ultimo_tiro = 0
-        self.__valores_tiro = {0: (3000, 0.5, 7) ,
+        self.__valores_projetil = {0: (3000, 0.5, 7) ,
                                1: (2700, 0,5, 9) , 
                                2: (2450, 1, 10) ,
                                3: (2400, 1 , 11)}
@@ -21,9 +21,9 @@ class InimigoQueAtira(Inimigo):
         self.__distancia_min_jogador = self.set_distancia_min_jogador()
 
     def set_valores(self):
-        self.__cadencia = self.__valores_tiro[self.__nivel][0]
-        self.__forca_tiro = self.__valores_tiro[self.__nivel][1]
-        self.__velocidade_tiro = self.__valores_tiro[self.__nivel][2]
+        self.__cadencia = self.__valores_projetil[self.__nivel][0]
+        self.__forca_projetil = self.__valores_projetil[self.__nivel][1]
+        self.__velocidade_projetil = self.__valores_projetil[self.__nivel][2]
 
     def atualizar(self, eventos):
         # parte igual ao super:
@@ -51,24 +51,24 @@ class InimigoQueAtira(Inimigo):
 
     def atualizar_meus_tiros(self, eventos):
 
-        for tiro in self.__tiros:
-            tiro.atualizar(eventos)
+        for projetil in self.__projeteis:
+            projetil.atualizar(eventos)
 
-        tiros_rem = []
-        for t in self.__tiros:
-            if not t.ativo:
-                tiros_rem.append(t)
+        projeteis_rem = []
+        for p in self.__projeteis:
+            if not p.ativo:
+                projeteis_rem.append(p)
 
-        for tiro in tiros_rem:
-            self.__tiros.remove(tiro)
+        for projetil in projeteis_rem:
+            self.__projeteis.remove(projetil)
 
     def atirar(self):
         if pg.time.get_ticks() - self.__tempo_ultimo_tiro > self.__cadencia:
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
-            tiro_direcao = math.degrees(self.direction)
-            self.__tiros.append(Tiro(self.tela, self.pos_tela,
+            projetil_direcao = math.degrees(self.direction)
+            self.__projeteis.append(Projetil(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
-                                   tiro_direcao, True, self.__forca_tiro, self.__velocidade_tiro))
+                                   projetil_direcao, True, self.__forca_projetil, self.__velocidade_projetil))
 
     def set_distancia_min_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
@@ -82,13 +82,13 @@ class InimigoQueAtira(Inimigo):
     def desenhar(self):
         super().desenhar()
 
-        for t in self.__tiros:
+        for t in self.__projeteis:
             t.desenhar()
 
     def getColisores(self):
-        return self.tiros
+        return self.projeteis
     
 
     @property
-    def tiros(self):
-        return self.__tiros
+    def projeteis(self):
+        return self.__projeteis

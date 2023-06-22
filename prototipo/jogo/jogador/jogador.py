@@ -6,7 +6,7 @@ from basico.evento import *
 from jogo.mapa_jogo.sala_porta import *
 from jogo.mapa_jogo.powerup import *
 from jogo.mapa_jogo.obstaculo import *
-from .tiro import Tiro
+from .projetil import Projetil
 
 class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel):
@@ -16,16 +16,16 @@ class Jogador(EntidadeTela):
         self.__direcao = 0
         self.__vida = 3
         self.__powerups = []
-        self.__tiros = []
+        self.__projeteis = []
         self.__obstaculos = []
 
         self.__invulnerabilidade = False
         self.__ultimo_tick_inv = 0
         self.__ultima_colisao = 0
         self.__ultimo_tiro = 0 
-        self.__dano_tiros = 1
-        self.__cadencia_tiros = 500
-        self.__velocidade_tiros = 10
+        self.__dano_projeteis = 1
+        self.__cadencia_projeteis = 500
+        self.__velocidade_projeteis = 10
 
 
     def atualizar(self, eventos: list):
@@ -80,27 +80,27 @@ class Jogador(EntidadeTela):
                 if evento.possuiTipo(Inimigo):
                     self.perderVida()
 
-                if evento.possuiTipo(Tiro) and evento.getElemDoTipo(Tiro).inimigo:
+                if evento.possuiTipo(Projetil) and evento.getElemDoTipo(Projetil).inimigo:
                     self.perderVida()
 
                 if evento.possuiTipo(Powerup):
                     powerup = evento.getElemDoTipo(Powerup)
                     self.powerups.append(powerup)
                     if isinstance(powerup, PowerupCadencia):
-                        self.__cadencia_tiros -= powerup.incremento
+                        self.cadencia_projeteis -= powerup.incremento
             
                     elif isinstance(powerup, PowerupVelocidadeTiro):
-                        self.__velocidade_tiros += powerup.incremento
+                        self.velocidade_projeteis += powerup.incremento
 
                     elif isinstance(powerup, PowerupDano):
-                        self.__dano_tiros += powerup.incremento
+                        self.dano_projeteis += powerup.incremento
 
 
                 
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
                     if sala_porta.porta.aberta:
-                        self.__tiros = []
+                        self.projeteis = []
                         if isinstance(sala_porta, SalaPortaBaixo):
                             self.pos_tela = (self.pos_tela[0], 
                                              sala_porta.dimensoes[1]+self.dimensoes[1]/2)
@@ -131,54 +131,37 @@ class Jogador(EntidadeTela):
             if nova_pos[1] < self.dimensoes[1]/2:
                 nova_pos[1] = self.dimensoes[1]/2
             
-            
-            """
-            for obstaculo in self.obstaculos:
-                #xn
-                if abs(obstaculo.getRect().top - self.getRect().bottom) < 10:
-                    nova_pos[1] = obstaculo.getRect().top - self.dimensoes[1]/2
-                #xs
-                if abs(obstaculo.getRect().bottom - self.getRect().top) < 10:
-                    nova_pos[1] = obstaculo.getRect().bottom + self.dimensoes[1]/2
-                #ye
-                if abs(obstaculo.getRect().left - self.getRect().right) < 10:
-                    nova_pos[0] = obstaculo.getRect().left - self.dimensoes[0]/2
-                #yw
-                if abs(obstaculo.getRect().right - self.getRect().left) < 10:
-                    nova_pos[0] = obstaculo.getRect().right + self.dimensoes[0]/2 
-            """
-
             self.pos_tela = tuple(nova_pos)
         
-        for tiro in self.tiros:
-            tiro.atualizar(eventos)
+        for projetil in self.projeteis:
+            projetil.atualizar(eventos)
 
-        tiros_rem = []
-        for t in self.tiros:
-            if not t.ativo:
-                tiros_rem.append(t)
+        projeteis_rem = []
+        for p in self.projeteis:
+            if not p.ativo:
+                projeteis_rem.append(p)
 
-        for tiro in tiros_rem:
-            self.tiros.remove(tiro)
+        for projetil in projeteis_rem:
+            self.projeteis.remove(projetil)
 
     def desenhar(self):
         super().desenhar()
 
-        for t in self.tiros:
-            t.desenhar()
+        for p in self.projeteis:
+            p.desenhar()
 
     def getColisores(self):
         colisores = []
         colisores.append(self)
-        colisores.extend(self.tiros)
+        colisores.extend(self.projeteis)
         return colisores
 
     def atirar(self, powerups):
-        if pg.time.get_ticks() - self.ultimo_tiro > self.__cadencia_tiros:
+        if pg.time.get_ticks() - self.ultimo_tiro > self.cadencia_projeteis:
             self.ultimo_tiro = pg.time.get_ticks()
-            self.tiros.append(Tiro(self.tela, self.pos_tela,
+            self.projeteis.append(Projetil(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
-                                    self.direcao, False, self.__dano_tiros, self.__velocidade_tiros))
+                                    self.direcao, False, self.dano_projeteis, self.velocidade_projeteis))
     
     def perderVida(self):
         if not self.invulnerabilidade:
@@ -205,8 +188,8 @@ class Jogador(EntidadeTela):
         return self.__powerups
 
     @property
-    def tiros(self):
-        return self.__tiros
+    def projeteis(self):
+        return self.__projeteis
     
     @property
     def obstaculos(self):
@@ -229,16 +212,16 @@ class Jogador(EntidadeTela):
         return self.__ultimo_tiro
     
     @property
-    def cadencia_tiros(self):
-        return self.__cadencia_tiros
+    def cadencia_projeteis(self):
+        return self.__cadencia_projeteis
     
     @property
-    def velocidade_tiros(self):
-        return self.__velocidade_tiros
+    def velocidade_projeteis(self):
+        return self.__velocidade_projeteis
     
     @property
-    def dano_tiros(self):
-        return self.__dano_tiros
+    def dano_projeteis(self):
+        return self.__dano_projeteis
 
     @velocidade.setter
     def velocidade(self, vel):
@@ -251,6 +234,10 @@ class Jogador(EntidadeTela):
     @vida.setter
     def vida(self, vida):
         self.__vida = vida 
+
+    @projeteis.setter
+    def projeteis(self, projeteis): 
+        self.__projeteis = projeteis
     
     @obstaculos.setter
     def obstaculos(self, obs):
@@ -271,3 +258,15 @@ class Jogador(EntidadeTela):
     @ultimo_tiro.setter
     def ultimo_tiro(self, ultimo):
         self.__ultimo_tiro = ultimo
+
+    @velocidade_projeteis.setter
+    def velocidade_projeteis(self, velocidade):
+        self.__velocidade_projeteis = velocidade
+
+    @dano_projeteis.setter
+    def dano_projeteis(self, dano):
+        self.__dano_projeteis = dano
+
+    @cadencia_projeteis.setter
+    def cadencia_projeteis(self, cadencia):
+        self.__cadencia_projeteis = cadencia

@@ -117,11 +117,11 @@ class Jogo:
         espaco_linha = text_vida.espaco_linha
         text_poderes = DesenhavelTexto(self.tela, 'poderes da varinha:', tamanho_fonte)
         text_poderes.desenharSuperiorDireito((0, espaco_linha))
-        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_tiros}', tamanho_fonte)
+        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_projeteis}', tamanho_fonte)
         text_dano.desenharSuperiorDireito((espaco_linha, espaco_linha*2))
-        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_tiros}', tamanho_fonte)
+        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_projeteis}', tamanho_fonte)
         text_velocidade.desenharSuperiorDireito((espaco_linha, espaco_linha*3))
-        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_tiros}', tamanho_fonte)
+        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_projeteis}', tamanho_fonte)
         text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
 
 

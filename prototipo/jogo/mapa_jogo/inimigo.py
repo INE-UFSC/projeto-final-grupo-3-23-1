@@ -53,7 +53,7 @@ class Inimigo(EntidadeTela):
                     self.eventoColisao(evento.colisores[0])
 
     def eventoColisao(self, colisor):
-        from jogo.jogador.tiro import Tiro
+        from jogo.jogador.projetil import Projetil
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
         if type(colisor) == Inimigo:
             self.ver_se_pode_mexer(colisor)
@@ -63,7 +63,7 @@ class Inimigo(EntidadeTela):
                 #self.movimento_desvio(colisor)
 
         # se for tiro, perde vida:
-        if type(colisor) == Tiro and not colisor.inimigo:
+        if type(colisor) == Projetil and not colisor.inimigo:
             self.__vida -= colisor.dano
             if self.__vida <= 0:
                 self.ativo = False

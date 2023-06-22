@@ -4,7 +4,7 @@ from basico.entidade_tela import EntidadeTela
 from basico.desenhavel import DesenhavelRetangulo
 from basico.evento import EventoColisao
 
-class Tiro(EntidadeTela):
+class Projetil(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, direcao, inimigo = False, dano = 1, velocidade = 10):
         desenhavel = DesenhavelRetangulo(tela, (0, 255, 255))
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=False, movel=False)
@@ -37,9 +37,9 @@ class Tiro(EntidadeTela):
         from jogo.jogador.jogador import Jogador
         for evento in eventos:
             if isinstance(evento, EventoColisao):
-                if evento.possui(self) and evento.possuiTipo(Inimigo) and not evento.getElemDoTipo(Tiro).inimigo:
+                if evento.possui(self) and evento.possuiTipo(Inimigo) and not evento.getElemDoTipo(Projetil).inimigo:
                     self.ativo = False
-                if evento.possui(self) and evento.possuiTipo(Jogador) and evento.getElemDoTipo(Tiro).inimigo:
+                if evento.possui(self) and evento.possuiTipo(Jogador) and evento.getElemDoTipo(Projetil).inimigo:
                     self.ativo = False
                 if evento.possui(self) and evento.possuiTipo(Obstaculo):
                     self.ativo = False
