@@ -34,6 +34,7 @@ class Inimigo(EntidadeTela):
         self.set_direction()
         self.set_velocidade()
         
+        
         if self.__pode_mexer:
             self.movimentacao()
         
@@ -82,6 +83,7 @@ class Inimigo(EntidadeTela):
                     
 
     def movimentacao(self, sentido = 1):
+        
         sentido = sentido
 
         nova_pos = list(self.pos_tela)

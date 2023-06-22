@@ -12,10 +12,14 @@ class InimigoQueAtira(Inimigo):
         self.__cadencia = 0
         self.__forca_tiro = 0
         self.__tempo_ultimo_tiro = 0
+        self.__tempo_ultimo_movimento = 0
+
         self.__valores_projetil = {0: (3000, 0.5, 7) ,
                                1: (2700, 0,5, 9) , 
                                2: (2450, 1, 10) ,
                                3: (2400, 1 , 11)}
+         # Crie um objeto Clock para controlar o tempo
+        self.__clock = pg.time.Clock()
         self.set_valores()
     
         self.__distancia_min_jogador = self.set_distancia_min_jogador()
@@ -26,28 +30,41 @@ class InimigoQueAtira(Inimigo):
         self.__velocidade_projetil = self.__valores_projetil[self.__nivel][2]
 
     def atualizar(self, eventos):
+        self.__pode_mexer = True
         # parte igual ao super:
         self.__colidindo = False
         #trata eventos:
         self.tratar_eventos(eventos)
 
-        
         # dados de movimento:
         self.set_direction()
         self.set_velocidade()
 
         #limitando movimento
+        if self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
+            #self.movimentacao(-1)
+            self.se_afastar()
+            self.__pode_mexer = False
 
+
+        """#limitando movimento
         while  self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
-            self.movimentacao(-1)
-        
-        self.movimentacao()
+            #self.movimentacao(-1)
+            self.se_afastar()"""
+        if self.__pode_mexer:
+            self.movimentacao()
 
         #verifica se tá vivo ainda
         self.verificar_vida()
 
         self.atualizar_meus_tiros(eventos)
         self.atirar()
+
+    def se_afastar(self):
+        periodo_afastamento = 10
+        if pg.time.get_ticks() - self.__tempo_ultimo_movimento > periodo_afastamento:
+            self.__tempo_ultimo_movimento = pg.time.get_ticks()
+            self.movimentacao(-1)
 
     def atualizar_meus_tiros(self, eventos):
 
