@@ -15,14 +15,12 @@ from jogo.labirinto.obstaculo import *
 
 class Labirinto(Entidade):
     def __init__(self, tela, jogador):
-        self.coord_sala_atual = [0, 0]
-        self.tela_w = tela.get_width()
-        self.tela_h = tela.get_height()
-        self.initMapaJogo(tela, jogador)
-
-    @property
-    def salas(self):
-        return self.__salas
+        self.__coord_sala_atual = [0, 0]
+        self.__tela_w = tela.get_width()
+        self.__tela_h = tela.get_height()
+        self.__salas = []
+        self.__portas = []
+        self.initLabirinto(tela, jogador)
 
     def getSala(self):
         i, j = self.coord_sala_atual
@@ -57,7 +55,7 @@ class Labirinto(Entidade):
 
         self.getSala().desenhar()
 
-    def initMapaJogo(self, tela, jogador):
+    def initLabirinto(self, tela, jogador):
         self.__salas = []
         self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
 
@@ -155,7 +153,7 @@ class Labirinto(Entidade):
                 return True
         return False
     
-'''
+        '''
                 movimentacao = {
                     SalaPortaEsquerda: [0, -1],
                     SalaPortaDireita:  [0, 1],
@@ -175,4 +173,45 @@ class Labirinto(Entidade):
 
 
     
-'''
+        '''
+
+    @property
+    def coord_sala_atual(self):
+        return self.__coord_sala_atual
+
+    @coord_sala_atual.setter
+    def coord_sala_atual(self, coord_sala_atual):
+        self.__coord_sala_atual = coord_sala_atual
+
+    @property
+    def tela_w(self):
+        return self.__tela_w
+
+    @tela_w.setter
+    def tela_w(self, tela_w):
+        self.__tela_w = tela_w
+
+    @property
+    def tela_h(self):
+        return self.__tela_h
+
+    @tela_h.setter
+    def tela_h(self, tela_h):
+        self.__tela_h = tela_h
+
+    @property
+    def salas(self):
+        return self.__salas
+
+    @salas.setter
+    def salas(self, salas):
+        self.__salas = salas
+
+    @property
+    def portas(self):
+        return self.__portas
+
+    @portas.setter
+    def portas(self, portas):
+        self.__portas = portas
+

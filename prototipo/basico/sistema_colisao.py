@@ -88,16 +88,19 @@ class SistemaColisao:
         tela_rect = tela.get_rect()
 
         for colisor in colisores:
-            rect = colisor.getRect()
+            nova_pos = list(colisor.pos_tela)
 
-            if rect.left < 0:
-                rect.left = 0
-            if rect.right > tela_rect.w:
-                rect.right = tela_rect.w
-            if rect.top < 0:
-                rect.top = 0
-            if rect.bottom > tela_rect.h:
-                rect.bottom = tela_rect.h
+            x, y = colisor.pos_tela
+            w, h = colisor.dimensoes
 
-            colisor.pos_tela = rect.center
+            if x - w/2 < 0:
+                nova_pos[0] = w/2
+            if x + w/2 > tela_rect.w:
+                nova_pos[0] = tela_rect.w - w/2
+            if y - h/2 < 0:
+                nova_pos[1] = h/2
+            if y + h/2 > tela_rect.h:
+                nova_pos[1] = tela_rect.h - h/2
+
+            colisor.pos_tela = tuple(nova_pos)
 

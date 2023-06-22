@@ -31,47 +31,6 @@ class Jogo:
 
         self.__modo = Modo.Labirinto
 
-    @property
-    def tela(self):
-        return self.__tela
-
-    @tela.setter
-    def tela(self, tela):
-        self.__tela = tela
-
-    @property
-    def jogador(self):
-        return self.__jogador
-
-    @jogador.setter
-    def jogador(self, jogador):
-        self.__jogador = jogador
-
-    @property
-    def labirinto(self):
-        return self.__labirinto
-
-    @labirinto.setter
-    def labirinto(self, labirinto):
-        self.__labirinto = labirinto
-
-    @property
-    def mapa(self):
-        return self.__mapa
-
-    @mapa.setter
-    def mapa_tela(self, mapa):
-        self.__mapa = mapa
-
-    @property
-    def modo(self):
-        return self.__modo
-
-    @modo.setter
-    def modo(self, modo):
-        self.__modo = modo
-
-
     def atualizar(self, eventos: list[Evento]):
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
@@ -124,5 +83,43 @@ class Jogo:
         text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_projeteis}', tamanho_fonte)
         text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
 
+    @property
+    def tela(self):
+        return self.__tela
 
+    @tela.setter
+    def tela(self, tela):
+        self.__tela = tela
+
+    @property
+    def jogador(self):
+        return self.__jogador
+
+    @jogador.setter
+    def jogador(self, jogador):
+        self.__jogador = jogador
+
+    @property
+    def labirinto(self):
+        return self.__labirinto
+
+    @labirinto.setter
+    def labirinto(self, labirinto):
+        self.__labirinto = labirinto
+
+    @property
+    def mapa(self):
+        return self.__mapa
+
+    @mapa.setter
+    def mapa_tela(self, mapa):
+        self.__mapa = mapa
+
+    @property
+    def modo(self):
+        return self.__modo
+
+    @modo.setter
+    def modo(self, modo):
+        self.__modo = modo
 
