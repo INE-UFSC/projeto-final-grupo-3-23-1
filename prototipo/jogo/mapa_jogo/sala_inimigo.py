@@ -14,7 +14,7 @@ class SalaInimigo(Sala):
 
     def criarInimigos(self, jogador, tela):
         from .inimigo import Inimigo
-        from .inimigo_que_atira import inimigo_que_atira
+        from .inimigo_que_atira import InimigoQueAtira
 
         for i in range(random.randrange(2, 5)):
             i = random.randrange(tela.get_width())
@@ -23,7 +23,7 @@ class SalaInimigo(Sala):
             self.__inimigos.append(Inimigo(tela,posicoes, [tela.get_width()*50/1960, tela.get_height()*50/1080], 
                                            DesenhavelRetangulo(tela, (255, 0, 0)), 1, 2, 3, jogador))
             
-        self.__inimigos.append(inimigo_que_atira(tela, posicoes, [tela.get_width()*50/1960, tela.get_height()*50/1080], 
+        self.__inimigos.append(InimigoQueAtira(tela, posicoes, [tela.get_width()*50/1960, tela.get_height()*50/1080], 
                                            DesenhavelRetangulo(tela,  (255, 192, 203)), 1, 2, 3, jogador, 1))
             
 
@@ -40,13 +40,13 @@ class SalaInimigo(Sala):
                     inimigo.pos_tela = (i, j)
 
     def getColisores(self):
-        from .inimigo_que_atira import inimigo_que_atira
+        from .inimigo_que_atira import InimigoQueAtira
         colisores = super().getColisores()
         
         for inimigo in self.__inimigos:
             if inimigo.ativo:
                 colisores.append(inimigo)
-            if type(inimigo) == inimigo_que_atira:
+            if type(inimigo) == InimigoQueAtira:
                 colisores.extend(inimigo.getColisores())
 
         for powerup in self.powerups:

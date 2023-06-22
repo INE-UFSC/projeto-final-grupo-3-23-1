@@ -4,7 +4,7 @@ import pygame as pg
 from jogo.jogador.jogador import Jogador
 import math
 
-class inimigo_que_atira(Inimigo):
+class InimigoQueAtira(Inimigo):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador, nivel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador)
         self.__nivel = nivel
