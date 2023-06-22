@@ -17,14 +17,62 @@ class EntidadeTela(Entidade, ABC):
     ):
         super().__init__(tela)
 
-        self.pos_tela = pos_tela
-        self.dimensoes = dimensoes
-        self.desenhavel = desenhavel
+        self.__pos_tela = pos_tela
+        self.__dimensoes = dimensoes
+        self.__desenhavel = desenhavel
 
-        self.ativo = True
+        self.__ativo = True
 
-        self.solido = solido
-        self.movel = movel
+        self.__solido = solido
+        self.__movel = movel
+
+    @property
+    def pos_tela(self):
+        return self.__pos_tela
+
+    @pos_tela.setter
+    def pos_tela(self, pos_tela):
+        self.__pos_tela = pos_tela
+
+    @property
+    def dimensoes(self):
+        return self.__dimensoes
+
+    @dimensoes.setter
+    def dimensoes(self, dimensoes):
+        self.__dimensoes = dimensoes
+
+    @property
+    def desenhavel(self):
+        return self.__desenhavel
+
+    @desenhavel.setter
+    def desenhavel(self, desenhavel):
+        self.__desenhavel = desenhavel
+
+    @property
+    def ativo(self):
+        return self.__ativo
+
+    @ativo.setter
+    def ativo(self, ativo):
+        self.__ativo = ativo
+
+    @property
+    def solido(self):
+        return self.__solido
+
+    @solido.setter
+    def solido(self, solido):
+        self.__solido = solido
+
+    @property
+    def movel(self):
+        return self.__movel
+
+    @movel.setter
+    def movel(self, movel):
+        self.__movel = movel
 
     def get_distancia(self, entidade1, entidade2):
         d = math.sqrt((entidade1.pos_tela[0]-entidade2.pos_tela[0])**2 + (entidade1.pos_tela[1] - entidade2.pos_tela[1])**2)

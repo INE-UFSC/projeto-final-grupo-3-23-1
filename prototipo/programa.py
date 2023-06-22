@@ -16,15 +16,64 @@ class Programa(Entidade):
         info = pg.display.Info()
 
 #        self.tela = pg.display.set_mode((1366, 768))
-        self.tela = pg.display.set_mode((info.current_w, info.current_h))
+        self.__tela = pg.display.set_mode((info.current_w, info.current_h))
         
-        self.jogo = Jogo(self.tela)
-        self.menu = Menu(self.tela)
-        self.instrucoes = Instrucoes(self.tela)
+        self.__jogo = Jogo(self.tela)
+        self.__menu = Menu(self.tela)
+        self.__instrucoes = Instrucoes(self.tela)
 
-        self.modo = 1
+        self.__modo = 1
 
-        self.colisoes = []
+        self.__colisoes = []
+
+    @property
+    def tela(self):
+        return self.__tela
+
+    @tela.setter
+    def tela(self, tela):
+        self.__tela = tela
+
+    @property
+    def jogo(self):
+        return self.__jogo
+
+    @jogo.setter
+    def jogo(self, jogo):
+        self.__jogo = jogo
+
+    @property
+    def menu(self):
+        return self.__menu
+
+    @menu.setter
+    def menu(self, menu):
+        self.__menu = menu
+
+    @property
+    def instrucoes(self):
+        return self.__instrucoes
+
+    @instrucoes.setter
+    def instrucoes(self, instrucoes):
+        self.__instrucoes = instrucoes
+
+    @property
+    def modo(self):
+        return self.__modo
+
+    @modo.setter
+    def modo(self, modo):
+        self.__modo = modo
+
+    @property
+    def colisoes(self):
+        return self.__colisoes
+
+    @colisoes.setter
+    def colisoes(self, colisoes):
+        self.__colisoes = colisoes
+
 
     def rodar(self):
         while True:

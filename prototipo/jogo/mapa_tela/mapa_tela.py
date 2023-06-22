@@ -6,16 +6,81 @@ from basico.evento import *
 
 class MapaTela(Entidade):
     def __init__(self, tela, salas):
-        self.tela = tela
-        self.salas = salas
-        self.marcadores = []
-        self.marcador_ativo = 0
+        self.__tela = tela
+        self.__salas = salas
+        self.__marcadores = []
+        self.__marcador_ativo = 0
 
-        self.desenhavel_sala = DesenhavelRetangulo(tela, (255, 255, 255))
-        self.desenhavel_porta = DesenhavelRetangulo(tela, (0, 255, 0))
-        self.desenhavel_marcador = DesenhavelRetangulo(tela, (0, 0, 255))
+        self.__desenhavel_sala = DesenhavelRetangulo(tela, (255, 255, 255))
+        self.__desenhavel_porta = DesenhavelRetangulo(tela, (0, 255, 0))
+        self.__desenhavel_marcador = DesenhavelRetangulo(tela, (0, 0, 255))
 
-        self.dimens_tela = tela.get_size()
+        self.__dimens_tela = tela.get_size()
+
+    @property
+    def tela(self):
+        return self.__tela
+
+    @tela.setter
+    def tela(self, tela):
+        self.__tela = tela
+
+    @property
+    def salas(self):
+        return self.__salas
+
+    @salas.setter
+    def salas(self, salas):
+        self.__salas = salas
+
+    @property
+    def marcadores(self):
+        return self.__marcadores
+
+    @marcadores.setter
+    def marcadores(self, marcadores):
+        self.__marcadores = marcadores
+
+    @property
+    def marcador_ativo(self):
+        return self.__marcador_ativo
+
+    @marcador_ativo.setter
+    def marcador_ativo(self, marcador_ativo):
+        self.__marcador_ativo = marcador_ativo
+
+    @property
+    def desenhavel_sala(self):
+        return self.__desenhavel_sala
+
+    @desenhavel_sala.setter
+    def desenhavel_sala(self, desenhavel_sala):
+        self.__desenhavel_sala = desenhavel_sala
+
+    @property
+    def desenhavel_porta(self):
+        return self.__desenhavel_porta
+
+    @desenhavel_porta.setter
+    def desenhavel_porta(self, desenhavel_porta):
+        self.__desenhavel_porta = desenhavel_porta
+
+    @property
+    def desenhavel_marcador(self):
+        return self.__desenhavel_marcador
+
+    @desenhavel_marcador.setter
+    def desenhavel_marcador(self, desenhavel_marcador):
+        self.__desenhavel_marcador = desenhavel_marcador
+
+    @property
+    def dimens_tela(self):
+        return self.__dimens_tela
+
+    @dimens_tela.setter
+    def dimens_tela(self, dimens_tela):
+        self.__dimens_tela = dimens_tela
+
 
     def posParaSala(self, x, y):
         for i in range(self.getQtdSalas()):

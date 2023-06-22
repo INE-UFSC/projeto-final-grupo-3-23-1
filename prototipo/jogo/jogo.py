@@ -19,17 +19,58 @@ class Modo(Enum):
 
 class Jogo:
     def __init__(self, tela):
-        self.tela = tela
+        self.__tela = tela
 
-        self.jogador = Jogador(
+        self.__jogador = Jogador(
             self.tela, (tela.get_width()/2, tela.get_height()/2), (50*tela.get_width()/1960, 50*tela.get_height()/1080),
             DesenhavelRetangulo(self.tela, (0, 255, 0))
         )
 
-        self.mapa_jogo = MapaJogo(self.tela, self.jogador)
-        self.mapa_tela = MapaTela(self.tela, self.mapa_jogo.salas)
+        self.__mapa_jogo = MapaJogo(self.tela, self.jogador)
+        self.__mapa_tela = MapaTela(self.tela, self.mapa_jogo.salas)
 
-        self.modo = Modo.MapaJogo
+        self.__modo = Modo.MapaJogo
+
+    @property
+    def tela(self):
+        return self.__tela
+
+    @tela.setter
+    def tela(self, tela):
+        self.__tela = tela
+
+    @property
+    def jogador(self):
+        return self.__jogador
+
+    @jogador.setter
+    def jogador(self, jogador):
+        self.__jogador = jogador
+
+    @property
+    def mapa_jogo(self):
+        return self.__mapa_jogo
+
+    @mapa_jogo.setter
+    def mapa_jogo(self, mapa_jogo):
+        self.__mapa_jogo = mapa_jogo
+
+    @property
+    def mapa_tela(self):
+        return self.__mapa_tela
+
+    @mapa_tela.setter
+    def mapa_tela(self, mapa_tela):
+        self.__mapa_tela = mapa_tela
+
+    @property
+    def modo(self):
+        return self.__modo
+
+    @modo.setter
+    def modo(self, modo):
+        self.__modo = modo
+
 
     def atualizar(self, eventos: list[Evento]):
         for evento in eventos:

@@ -4,7 +4,15 @@ from abc import ABC, abstractmethod
 
 class Desenhavel:
     def __init__(self, tela):
-        self.tela = tela
+        self.__tela = tela
+
+    @property
+    def tela(self):
+        return self.__tela
+
+    @tela.setter
+    def tela(self, tela):
+        self.__tela = tela
 
     @abstractmethod
     def desenhar(self):
@@ -13,7 +21,15 @@ class Desenhavel:
 class DesenhavelRetangulo(Desenhavel):
     def __init__(self, tela, cor):
         super().__init__(tela)
-        self.cor = cor
+        self.__cor = cor
+
+    @property
+    def cor(self):
+        return self.__cor
+
+    @cor.setter
+    def cor(self, cor):
+        self.__cor = cor
 
     def desenhar(self, pos_tela, dimensoes):
         rect = pg.Rect((0, 0), dimensoes)
