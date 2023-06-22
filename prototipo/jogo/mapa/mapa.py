@@ -1,7 +1,7 @@
 import pygame as pg
 from basico.entidade import Entidade
 from basico.desenhavel import DesenhavelRetangulo
-from jogo.mapa_jogo.sala_porta import *
+from jogo.labirinto.sala_porta import *
 from basico.evento import *
 
 class Mapa(Entidade):

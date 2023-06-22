@@ -3,9 +3,9 @@ from math import sin, cos, radians
 
 from basico.entidade_tela import EntidadeTela
 from basico.evento import *
-from jogo.mapa_jogo.sala_porta import *
-from jogo.mapa_jogo.powerup import *
-from jogo.mapa_jogo.obstaculo import *
+from jogo.labirinto.sala_porta import *
+from jogo.labirinto.powerup import *
+from jogo.labirinto.obstaculo import *
 from .projetil import Projetil
 
 class Jogador(EntidadeTela):
@@ -75,7 +75,7 @@ class Jogador(EntidadeTela):
 
             if isinstance(evento, EventoColisao) \
                     and evento.possui(self):
-                from jogo.mapa_jogo.inimigo import Inimigo
+                from jogo.labirinto.inimigo import Inimigo
 
                 if evento.possuiTipo(Inimigo):
                     self.perderVida()

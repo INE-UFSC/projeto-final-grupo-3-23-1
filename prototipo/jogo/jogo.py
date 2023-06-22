@@ -8,13 +8,13 @@ from basico.desenhavel import DesenhavelRetangulo
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
 
-from jogo.mapa_jogo.porta import Porta
+from jogo.labirinto.porta import Porta
 from jogo.jogador.jogador import Jogador
-from jogo.mapa_jogo.mapa_jogo import MapaJogo
+from jogo.labirinto.labirinto import Labirinto
 from jogo.mapa.mapa import Mapa
 
 class Modo(Enum):
-    MapaJogo = 1
+    Labirinto = 1
     Mapa = 2
 
 class Jogo:
@@ -26,10 +26,10 @@ class Jogo:
             DesenhavelRetangulo(self.tela, (0, 255, 0))
         )
 
-        self.__mapa_jogo = MapaJogo(self.tela, self.jogador)
-        self.__mapa = Mapa(self.tela, self.mapa_jogo.salas)
+        self.__labirinto = Labirinto(self.tela, self.jogador)
+        self.__mapa = Mapa(self.tela, self.labirinto.salas)
 
-        self.__modo = Modo.MapaJogo
+        self.__modo = Modo.Labirinto
 
     @property
     def tela(self):
@@ -48,12 +48,12 @@ class Jogo:
         self.__jogador = jogador
 
     @property
-    def mapa_jogo(self):
-        return self.__mapa_jogo
+    def labirinto(self):
+        return self.__labirinto
 
-    @mapa_jogo.setter
-    def mapa_jogo(self, mapa_jogo):
-        self.__mapa_jogo = mapa_jogo
+    @labirinto.setter
+    def labirinto(self, labirinto):
+        self.__labirinto = labirinto
 
     @property
     def mapa(self):
@@ -76,13 +76,13 @@ class Jogo:
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_TAB:
-                    if self.modo == Modo.MapaJogo:
+                    if self.modo == Modo.Labirinto:
                         self.modo = Modo.Mapa
                     else:
-                        self.modo = Modo.MapaJogo
+                        self.modo = Modo.Labirinto
 
-        if self.modo == Modo.MapaJogo:
-            self.mapa_jogo.atualizar(eventos)
+        if self.modo == Modo.Labirinto:
+            self.labirinto.atualizar(eventos)
             if self.jogador.ativo:
                 self.jogador.atualizar(eventos)
                     
@@ -93,8 +93,8 @@ class Jogo:
             self.mapa.atualizar(eventos)
 
     def desenhar(self):
-        if self.modo == Modo.MapaJogo:
-            self.mapa_jogo.desenhar()
+        if self.modo == Modo.Labirinto:
+            self.labirinto.desenhar()
             self.jogador.desenhar()
             self.desenharInformacoes()
         else:
@@ -103,7 +103,7 @@ class Jogo:
     def getColisores(self):
         colisores = []
 
-        sala = self.mapa_jogo.getSala()
+        sala = self.labirinto.getSala()
 
         colisores.extend(sala.getColisores())
         colisores.extend(self.jogador.getColisores())

@@ -2,18 +2,18 @@ from basico.entidade import Entidade
 from .sala import Sala
 from .porta import Porta
 from basico.evento import *
-from jogo.mapa_jogo.aparencia import Aparencia
-from jogo.mapa_jogo.musica import Musica
-from jogo.mapa_jogo.textura import Textura
-from jogo.mapa_jogo.inimigo import Inimigo
-from jogo.mapa_jogo.sala_inimigo import SalaInimigo
-from jogo.mapa_jogo.sala_porta import *
-from jogo.mapa_jogo.puzzle import Puzzle
-from jogo.mapa_jogo.powerup import *
-from jogo.mapa_jogo.sala_final import SalaFinal
-from jogo.mapa_jogo.obstaculo import *
+from jogo.labirinto.aparencia import Aparencia
+from jogo.labirinto.musica import Musica
+from jogo.labirinto.textura import Textura
+from jogo.labirinto.inimigo import Inimigo
+from jogo.labirinto.sala_inimigo import SalaInimigo
+from jogo.labirinto.sala_porta import *
+from jogo.labirinto.puzzle import Puzzle
+from jogo.labirinto.powerup import *
+from jogo.labirinto.sala_final import SalaFinal
+from jogo.labirinto.obstaculo import *
 
-class MapaJogo(Entidade):
+class Labirinto(Entidade):
     def __init__(self, tela, jogador):
         self.coord_sala_atual = [0, 0]
         self.tela_w = tela.get_width()

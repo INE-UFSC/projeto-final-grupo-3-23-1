@@ -145,9 +145,9 @@ class Programa(Entidade):
                 self.modo = 1
                 self.menu.botoes[1].resetApertou()
                 self.instrucoes.botao_x.resetApertou()
-        if self.menu.botoes[3].apertou or self.jogo.mapa_jogo.sala_final.botoes[0].apertou:
+        if self.menu.botoes[3].apertou or self.jogo.labirinto.sala_final.botoes[0].apertou:
             pg.quit()
             exit()
-        if self.jogo.mapa_jogo.sala_final.botoes[1].apertou:
+        if self.jogo.labirinto.sala_final.botoes[1].apertou:
             self.modo = 1
-            self.jogo.mapa_jogo.sala_final.botoes[1].resetApertou()
+            self.jogo.labirinto.sala_final.botoes[1].resetApertou()

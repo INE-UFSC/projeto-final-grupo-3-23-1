@@ -32,8 +32,8 @@ class Projetil(EntidadeTela):
         if nova_pos[1] < self.dimensoes[1]/2:
             self.ativo = False
 
-        from jogo.mapa_jogo.inimigo import Inimigo
-        from jogo.mapa_jogo.obstaculo import Obstaculo
+        from jogo.labirinto.inimigo import Inimigo
+        from jogo.labirinto.obstaculo import Obstaculo
         from jogo.jogador.jogador import Jogador
         for evento in eventos:
             if isinstance(evento, EventoColisao):
