@@ -28,6 +28,8 @@ class Programa(Entidade):
 
     def rodar(self):
         while True:
+#            print('inicio do frame')
+
             eventos = self.getEventos()
             eventos.extend(self.colisoes)
 
@@ -35,13 +37,7 @@ class Programa(Entidade):
 
             colisores = self.getColisores()
             self.colisoes = SistemaColisao.getColisoes(colisores)
-
-            """
-            for colisao in self.colisoes:
-                print(colisao.colisores)
-            """
-
-            SistemaColisao.atualizarSolidos(self.getColisores())
+            SistemaColisao.removerSobreposicoes(self.getColisores())
 
             self.desenhar()
 

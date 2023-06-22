@@ -5,6 +5,7 @@ from enum import Enum
 
 from basico.entidade_tela import EntidadeTela
 from basico.desenhavel import DesenhavelRetangulo
+from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
 
 from jogo.mapa_jogo.porta import Porta
@@ -35,13 +36,9 @@ class Jogo:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_TAB:
                     if self.modo == Modo.MapaJogo:
-#                        print('mapajogo para mapatela')
                         self.modo = Modo.MapaTela
                     else:
-#                        print('mapatela para mapajogo')
                         self.modo = Modo.MapaJogo
-
-#        print(self.modo)
 
         if self.modo == Modo.MapaJogo:
             self.mapa_jogo.atualizar(eventos)

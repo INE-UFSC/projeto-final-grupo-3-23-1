@@ -68,12 +68,27 @@ class MapaJogo(Entidade):
                            PowerupDano(tela, (self.tela_w/1980*300, self.tela_h/1080*800), 
                                       (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
 
-        obstaculos = [Obstaculo(tela, (self.tela_w/1980*500, self.tela_h/1080*800), 
-                                      (self.tela_w/1980*100, self.tela_h/1080*100), DesenhavelRetangulo(tela, (27, 27, 27))),
-                      Obstaculo(tela, (self.tela_w/1980*500, self.tela_h/1080*900), 
-                                      (self.tela_w/1980*100, self.tela_h/1080*100), DesenhavelRetangulo(tela, (27, 27, 27))),
-                      Obstaculo(tela, (self.tela_w/1980*599, self.tela_h/1080*800), 
-                                      (self.tela_w/1980*100, self.tela_h/1080*100), DesenhavelRetangulo(tela, (27, 27, 27)))]
+        obstaculos = [
+            Obstaculo(
+                tela,
+                (self.tela_w/1980*500, self.tela_h/1080*800), 
+                (self.tela_w/1980*100, self.tela_h/1080*100),
+                DesenhavelRetangulo(tela, (27, 27, 27))
+            ),
+            Obstaculo(
+                tela,
+                (self.tela_w/1980*500, self.tela_h/1080*900), 
+                (self.tela_w/1980*100, self.tela_h/1080*100),
+                DesenhavelRetangulo(tela, (27, 27, 27))
+            ),
+            Obstaculo(
+                tela,
+                (self.tela_w/1980*599, self.tela_h/1080*800), 
+                (self.tela_w/1980*100, self.tela_h/1080*100),
+                DesenhavelRetangulo(tela, (27, 27, 27))
+            )
+        ]
+
         for i in range(2):
             linha = []
             for j in range(2):

@@ -24,21 +24,25 @@ class SistemaColisao:
         return eventos
 
     @staticmethod
-    def atualizarSolidos(colisores: list[EntidadeTela]):
-        for i in range(len(colisores)):
-            for j in range(i+1, len(colisores)):
-                a = colisores[i]
-                b = colisores[j]
+    def removerSobreposicoes(colisores: list[EntidadeTela]):
+        for k in range(10):
+            passos = {}
 
-                if not (a.solido and b.solido):
-                    continue
+            solidos = [] 
+            for colisor in colisores:
+                if colisor.solido:
+                    solidos.append(colisor)
 
-                if not (a.movel or b.movel):
-                    continue
+            for i in range(len(solidos)):
+                for j in range(i+1, len(solidos)):
+                    a = solidos[i]
+                    b = solidos[j]
 
-                for k in range(10):
+                    if not (a.movel or b.movel):
+                        continue
+
                     if not SistemaColisao.colidiu(a, b):
-                        break
+                        continue
 
                     delta_x = b.pos_tela[0] - a.pos_tela[0]
                     delta_y = b.pos_tela[1] - a.pos_tela[1]
@@ -46,20 +50,36 @@ class SistemaColisao:
                     tamanho = sqrt(delta_x**2 + delta_y**2)
 
                     if tamanho == 0:
-                        vetor = (0, 1)
+                        vetor_ab = (0, 1)
                     else:
-                        vetor = (delta_x/tamanho, delta_y/tamanho)
+                        vetor_ab = (delta_x/tamanho, delta_y/tamanho)
 
                     vel = 1
 
                     if a.movel:
-                        nova_pos = list(a.pos_tela)
-                        nova_pos[0] += -vetor[0]*vel
-                        nova_pos[1] += -vetor[1]*vel
-                        a.pos_tela = tuple(nova_pos)
+                        passo_atual = [0, 0]
+                        passo_atual[0] += -vetor_ab[0]*vel
+                        passo_atual[1] += -vetor_ab[1]*vel
+
+                        if a in passos:
+                            passos[a][0] += passo_atual[0]
+                            passos[a][1] += passo_atual[1]
+                        else:
+                            passos[a] = passo_atual
                     if b.movel:
-                        nova_pos = list(b.pos_tela)
-                        nova_pos[0] += vetor[0]*vel
-                        nova_pos[1] += vetor[1]*vel
-                        b.pos_tela = tuple(nova_pos)
+                        passo_atual = [0, 0]
+                        passo_atual[0] += vetor_ab[0]*vel
+                        passo_atual[1] += vetor_ab[1]*vel
+
+                        if b in passos:
+                            passos[b][0] += passo_atual[0]
+                            passos[b][1] += passo_atual[1]
+                        else:
+                            passos[b] = passo_atual
+
+            for ent in passos:
+                nova_pos = list(ent.pos_tela)
+                nova_pos[0] += passos[ent][0]
+                nova_pos[1] += passos[ent][1]
+                ent.pos_tela = tuple(nova_pos)
 

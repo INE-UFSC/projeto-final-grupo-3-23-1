@@ -10,7 +10,6 @@ class Inimigo(EntidadeTela):
 
     def __init__(self,tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador ):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=True)
-        self.pos_atual = self.pos_tela
         self.__dano = dano
         self.__direction = 0
         self.__nivel_velocidade = velocidade
@@ -19,8 +18,6 @@ class Inimigo(EntidadeTela):
         self.__alvo = jogador
         # Crie um objeto Clock para controlar o tempo
         #self.__clock = pg.time.Clock()
-        self.__x = self.pos_tela[0]
-        self.__y = self.pos_tela[1]
         self.__colidindo = False
         self.__pode_mexer = True
 
@@ -72,27 +69,27 @@ class Inimigo(EntidadeTela):
                 self.ativo = False
 
         #se for jogador, não sobrepoe ele:
-        """
-        if type(colisor)== Jogador:
-            while SistemaColisao.colidiu(self, colisor) == True:
-                self.movimentacao(-1)
-        """
-            
-        """if type(colisor)== Obstaculo:
-            self.__pode_mexer = False
-            self.movimento_desvio(colisor)"""
-                
-
+#        if type(colisor)== Jogador:
+#            while SistemaColisao.colidiu(self, colisor) == True:
+#                self.movimentacao(-1)
+#            
+#        if type(colisor)== Obstaculo:
+#            self.__pode_mexer = False
+#            self.movimento_desvio(colisor)
+#                
+#            #self.movimento_nao_sobressair(colisor)
 
                     
 
     def movimentacao(self, sentido = 1):
         sentido = sentido
-        self.__x += (self.__velocidade * cos(self.__direction))*sentido
-        self.__y += (self.__velocidade * sin(self.__direction))*sentido
-        nova_posicao = [self.__x, self.__y]
-        self.pos_tela = tuple(nova_posicao)
-     
+
+        nova_pos = list(self.pos_tela)
+
+        nova_pos[0] += (self.__velocidade * cos(self.__direction))*sentido
+        nova_pos[1] += (self.__velocidade * sin(self.__direction))*sentido
+
+        self.pos_tela = tuple(nova_pos)
 
     def calculo_desvio(self, colisor):
         
@@ -161,8 +158,8 @@ class Inimigo(EntidadeTela):
         dx_ideal = colisor.dimensoes[0] + a + self.dimensoes[0]
         dy_ideal = colisor.dimensoes[1] + a + self.dimensoes[1]
 
-        dx_atual = abs(colisor_x - self.__x) +  (colisor.dimensoes[0]/2) + (self.dimensoes[0]/2)
-        dy_atual = abs(colisor_y - self.__y) +  (colisor.dimensoes[1]/2) + (self.dimensoes[1]/2)
+        dx_atual = abs(colisor_x - self.pos_tela[0]) +  (colisor.dimensoes[0]/2) + (self.dimensoes[0]/2)
+        dy_atual = abs(colisor_y - self.pos_tela[1]) +  (colisor.dimensoes[1]/2) + (self.dimensoes[1]/2)
 
         sobreposicao_x = abs(dx_ideal - dx_atual)
         sobreposicao_y = abs(dy_ideal - dy_atual)
@@ -175,20 +172,21 @@ class Inimigo(EntidadeTela):
             
             sobreposicao = self.calcular_sobreposicao(colisor)
 
-            if colisor.pos_tela[0] >= self.__x:
-                self.__x -= sobreposicao[0]
+            nova_pos = list(self.pos_tela)
+
+            if colisor.pos_tela[0] >= nova_pos[0]:
+                nova_pos[0] -= sobreposicao[0]
             
-            elif colisor.pos_tela[0] <= self.__x:
-                self.__x += sobreposicao[0]
+            elif colisor.pos_tela[0] <= nova_pos[0]:
+                nova_pos[0] += sobreposicao[0]
 
-            if colisor.pos_tela[1] <= self.__y:
-                self.__y += sobreposicao[1]
+            if colisor.pos_tela[1] <= nova_pos[1]:
+                nova_pos[1] += sobreposicao[1]
 
-            elif colisor.pos_tela[1] >= self.__y:
-                self.__y -= sobreposicao[1]
+            elif colisor.pos_tela[1] >= nova_pos[1]:
+                nova_pos[1] -= sobreposicao[1]
 
-            nova_posicao = [self.__x, self.__y]
-            self.pos_tela = tuple(nova_posicao)
+            self.pos_tela = tuple(nova_pos)
 
 
 #agradecimento de código ao grupo 4. [Artur Soda e xxxxxx]
@@ -196,8 +194,8 @@ class Inimigo(EntidadeTela):
         alvo_x = self.__alvo.pos_tela[0]
         alvo_y = self.__alvo.pos_tela[1]
 
-        dx = alvo_x - self.__x
-        dy = alvo_y - self.__y
+        dx = alvo_x - self.pos_tela[0]
+        dy = alvo_y - self.pos_tela[1]
         angle = atan2(dy, dx) 
         self.__direction = angle
 
