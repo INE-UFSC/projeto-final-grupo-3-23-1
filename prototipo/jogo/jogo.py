@@ -11,11 +11,11 @@ from basico.evento import *
 from jogo.mapa_jogo.porta import Porta
 from jogo.jogador.jogador import Jogador
 from jogo.mapa_jogo.mapa_jogo import MapaJogo
-from jogo.mapa_tela.mapa_tela import MapaTela
+from jogo.mapa.mapa import Mapa
 
 class Modo(Enum):
     MapaJogo = 1
-    MapaTela = 2
+    Mapa = 2
 
 class Jogo:
     def __init__(self, tela):
@@ -27,7 +27,7 @@ class Jogo:
         )
 
         self.__mapa_jogo = MapaJogo(self.tela, self.jogador)
-        self.__mapa_tela = MapaTela(self.tela, self.mapa_jogo.salas)
+        self.__mapa = Mapa(self.tela, self.mapa_jogo.salas)
 
         self.__modo = Modo.MapaJogo
 
@@ -56,12 +56,12 @@ class Jogo:
         self.__mapa_jogo = mapa_jogo
 
     @property
-    def mapa_tela(self):
-        return self.__mapa_tela
+    def mapa(self):
+        return self.__mapa
 
-    @mapa_tela.setter
-    def mapa_tela(self, mapa_tela):
-        self.__mapa_tela = mapa_tela
+    @mapa.setter
+    def mapa_tela(self, mapa):
+        self.__mapa = mapa
 
     @property
     def modo(self):
@@ -77,7 +77,7 @@ class Jogo:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_TAB:
                     if self.modo == Modo.MapaJogo:
-                        self.modo = Modo.MapaTela
+                        self.modo = Modo.Mapa
                     else:
                         self.modo = Modo.MapaJogo
 
@@ -90,7 +90,7 @@ class Jogo:
                 print('Fim de jogo')
                 exit()
         else:
-            self.mapa_tela.atualizar(eventos)
+            self.mapa.atualizar(eventos)
 
     def desenhar(self):
         if self.modo == Modo.MapaJogo:
@@ -98,7 +98,7 @@ class Jogo:
             self.jogador.desenhar()
             self.desenharInformacoes()
         else:
-            self.mapa_tela.desenhar()
+            self.mapa.desenhar()
 
     def getColisores(self):
         colisores = []

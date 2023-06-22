@@ -4,7 +4,7 @@ from basico.desenhavel import DesenhavelRetangulo
 from jogo.mapa_jogo.sala_porta import *
 from basico.evento import *
 
-class MapaTela(Entidade):
+class Mapa(Entidade):
     def __init__(self, tela, salas):
         self.__tela = tela
         self.__salas = salas
