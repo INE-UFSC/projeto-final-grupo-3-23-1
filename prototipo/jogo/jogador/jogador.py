@@ -23,6 +23,10 @@ class Jogador(EntidadeTela):
         self.__ultimo_tick_inv = 0
         self.__ultima_colisao = 0
         self.__ultimo_tiro = 0 
+        self.__dano_tiros = 1
+        self.__cadencia_tiros = 500
+        self.__velocidade_tiros = 10
+
 
     def atualizar(self, eventos: list):
         self.obstaculos = []
@@ -82,7 +86,18 @@ class Jogador(EntidadeTela):
                         self.last_tick = pg.time.get_ticks()
 
                 if evento.possuiTipo(Powerup):
-                    self.powerups.append(evento.getElemDoTipo(Powerup))
+                    powerup = evento.getElemDoTipo(Powerup)
+                    self.powerups.append(powerup)
+                    if isinstance(powerup, PowerupCadencia):
+                        self.__cadencia_tiros -= powerup.incremento
+            
+                    elif isinstance(powerup, PowerupVelocidadeTiro):
+                        self.__velocidade_tiros += powerup.incremento
+
+                    elif isinstance(powerup, PowerupDano):
+                        self.__dano_tiros += powerup.incremento
+
+
                 
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
@@ -161,22 +176,11 @@ class Jogador(EntidadeTela):
         return colisores
 
     def atirar(self, powerups):
-        dano, cadencia, velocidade = 1, 500, 10
-        for powerup in powerups:
-            if isinstance(powerup, PowerupCadencia):
-                cadencia -= powerup.incremento
-            
-            if isinstance(powerup, PowerupVelocidadeTiro):
-                velocidade += powerup.incremento
-
-            if isinstance(powerup, PowerupDano):
-                dano += powerup.incremento
-
-        if pg.time.get_ticks() - self.ultimo_tiro > cadencia:
+        if pg.time.get_ticks() - self.ultimo_tiro > self.__cadencia_tiros:
             self.ultimo_tiro = pg.time.get_ticks()
             self.tiros.append(Tiro(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
-                                    self.direcao, dano, velocidade))
+                                    self.direcao, self.__dano_tiros, self.__velocidade_tiros))
 
     @property
     def velocidade(self):
@@ -217,6 +221,18 @@ class Jogador(EntidadeTela):
     @property
     def ultimo_tiro(self):
         return self.__ultimo_tiro
+    
+    @property
+    def cadencia_tiros(self):
+        return self.__cadencia_tiros
+    
+    @property
+    def velocidade_tiros(self):
+        return self.__velocidade_tiros
+    
+    @property
+    def dano_tiros(self):
+        return self.__dano_tiros
 
     @velocidade.setter
     def velocidade(self, vel):

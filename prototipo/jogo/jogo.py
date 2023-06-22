@@ -58,6 +58,7 @@ class Jogo:
         if self.modo == Modo.MapaJogo:
             self.mapa_jogo.desenhar()
             self.jogador.desenhar()
+            self.desenharInformacoes()
         else:
             self.mapa_tela.desenhar()
 
@@ -70,6 +71,20 @@ class Jogo:
         colisores.extend(self.jogador.getColisores())
         return colisores
 
+    def desenharInformacoes(self):
+        from basico.desenhavel import DesenhavelTexto
+        tamanho_fonte = 25/1080
+        text_vida = DesenhavelTexto(self.tela, f'pontos de foco: {self.jogador.vida}', tamanho_fonte)
+        text_vida.desenharSuperiorDireito((0, 0))
+        espaco_linha = text_vida.espaco_linha
+        text_poderes = DesenhavelTexto(self.tela, 'poderes da varinha:', tamanho_fonte)
+        text_poderes.desenharSuperiorDireito((0, espaco_linha))
+        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_tiros}', tamanho_fonte)
+        text_dano.desenharSuperiorDireito((espaco_linha, espaco_linha*2))
+        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_tiros}', tamanho_fonte)
+        text_velocidade.desenharSuperiorDireito((espaco_linha, espaco_linha*3))
+        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_tiros}', tamanho_fonte)
+        text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
 
 
 

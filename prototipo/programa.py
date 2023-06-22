@@ -7,6 +7,7 @@ from basico.entidade import Entidade
 
 from jogo.jogo import Jogo
 from menu.menu import Menu
+from menu.instrucoes import Instrucoes
 
 class Programa(Entidade):
     def __init__(self):
@@ -19,6 +20,7 @@ class Programa(Entidade):
         
         self.jogo = Jogo(self.tela)
         self.menu = Menu(self.tela)
+        self.instrucoes = Instrucoes(self.tela)
 
         self.modo = 1
 
@@ -53,6 +55,8 @@ class Programa(Entidade):
             self.menu.atualizar(eventos)
         elif self.modo == 2:
             self.jogo.atualizar(eventos)
+        elif self.modo == 3:
+            self.instrucoes.atualizar(eventos)
 
     def desenhar(self):
         self.tela.fill((0, 0, 0))
@@ -60,6 +64,8 @@ class Programa(Entidade):
             self.menu.desenhar()
         elif self.modo == 2:
             self.jogo.desenhar()
+        elif self.modo == 3:
+            self.instrucoes.desenhar()
 
     def getEventos(self):
         eventos = []
@@ -88,6 +94,12 @@ class Programa(Entidade):
         if self.menu.botoes[0].apertou:
             self.modo = 2
             self.menu.botoes[0].resetApertou()
+        if self.menu.botoes[1].apertou:
+            self.modo = 3
+            if self.instrucoes.botao_x.apertou:
+                self.modo = 1
+                self.menu.botoes[1].resetApertou()
+                self.instrucoes.botao_x.resetApertou()
         if self.menu.botoes[3].apertou or self.jogo.mapa_jogo.sala_final.botoes[0].apertou:
             pg.quit()
             exit()
