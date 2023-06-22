@@ -85,8 +85,10 @@ class Programa(Entidade):
             self.atualizar(eventos)
 
             colisores = self.getColisores()
+
             self.colisoes = SistemaColisao.getColisoes(colisores)
-            SistemaColisao.removerSobreposicoes(self.getColisores())
+            SistemaColisao.removerSobreposicoes(colisores)
+            SistemaColisao.colocarDentroDaTela(colisores, self.tela)
 
             self.desenhar()
 

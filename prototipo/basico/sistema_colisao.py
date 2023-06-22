@@ -83,3 +83,21 @@ class SistemaColisao:
                 nova_pos[1] += passos[ent][1]
                 ent.pos_tela = tuple(nova_pos)
 
+    @staticmethod
+    def colocarDentroDaTela(colisores, tela):
+        tela_rect = tela.get_rect()
+
+        for colisor in colisores:
+            rect = colisor.getRect()
+
+            if rect.left < 0:
+                rect.left = 0
+            if rect.right > tela_rect.w:
+                rect.right = tela_rect.w
+            if rect.top < 0:
+                rect.top = 0
+            if rect.bottom > tela_rect.h:
+                rect.bottom = tela_rect.h
+
+            colisor.pos_tela = rect.center
+

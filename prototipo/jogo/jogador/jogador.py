@@ -122,6 +122,7 @@ class Jogador(EntidadeTela):
             nova_pos[0] += self.velocidade * cos(radians(self.direcao))
             nova_pos[1] += self.velocidade * sin(radians(self.direcao))
 
+            """
             if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
                 nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
             if nova_pos[0] < self.dimensoes[0]/2:
@@ -130,6 +131,7 @@ class Jogador(EntidadeTela):
                 nova_pos[1] = self.tela.get_height()-self.dimensoes[1]/2
             if nova_pos[1] < self.dimensoes[1]/2:
                 nova_pos[1] = self.dimensoes[1]/2
+            """
             
             self.pos_tela = tuple(nova_pos)
         
