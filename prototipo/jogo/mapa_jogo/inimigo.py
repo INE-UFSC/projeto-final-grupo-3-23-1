@@ -63,7 +63,7 @@ class Inimigo(EntidadeTela):
                 #self.movimento_desvio(colisor)
 
         # se for tiro, perde vida:
-        if type(colisor) == Tiro:
+        if type(colisor) == Tiro and not colisor.inimigo:
             self.__vida -= colisor.dano
             if self.__vida <= 0:
                 self.ativo = False

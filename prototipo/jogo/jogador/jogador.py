@@ -78,12 +78,10 @@ class Jogador(EntidadeTela):
                 from jogo.mapa_jogo.inimigo import Inimigo
 
                 if evento.possuiTipo(Inimigo):
-                    if not self.invulnerabilidade:
-                        self.vida -= 1
-                        self.invulnerabilidade = True
-                        self.desenhavel.cor = (255, 255, 255)
-                        self.ultima_colisao = pg.time.get_ticks()
-                        self.last_tick = pg.time.get_ticks()
+                    self.perderVida()
+
+                if evento.possuiTipo(Tiro) and evento.getElemDoTipo(Tiro).inimigo:
+                    self.perderVida()
 
                 if evento.possuiTipo(Powerup):
                     powerup = evento.getElemDoTipo(Powerup)
@@ -180,7 +178,15 @@ class Jogador(EntidadeTela):
             self.ultimo_tiro = pg.time.get_ticks()
             self.tiros.append(Tiro(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
-                                    self.direcao, self.__dano_tiros, self.__velocidade_tiros))
+                                    self.direcao, False, self.__dano_tiros, self.__velocidade_tiros))
+    
+    def perderVida(self):
+        if not self.invulnerabilidade:
+            self.vida -= 1
+            self.invulnerabilidade = True
+            self.desenhavel.cor = (255, 255, 255)
+            self.ultima_colisao = pg.time.get_ticks()
+            self.last_tick = pg.time.get_ticks()
 
     @property
     def velocidade(self):
