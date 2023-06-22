@@ -68,7 +68,7 @@ class inimigo_que_atira(Inimigo):
             tiro_direcao = math.degrees(self.direction)
             self.__tiros.append(Tiro(self.tela, self.pos_tela,
                                    (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
-                                   tiro_direcao, self.__forca_tiro, self.__velocidade_tiro))
+                                   tiro_direcao, True, self.__forca_tiro, self.__velocidade_tiro))
 
     def set_distancia_min_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
@@ -84,3 +84,11 @@ class inimigo_que_atira(Inimigo):
 
         for t in self.__tiros:
             t.desenhar()
+
+    def getColisores(self):
+        return self.tiros
+    
+
+    @property
+    def tiros(self):
+        return self.__tiros

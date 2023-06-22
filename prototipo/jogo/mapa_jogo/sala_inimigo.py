@@ -40,11 +40,14 @@ class SalaInimigo(Sala):
                     inimigo.pos_tela = (i, j)
 
     def getColisores(self):
+        from .inimigo_que_atira import inimigo_que_atira
         colisores = super().getColisores()
         
         for inimigo in self.__inimigos:
             if inimigo.ativo:
                 colisores.append(inimigo)
+            if type(inimigo) == inimigo_que_atira:
+                colisores.extend(inimigo.getColisores())
 
         for powerup in self.powerups:
             if powerup.ativo:
