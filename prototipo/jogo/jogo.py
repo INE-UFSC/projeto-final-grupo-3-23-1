@@ -4,7 +4,7 @@ from pygame.locals import *
 from enum import Enum
 
 from basico.entidade_tela import EntidadeTela, Entidade
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
 
@@ -22,9 +22,11 @@ class Jogo(Entidade):
         super().__init__(tela)
 
         dimens_jogador = (50*self.telaW()/1960, 50*self.telaH()/1080)
+        dimens_imagem = (3*dimens_jogador[0], 2*dimens_jogador[1])
         self.__jogador = Jogador(
             self.tela, (self.telaW()/2, self.telaH()/2), dimens_jogador,
-            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
+            DesenhavelImagem(self.tela, 'imagens/jogador.jpg', dimens_imagem)
+#            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
         )
 
         self.__labirinto = Labirinto(self.tela, self.jogador)

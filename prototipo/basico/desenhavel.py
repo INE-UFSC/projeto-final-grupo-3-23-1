@@ -78,13 +78,14 @@ class DesenhavelTexto(Desenhavel):
 class DesenhavelImagem(Desenhavel):
     def __init__(self, tela, arquivo, dimensoes):
         super().__init__(tela)
-        self.__imagem = pg.image.load(arquivo)
-        self.__dimensoes = dimensoes
+        self.__imagem = pg.image.load(arquivo).convert()
+        self.__imagem.set_colorkey('white')
+        self.__imagem.convert_alpha()
+        self.__imagem = pg.transform.scale(self.__imagem, dimensoes)
 
     def desenhar(self, pos_tela):
         rect = self.imagem.get_rect()
         rect.center = pos_tela
-        rect.size = self.dimensoes
 
         self.tela.blit(self.__imagem, rect)
 
