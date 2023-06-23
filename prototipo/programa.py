@@ -8,6 +8,7 @@ from basico.entidade import Entidade
 from jogo.jogo import Jogo
 from menu.menu import Menu
 from menu.instrucoes import Instrucoes
+from menu.creditos import Creditos
 
 class Programa(Entidade):
     def __init__(self):
@@ -21,6 +22,7 @@ class Programa(Entidade):
         self.__jogo = Jogo(self.tela)
         self.__menu = Menu(self.tela)
         self.__instrucoes = Instrucoes(self.tela)
+        self.__creditos = Creditos(self.tela)
 
         self.__modo = 1
 
@@ -40,7 +42,8 @@ class Programa(Entidade):
 
     @jogo.setter
     def jogo(self, jogo):
-        self.__jogo = jogo
+        if isinstance(jogo, Jogo):
+            self.__jogo = jogo
 
     @property
     def menu(self):
@@ -48,7 +51,8 @@ class Programa(Entidade):
 
     @menu.setter
     def menu(self, menu):
-        self.__menu = menu
+        if isinstance(menu, Menu):
+            self.__menu = menu
 
     @property
     def instrucoes(self):
@@ -56,7 +60,17 @@ class Programa(Entidade):
 
     @instrucoes.setter
     def instrucoes(self, instrucoes):
-        self.__instrucoes = instrucoes
+        if isinstance(instrucoes, Instrucoes):
+            self.__instrucoes = instrucoes
+    
+    @property
+    def creditos(self):
+        return self.__creditos
+    
+    @creditos.setter
+    def creditos(self, creditos):
+        if isinstance(creditos, Creditos):
+            self.__creditos = creditos
 
     @property
     def modo(self):
@@ -104,6 +118,8 @@ class Programa(Entidade):
             self.jogo.atualizar(eventos)
         elif self.modo == 3:
             self.instrucoes.atualizar(eventos)
+        elif self.modo == 4:
+            self.creditos.atualizar(eventos)
 
     def desenhar(self):
         self.tela.fill((0, 0, 0))
@@ -113,6 +129,8 @@ class Programa(Entidade):
             self.jogo.desenhar()
         elif self.modo == 3:
             self.instrucoes.desenhar()
+        elif self.modo == 4:
+            self.creditos.desenhar()
 
     def getEventos(self):
         eventos = []
@@ -143,10 +161,16 @@ class Programa(Entidade):
             self.menu.botoes[0].resetApertou()
         if self.menu.botoes[1].apertou:
             self.modo = 3
-            if self.instrucoes.botao_x.apertou:
+            if self.instrucoes.botao_voltar.apertou:
                 self.modo = 1
                 self.menu.botoes[1].resetApertou()
-                self.instrucoes.botao_x.resetApertou()
+                self.instrucoes.botao_voltar.resetApertou()
+        if self.menu.botoes[2].apertou:
+            self.modo = 4
+            if self.creditos.botao_voltar.apertou:
+                self.modo = 1
+                self.menu.botoes[2].resetApertou()
+                self.creditos.botao_voltar.resetApertou()
         if self.menu.botoes[3].apertou or self.jogo.labirinto.sala_final.botoes[0].apertou:
             pg.quit()
             exit()
