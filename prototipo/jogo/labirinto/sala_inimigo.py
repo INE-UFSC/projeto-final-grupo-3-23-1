@@ -20,11 +20,13 @@ class SalaInimigo(Sala):
             i = random.randrange(tela.get_width())
             j = random.randrange(tela.get_height())
             posicoes = (i, j)
-            self.__inimigos.append(Inimigo(tela,posicoes, [self.telaW()*50/1960, self.telaH()*50/1080], 
-                                           DesenhavelRetangulo(tela, (255, 0, 0)), 1, 2, 3, jogador))
+
+            dimens_inimigo = (self.telaW()*50/1960, self.telaH()*50/1080)
+            self.__inimigos.append(Inimigo(tela, posicoes, dimens_inimigo, 
+                                           DesenhavelRetangulo(tela, (255, 0, 0), dimens_inimigo), 1, 2, 3, jogador))
             
-        self.__inimigos.append(InimigoQueAtira(tela, posicoes, [self.telaW()*50/1960, self.telaH()*50/1080], 
-                                           DesenhavelRetangulo(tela,  (255, 192, 203)), 1, 2, 3, jogador, 1))
+        self.__inimigos.append(InimigoQueAtira(tela, posicoes, dimens_inimigo, 
+                                           DesenhavelRetangulo(tela,  (255, 192, 203), dimens_inimigo), 1, 2, 3, jogador, 1))
             
 
     def definirLocalInimigo(self, tela, eventos):

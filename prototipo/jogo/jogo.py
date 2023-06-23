@@ -21,9 +21,10 @@ class Jogo(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
+        dimens_jogador = (50*self.telaW()/1960, 50*self.telaH()/1080)
         self.__jogador = Jogador(
-            self.tela, (self.telaW()/2, self.telaH()/2), (50*self.telaW()/1960, 50*self.telaH()/1080),
-            DesenhavelRetangulo(self.tela, (0, 255, 0))
+            self.tela, (self.telaW()/2, self.telaH()/2), dimens_jogador,
+            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
         )
 
         self.__labirinto = Labirinto(self.tela, self.jogador)

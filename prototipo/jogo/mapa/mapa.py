@@ -11,23 +11,10 @@ class Mapa(Entidade):
         self.__marcadores = []
         self.__marcador_ativo = 0
 
-        self.__desenhavel_sala = DesenhavelRetangulo(tela, (255, 255, 255))
-        self.__desenhavel_porta = DesenhavelRetangulo(tela, (0, 255, 0))
-        self.__desenhavel_marcador = DesenhavelRetangulo(tela, (0, 0, 255))
-
         self.__dimens_tela = tela.get_size()
 
-    def posParaSala(self, x, y):
-        for i in range(self.getQtdSalas()):
-            for j in range(self.getQtdSalas()):
-                pos, dimens = self.getPosDimensSala(i, j)
-
-                rect = pg.Rect((0, 0), dimens)
-                rect.center = pos
-
-                if rect.collidepoint(x, y):
-                    return i, j
-        return None
+        self.__cor_sala = (255, 255, 255)
+        self.__cor_porta = (0, 255, 0)
 
     def atualizar(self, eventos):
         for evento in eventos:
@@ -59,6 +46,63 @@ class Mapa(Entidade):
                     Marcador.cor_i = 1
                 elif tecla == pg.K_3:
                     Marcador.cor_i = 2
+
+    def desenhar(self):
+        """
+        print(unidade)
+        print(dimens_min)
+        """
+
+        qtd_salas = self.getQtdSalas()
+
+        for i in range(qtd_salas):
+            for j in range(qtd_salas):
+                try:
+                    self.salas[i][j]
+                except:
+                    continue
+
+                def possui(sala, tipo_porta):
+                    return any(isinstance(x, tipo_porta) for x in sala.sala_portas)
+
+                for tipo_porta in self.getTiposPorta():
+                    if possui(self.salas[i][j], tipo_porta):
+                        pos, dimens = self.getPosDimensPorta(i, j)
+
+                        desenhavel = DesenhavelRetangulo(self.tela, self.cor_porta, dimens)
+                        desenhavel.desenhar(pos[tipo_porta])
+
+                marcador = None
+                for m in self.marcadores:
+                    if m.pos == (i, j):
+                        marcador = m
+
+                pos, dimens = self.getPosDimensSala(i, j)
+
+                """
+                print('i, j =', i, j)
+                print('pos =', pos)
+                """
+
+                if marcador is None:
+                    desenhavel = DesenhavelRetangulo(self.tela, self.cor_sala, dimens)
+                else:
+                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor, dimens)
+
+                desenhavel.desenhar(pos)
+
+    def posParaSala(self, x, y):
+        for i in range(self.getQtdSalas()):
+            for j in range(self.getQtdSalas()):
+                pos, dimens = self.getPosDimensSala(i, j)
+
+                rect = pg.Rect((0, 0), dimens)
+                rect.center = pos
+
+                if rect.collidepoint(x, y):
+                    return i, j
+        return None
+
 
     def getTamanhos(self):
         qtd_salas = self.getQtdSalas()
@@ -129,57 +173,6 @@ class Mapa(Entidade):
     def getTiposPorta(self):
         return [SalaPortaCima, SalaPortaEsquerda, SalaPortaDireita, SalaPortaBaixo]
 
-    def desenhar(self):
-        """
-        print(unidade)
-        print(dimens_min)
-        """
-
-        qtd_salas = self.getQtdSalas()
-
-        for i in range(qtd_salas):
-            for j in range(qtd_salas):
-                try:
-                    self.salas[i][j]
-                except:
-                    continue
-
-                def possui(sala, tipo_porta):
-                    return any(isinstance(x, tipo_porta) for x in sala.sala_portas)
-
-                for tipo_porta in self.getTiposPorta():
-                    if possui(self.salas[i][j], tipo_porta):
-                        pos, dimensoes = self.getPosDimensPorta(i, j)
-
-                        self.desenhavel_porta.desenhar(
-                            pos[tipo_porta],
-                            dimensoes[tipo_porta]
-                        )
-
-                marcador = None
-                for m in self.marcadores:
-                    if m.pos == (i, j):
-                        marcador = m
-
-                pos, dimens = self.getPosDimensSala(i, j)
-
-                """
-                print('i, j =', i, j)
-                print('pos =', pos)
-                """
-
-                if marcador is None:
-                    self.desenhavel_sala.desenhar(
-                        pos,
-                        dimens
-                    )
-                else:
-                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor)
-
-                    desenhavel.desenhar(
-                        pos,
-                        dimens
-                    )
 
     @property
     def tela(self):
@@ -214,30 +207,6 @@ class Mapa(Entidade):
         self.__marcador_ativo = marcador_ativo
 
     @property
-    def desenhavel_sala(self):
-        return self.__desenhavel_sala
-
-    @desenhavel_sala.setter
-    def desenhavel_sala(self, desenhavel_sala):
-        self.__desenhavel_sala = desenhavel_sala
-
-    @property
-    def desenhavel_porta(self):
-        return self.__desenhavel_porta
-
-    @desenhavel_porta.setter
-    def desenhavel_porta(self, desenhavel_porta):
-        self.__desenhavel_porta = desenhavel_porta
-
-    @property
-    def desenhavel_marcador(self):
-        return self.__desenhavel_marcador
-
-    @desenhavel_marcador.setter
-    def desenhavel_marcador(self, desenhavel_marcador):
-        self.__desenhavel_marcador = desenhavel_marcador
-
-    @property
     def dimens_tela(self):
         return self.__dimens_tela
 
@@ -245,6 +214,21 @@ class Mapa(Entidade):
     def dimens_tela(self, dimens_tela):
         self.__dimens_tela = dimens_tela
 
+    @property
+    def cor_sala(self):
+        return self.__cor_sala
+
+    @cor_sala.setter
+    def cor_sala(self, cor_sala):
+        self.__cor_sala = cor_sala
+
+    @property
+    def cor_porta(self):
+        return self.__cor_porta
+
+    @cor_porta.setter
+    def cor_porta(self, cor_porta):
+        self.__cor_porta = cor_porta
 
 class Marcador:
     cores = [(255, 255, 0), (0, 255, 255), (255, 0, 255)]

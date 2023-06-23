@@ -58,31 +58,33 @@ class Labirinto(Entidade):
         self.__salas = []
         self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
 
+        dimens_powerup = (self.telaW()/1980*40, self.telaH()/1080*40)
         powerups =        [PowerupVelocidadeTiro(tela, (self.telaW()/1980*300, self.telaH()/1080*400),
-                                                (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (255, 255, 0)), 2),
+                                                dimens_powerup, DesenhavelRetangulo(tela, (255, 255, 0), dimens_powerup), 2),
                            PowerupCadencia(tela, (self.telaW()/1980*300, self.telaH()/1080*600),
-                                          (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (115, 41, 165)), 200),
+                                          dimens_powerup, DesenhavelRetangulo(tela, (115, 41, 165), dimens_powerup), 200),
                            PowerupDano(tela, (self.telaW()/1980*300, self.telaH()/1080*800), 
-                                      (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
+                                      dimens_powerup, DesenhavelRetangulo(tela, (149, 27, 27), dimens_powerup), 1)]
 
+        dimens_obstaculo = (self.telaW()/1980*100, self.telaH()/1080*100)
         obstaculos = [
             Obstaculo(
                 tela,
                 (self.telaW()/1980*500, self.telaH()/1080*800), 
-                (self.telaW()/1980*100, self.telaH()/1080*100),
-                DesenhavelRetangulo(tela, (27, 27, 27))
+                dimens_obstaculo,
+                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
             ),
             Obstaculo(
                 tela,
                 (self.telaW()/1980*500, self.telaH()/1080*900), 
-                (self.telaW()/1980*100, self.telaH()/1080*100),
-                DesenhavelRetangulo(tela, (27, 27, 27))
+                dimens_obstaculo,
+                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
             ),
             Obstaculo(
                 tela,
                 (self.telaW()/1980*599, self.telaH()/1080*800), 
-                (self.telaW()/1980*100, self.telaH()/1080*100),
-                DesenhavelRetangulo(tela, (27, 27, 27))
+                dimens_obstaculo,
+                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
             )
         ]
 

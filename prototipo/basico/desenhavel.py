@@ -6,6 +6,10 @@ class Desenhavel:
     def __init__(self, tela):
         self.__tela = tela
 
+    @abstractmethod
+    def desenhar(self, pos_tela):
+        pass
+
     @property
     def tela(self):
         return self.__tela
@@ -14,14 +18,17 @@ class Desenhavel:
     def tela(self, tela):
         self.__tela = tela
 
-    @abstractmethod
-    def desenhar(self):
-        pass
-
 class DesenhavelRetangulo(Desenhavel):
-    def __init__(self, tela, cor):
+    def __init__(self, tela, cor, dimensoes):
         super().__init__(tela)
         self.__cor = cor
+        self.__dimensoes = dimensoes
+
+    def desenhar(self, pos_tela):
+        rect = pg.Rect((0, 0), self.dimensoes)
+        rect.center = pos_tela
+
+        pg.draw.rect(self.tela, self.cor, rect)
 
     @property
     def cor(self):
@@ -31,11 +38,13 @@ class DesenhavelRetangulo(Desenhavel):
     def cor(self, cor):
         self.__cor = cor
 
-    def desenhar(self, pos_tela, dimensoes):
-        rect = pg.Rect((0, 0), dimensoes)
-        rect.center = pos_tela
+    @property
+    def dimensoes(self):
+        return self.__dimensoes
 
-        pg.draw.rect(self.tela, self.cor, rect)
+    @dimensoes.setter
+    def dimensoes(self, dimensoes):
+        self.__dimensoes = dimensoes
 
 class DesenhavelTexto(Desenhavel):
     def __init__(self, tela, texto, tamanho_fonte = 40/1080,
@@ -65,4 +74,34 @@ class DesenhavelTexto(Desenhavel):
     @property
     def rect(self):
         return self.__rect
+
+class DesenhavelImagem(Desenhavel):
+    def __init__(self, tela, arquivo, dimensoes):
+        super().__init__(tela)
+        self.__imagem = pg.image.load(arquivo)
+        self.__dimensoes = dimensoes
+
+    def desenhar(self, pos_tela):
+        rect = self.imagem.get_rect()
+        rect.center = pos_tela
+        rect.size = self.dimensoes
+
+        self.tela.blit(self.__imagem, rect)
+
+    @property
+    def imagem(self):
+        return self.__imagem
+
+    @imagem.setter
+    def imagem(self, imagem):
+        self.__imagem = imagem
+
+    @property
+    def dimensoes(self):
+        return self.__dimensoes
+
+    @dimensoes.setter
+    def dimensoes(self, dimensoes):
+        self.__dimensoes = dimensoes
+
 

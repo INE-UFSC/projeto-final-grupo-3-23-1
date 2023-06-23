@@ -21,7 +21,7 @@ class Botao(EntidadeTela):
                     self.apertou = True
 
     def desenhar(self):
-        self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
+        self.desenhavel.desenhar(self.pos_tela)
 
         text_width, text_height = self.fonte.size(self.texto)
 

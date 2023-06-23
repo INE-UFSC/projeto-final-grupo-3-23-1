@@ -84,7 +84,7 @@ class EntidadeTela(Entidade, ABC):
         return rect
 
     def desenhar(self):
-        self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
+        self.desenhavel.desenhar(self.pos_tela)
 
     def getColisores(self):
         return [self]

@@ -8,17 +8,19 @@ class Menu(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
-        self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
-                              DesenhavelRetangulo(tela, (153, 76, 0)), "Jogar"),
+        dimens_botao = (5/16 *self.telaW(), 125/1080 *self.telaH())
 
-                       Botao(tela, (self.telaW()/2, 4*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
-                              DesenhavelRetangulo(tela, (153, 76, 0)), "Instruções"),
+        self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), dimens_botao,
+                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Jogar"),
 
-                       Botao(tela, (self.telaW()/2, 5*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
-                              DesenhavelRetangulo(tela, (153, 76, 0)), "Créditos"),
+                       Botao(tela, (self.telaW()/2, 4*self.telaH()/7), dimens_botao,
+                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Instruções"),
 
-                       Botao(tela, (self.telaW()/2, 6*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
-                              DesenhavelRetangulo(tela, (153, 76, 0)), "Sair")
+                       Botao(tela, (self.telaW()/2, 5*self.telaH()/7), dimens_botao,
+                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Créditos"),
+
+                       Botao(tela, (self.telaW()/2, 6*self.telaH()/7), dimens_botao,
+                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Sair")
                        ]
         self.modo = ""
         self.font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))

@@ -13,13 +13,15 @@ class SalaFinal(Sala):
         self.__modo = 1
         self.__jogador_dimensoes = jogador.dimensoes
         self.__superficies = []
+
+        dimens_botao = (self.telaW()/4, self.telaH()/16)
         self.botoes = [Botao(tela, (6*self.telaW()/8, 15*self.telaH()/16),
-                                  (self.telaW()/4, self.telaH()/16),
-                                  DesenhavelRetangulo(tela, (128, 64, 64)),
+                                  dimens_botao,
+                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
                                   'Sair', 40/1080),
                         Botao(tela, (6*self.telaW()/8, 13*self.telaH()/16),
-                                  (self.telaW()/4, self.telaH()/16),
-                                  DesenhavelRetangulo(tela, (128, 64, 64)),
+                                  dimens_botao,
+                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
                                   'Voltar a tela inicial', 40/1080)]
         self.tela = tela
     

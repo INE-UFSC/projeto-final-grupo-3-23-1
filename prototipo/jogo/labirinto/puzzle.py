@@ -6,10 +6,11 @@ from menu.botao import Botao
 
 class Puzzle(EntidadeTela):
     def __init__(self, tela, enigma, resposta, jogador):
+        dimens_puzzle = (tela.get_width()/8, tela.get_height()/8)
         super().__init__(tela,
                         (tela.get_width()/2, tela.get_height()*5/8),
-                        (tela.get_width()/8, tela.get_height()/8),
-                        DesenhavelRetangulo(tela, (128, 128, 128)),
+                        dimens_puzzle,
+                        DesenhavelRetangulo(tela, (128, 128, 128), dimens_puzzle),
                         solido=False, movel=False)
         self.__enigma = enigma
         self.__resposta = resposta
@@ -18,13 +19,14 @@ class Puzzle(EntidadeTela):
         self.__modo = 1
         self.__jogador = jogador
 
+        dimens_botao = (self.telaW()*3/16, self.telaH()/16)
         self.__botao_responder = Botao(tela, (self.telaW()*25/32, self.telaH()/2), 
-                                       (self.telaW()*3/16, self.telaH()/16),
-                                       DesenhavelRetangulo(tela, (128, 64, 64)),
+                                       dimens_botao,
+                                       DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
                                        'Responder', 40 / 1080)
         self.__botao_tentar_dnv = Botao(tela, (self.telaW()/2, self.telaH()/2), 
-                                        (self.telaW()*3/16, self.telaH()/16),
-                                       DesenhavelRetangulo(tela, (128, 64, 64)),
+                                        dimens_botao,
+                                       DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
                                        'Tentar novamente', 40 / 1080)
 
         self.__caixa_resposta = pg.Rect((0, 0), (self.telaW()/2, self.telaH()/16))

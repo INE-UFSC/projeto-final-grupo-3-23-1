@@ -6,7 +6,7 @@ from basico.evento import EventoColisao
 
 class Projetil(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, direcao, inimigo = False, dano = 1, velocidade = 10):
-        desenhavel = DesenhavelRetangulo(tela, (0, 255, 255))
+        desenhavel = DesenhavelRetangulo(tela, (0, 255, 255), dimensoes)
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=False, movel=False)
 
         self.__direcao = direcao

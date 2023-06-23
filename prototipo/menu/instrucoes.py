@@ -23,9 +23,11 @@ class Instrucoes(Entidade):
         if superficie.rect.width < self.telaW()*8/10:
             self.__explicacao.append(superficie)
         
+        dimens_botao_voltar = (self.telaW()/8, self.telaH()/10)
+
         self.__botao_voltar = Botao(tela, (self.telaW()/2, self.telaH()*9/10),
-                               (self.telaW()/8, self.telaH()/10), 
-                               DesenhavelRetangulo(tela, (153, 76, 0)), 'Voltar')
+                               dimens_botao_voltar, 
+                               DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao_voltar), 'Voltar')
 
     def desenhar(self):
         self.__titulo.desenhar((self.telaW()/2, self.telaH()/10))
