@@ -46,7 +46,7 @@ class SalaInimigo(Sala):
         for inimigo in self.__inimigos:
             if inimigo.ativo:
                 colisores.append(inimigo)
-            if type(inimigo) == InimigoQueAtira:
+            if type(inimigo) == InimigoQueAtira and inimigo.ativo:
                 colisores.extend(inimigo.getColisores())
 
         for powerup in self.powerups:
