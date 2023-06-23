@@ -11,6 +11,12 @@ class Entidade(ABC):
     @property
     def tela(self):
         return self.__tela
+    
+    def telaW(self):
+        return self.__tela.get_width()
+    
+    def telaH(self):
+        return self.__tela.get_height()
 
     @tela.setter
     def tela(self, tela):

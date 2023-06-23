@@ -106,12 +106,12 @@ class Jogador(EntidadeTela):
                                              sala_porta.dimensoes[1]+self.dimensoes[1]/2)
                         elif isinstance(sala_porta, SalaPortaCima):
                             self.pos_tela = (self.pos_tela[0], 
-                                             self.tela.get_height()-(sala_porta.dimensoes[1]+self.dimensoes[1]/2))
+                                             self.telaH()-(sala_porta.dimensoes[1]+self.dimensoes[1]/2))
                         elif isinstance(sala_porta, SalaPortaDireita):
                             self.pos_tela = (sala_porta.dimensoes[0]+self.dimensoes[0]/2, 
                                              self.pos_tela[1])
                         elif isinstance(sala_porta, SalaPortaEsquerda):
-                            self.pos_tela = (self.tela.get_width()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), 
+                            self.pos_tela = (self.telaW()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), 
                                              self.pos_tela[1])
                 
                 if evento.possuiTipo(Obstaculo):
@@ -162,7 +162,7 @@ class Jogador(EntidadeTela):
         if pg.time.get_ticks() - self.ultimo_tiro > self.cadencia_projeteis:
             self.ultimo_tiro = pg.time.get_ticks()
             self.projeteis.append(Projetil(self.tela, self.pos_tela,
-                                   (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080),
+                                   (self.telaW()*20/1980, self.telaH()*20/1080),
                                     self.direcao, False, self.dano_projeteis, self.velocidade_projeteis))
     
     def perderVida(self):

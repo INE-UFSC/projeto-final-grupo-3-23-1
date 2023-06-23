@@ -7,24 +7,21 @@ import pygame as pg
 class Menu(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
-        self.tela = tela
-        self.tela_h = tela.get_height()
-        self.tela_w = tela.get_width()
 
-        self.botoes = [Botao(tela, (self.tela_w/2, 3*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
+        self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Jogar"),
 
-                       Botao(tela, (self.tela_w/2, 4*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
+                       Botao(tela, (self.telaW()/2, 4*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Instruções"),
 
-                       Botao(tela, (self.tela_w/2, 5*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
+                       Botao(tela, (self.telaW()/2, 5*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Créditos"),
 
-                       Botao(tela, (self.tela_w/2, 6*self.tela_h/7), (5/16 *self.tela_w, 125/1080 *self.tela_h),
+                       Botao(tela, (self.telaW()/2, 6*self.telaH()/7), (5/16 *self.telaW(), 125/1080 *self.telaH()),
                               DesenhavelRetangulo(tela, (153, 76, 0)), "Sair")
                        ]
         self.modo = ""
-        self.font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.tela_h))
+        self.font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))
 
     def atualizar(self, eventos: list):
         for botao in self.botoes:
@@ -32,7 +29,7 @@ class Menu(Entidade):
 
     def desenhar(self):
         self.tela.blit(self.font.render("Labirinto de Talam", False, (255, 255, 255)),
-                        (self.tela_w/11, self.tela_h/6))
+                        (self.telaW()/11, self.telaH()/6))
 
         for botao in self.botoes:
             botao.desenhar()

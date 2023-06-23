@@ -84,7 +84,7 @@ class InimigoQueAtira(Inimigo):
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
             projetil_direcao = math.degrees(self.direction)
             self.__projeteis.append(Projetil(self.tela, self.pos_tela,
-                                   (self.tela.get_width()*20/1980, self.tela.get_height()*20/1080) , 
+                                   (self.telaW()*20/1980, self.telaH()*20/1080) , 
                                    projetil_direcao, True, self.__forca_projetil, self.__velocidade_projetil))
 
     def set_distancia_min_jogador(self):

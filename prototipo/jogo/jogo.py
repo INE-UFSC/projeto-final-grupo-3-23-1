@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from enum import Enum
 
-from basico.entidade_tela import EntidadeTela
+from basico.entidade_tela import EntidadeTela, Entidade
 from basico.desenhavel import DesenhavelRetangulo
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
@@ -17,12 +17,12 @@ class Modo(Enum):
     Labirinto = 1
     Mapa = 2
 
-class Jogo:
+class Jogo(Entidade):
     def __init__(self, tela):
-        self.__tela = tela
+        super().__init__(tela)
 
         self.__jogador = Jogador(
-            self.tela, (tela.get_width()/2, tela.get_height()/2), (50*tela.get_width()/1960, 50*tela.get_height()/1080),
+            self.tela, (self.telaW()/2, self.telaH()/2), (50*self.telaW()/1960, 50*self.telaH()/1080),
             DesenhavelRetangulo(self.tela, (0, 255, 0))
         )
 
@@ -82,14 +82,6 @@ class Jogo:
         text_velocidade.desenharSuperiorDireito((espaco_linha, espaco_linha*3))
         text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_projeteis}', tamanho_fonte)
         text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
-
-    @property
-    def tela(self):
-        return self.__tela
-
-    @tela.setter
-    def tela(self, tela):
-        self.__tela = tela
 
     @property
     def jogador(self):

@@ -7,7 +7,7 @@ from .aparencia import Aparencia
 
 
 class Sala(Entidade, ABC):
-    def __init__(self, desenhavel, tela):
+    def __init__(self, tela, desenhavel):
         super().__init__(tela)
         self.__desenhavel = desenhavel
         self.__sala_portas = []

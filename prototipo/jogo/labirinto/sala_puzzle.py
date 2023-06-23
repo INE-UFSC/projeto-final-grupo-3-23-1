@@ -2,7 +2,7 @@ from .sala import Sala
 from .puzzle import Puzzle
 
 class SalaPuzzle(Sala):
-    def __init__(self, desenhavel, tela, enigma, resposta, jogador):
+    def __init__(self, tela, desenhavel, enigma, resposta, jogador):
         super().__init__(tela, desenhavel)
         self.__puzzle = Puzzle(tela, enigma, resposta, jogador)
     

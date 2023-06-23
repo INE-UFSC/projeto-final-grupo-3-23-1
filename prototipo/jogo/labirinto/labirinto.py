@@ -15,9 +15,8 @@ from jogo.labirinto.obstaculo import *
 
 class Labirinto(Entidade):
     def __init__(self, tela, jogador):
+        super().__init__(tela)
         self.__coord_sala_atual = [0, 0]
-        self.__tela_w = tela.get_width()
-        self.__tela_h = tela.get_height()
         self.__salas = []
         self.__portas = []
         self.initLabirinto(tela, jogador)
@@ -59,30 +58,30 @@ class Labirinto(Entidade):
         self.__salas = []
         self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
 
-        powerups =        [PowerupVelocidadeTiro(tela, (self.tela_w/1980*300, self.tela_h/1080*400),
-                                                (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (255, 255, 0)), 2),
-                           PowerupCadencia(tela, (self.tela_w/1980*300, self.tela_h/1080*600),
-                                          (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (115, 41, 165)), 200),
-                           PowerupDano(tela, (self.tela_w/1980*300, self.tela_h/1080*800), 
-                                      (self.tela_w/1980*40, self.tela_h/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
+        powerups =        [PowerupVelocidadeTiro(tela, (self.telaW()/1980*300, self.telaH()/1080*400),
+                                                (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (255, 255, 0)), 2),
+                           PowerupCadencia(tela, (self.telaW()/1980*300, self.telaH()/1080*600),
+                                          (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (115, 41, 165)), 200),
+                           PowerupDano(tela, (self.telaW()/1980*300, self.telaH()/1080*800), 
+                                      (self.telaW()/1980*40, self.telaH()/1080*40), DesenhavelRetangulo(tela, (149, 27, 27)), 1)]
 
         obstaculos = [
             Obstaculo(
                 tela,
-                (self.tela_w/1980*500, self.tela_h/1080*800), 
-                (self.tela_w/1980*100, self.tela_h/1080*100),
+                (self.telaW()/1980*500, self.telaH()/1080*800), 
+                (self.telaW()/1980*100, self.telaH()/1080*100),
                 DesenhavelRetangulo(tela, (27, 27, 27))
             ),
             Obstaculo(
                 tela,
-                (self.tela_w/1980*500, self.tela_h/1080*900), 
-                (self.tela_w/1980*100, self.tela_h/1080*100),
+                (self.telaW()/1980*500, self.telaH()/1080*900), 
+                (self.telaW()/1980*100, self.telaH()/1080*100),
                 DesenhavelRetangulo(tela, (27, 27, 27))
             ),
             Obstaculo(
                 tela,
-                (self.tela_w/1980*599, self.tela_h/1080*800), 
-                (self.tela_w/1980*100, self.tela_h/1080*100),
+                (self.telaW()/1980*599, self.telaH()/1080*800), 
+                (self.telaW()/1980*100, self.telaH()/1080*100),
                 DesenhavelRetangulo(tela, (27, 27, 27))
             )
         ]
@@ -94,8 +93,8 @@ class Labirinto(Entidade):
 
             self.__salas.append(linha)
         
-        self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
-        self.__salas[1].append(SalaPuzzle('definir desenhavel', tela, 'responda b', 'b', jogador))
+        self.__salas[0].append(SalaPuzzle(tela, 'definir desenhavel', 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
+        self.__salas[1].append(SalaPuzzle(tela, 'definir desenhavel', 'responda b', 'b', jogador))
         self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
         self.__salas.append([self.sala_final])
         self.__salas[0][0].powerups = powerups
@@ -182,22 +181,6 @@ class Labirinto(Entidade):
     @coord_sala_atual.setter
     def coord_sala_atual(self, coord_sala_atual):
         self.__coord_sala_atual = coord_sala_atual
-
-    @property
-    def tela_w(self):
-        return self.__tela_w
-
-    @tela_w.setter
-    def tela_w(self, tela_w):
-        self.__tela_w = tela_w
-
-    @property
-    def tela_h(self):
-        return self.__tela_h
-
-    @tela_h.setter
-    def tela_h(self, tela_h):
-        self.__tela_h = tela_h
 
     @property
     def salas(self):

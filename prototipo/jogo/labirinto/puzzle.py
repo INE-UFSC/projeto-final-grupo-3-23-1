@@ -6,11 +6,9 @@ from menu.botao import Botao
 
 class Puzzle(EntidadeTela):
     def __init__(self, tela, enigma, resposta, jogador):
-        self.tela_w = tela.get_width()
-        self.tela_h = tela.get_height()
         super().__init__(tela,
-                        (self.tela_w/2, self.tela_h*5/8),
-                        (self.tela_w/8, self.tela_h/8),
+                        (tela.get_width()/2, tela.get_height()*5/8),
+                        (tela.get_width()/8, tela.get_height()/8),
                         DesenhavelRetangulo(tela, (128, 128, 128)),
                         solido=False, movel=False)
         self.__enigma = enigma
@@ -20,29 +18,29 @@ class Puzzle(EntidadeTela):
         self.__modo = 1
         self.__jogador = jogador
 
-        self.__botao_responder = Botao(self.tela, (self.tela_w*25/32, self.tela_h/2), 
-                                       (self.tela_w*3/16, self.tela_h/16),
-                                       DesenhavelRetangulo(self.tela, (128, 64, 64)),
+        self.__botao_responder = Botao(tela, (self.telaW()*25/32, self.telaH()/2), 
+                                       (self.telaW()*3/16, self.telaH()/16),
+                                       DesenhavelRetangulo(tela, (128, 64, 64)),
                                        'Responder', 40 / 1080)
-        self.__botao_tentar_dnv = Botao(self.tela, (self.tela_w/2, self.tela_h/2), 
-                                        (self.tela_w*3/16, self.tela_h/16),
-                                       DesenhavelRetangulo(self.tela, (128, 64, 64)),
+        self.__botao_tentar_dnv = Botao(tela, (self.telaW()/2, self.telaH()/2), 
+                                        (self.telaW()*3/16, self.telaH()/16),
+                                       DesenhavelRetangulo(tela, (128, 64, 64)),
                                        'Tentar novamente', 40 / 1080)
 
-        self.__caixa_resposta = pg.Rect((0, 0), (self.tela_w/2, self.tela_h/16))
-        self.__caixa_resposta.center = (self.tela_w*3/8, self.tela_h/2)
+        self.__caixa_resposta = pg.Rect((0, 0), (self.telaW()/2, self.telaH()/16))
+        self.__caixa_resposta.center = (self.telaW()*3/8, self.telaH()/2)
 
         #cria as linhas da pergunta
         self.__superficies = []
         linha = ''
         for carac in self.__enigma:
             linha += carac
-            superficie = DesenhavelTexto(self.tela, linha)
+            superficie = DesenhavelTexto(tela, linha)
             if carac == ' ':
-                if not superficie.rect.width < self.tela_w*6/8:
+                if not superficie.rect.width < self.telaW()*6/8:
                     self.__superficies.append(superficie)
                     linha = ''
-        if superficie.rect.width < self.tela_w*6/8 or carac != ' ':
+        if superficie.rect.width < self.telaW()*6/8 or carac != ' ':
             self.__superficies.append(superficie)
         self.__superficies.reverse()
         
@@ -106,9 +104,9 @@ class Puzzle(EntidadeTela):
         if self.__modo == 2 or self.__modo == 3 or self.__modo == 4:
 
             #desenhar pergunta
-            altura = self.tela_h*3/8
+            altura = self.telaH()*3/8
             for s in self.__superficies:
-                s.desenhar((self.tela_w/2, altura))
+                s.desenhar((self.telaW()/2, altura))
                 altura -= s.espaco_linha
 
             #desenhar caixa_reposta
@@ -129,11 +127,11 @@ class Puzzle(EntidadeTela):
  
         elif self.__modo == 5:
             text = DesenhavelTexto(self.tela, 'Parabéns! Você acertou!')
-            text.desenhar((self.tela_w/2, self.tela_h*3/8))
+            text.desenhar((self.telaW()/2, self.telaH()*3/8))
  
         elif self.__modo == 6:
             text = DesenhavelTexto(self.tela, 'Você errou!')
-            text.desenhar((self.tela_w/2, self.tela_h*3/8))
+            text.desenhar((self.telaW()/2, self.telaH()*3/8))
             self.__botao_tentar_dnv.desenhar()
 
     @property

@@ -15,10 +15,10 @@ class Programa(Entidade):
         pg.init()
 
         info = pg.display.Info()
-
 #        self.tela = pg.display.set_mode((1366, 768))
-        self.__tela = pg.display.set_mode((info.current_w, info.current_h))
-        
+        tela = pg.display.set_mode((info.current_w, info.current_h))
+        super().__init__(tela)
+
         self.__jogo = Jogo(self.tela)
         self.__menu = Menu(self.tela)
         self.__instrucoes = Instrucoes(self.tela)
@@ -27,14 +27,6 @@ class Programa(Entidade):
         self.__modo = 1
 
         self.__colisoes = []
-
-    @property
-    def tela(self):
-        return self.__tela
-
-    @tela.setter
-    def tela(self, tela):
-        self.__tela = tela
 
     @property
     def jogo(self):

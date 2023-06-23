@@ -13,12 +13,12 @@ class SalaFinal(Sala):
         self.__modo = 1
         self.__jogador_dimensoes = jogador.dimensoes
         self.__superficies = []
-        self.botoes = [Botao(tela, (6*tela.get_width()/8, 15*tela.get_height()/16),
-                                  (tela.get_width()/4, tela.get_height()/16),
+        self.botoes = [Botao(tela, (6*self.telaW()/8, 15*self.telaH()/16),
+                                  (self.telaW()/4, self.telaH()/16),
                                   DesenhavelRetangulo(tela, (128, 64, 64)),
                                   'Sair', 40/1080),
-                        Botao(tela, (6*tela.get_width()/8, 13*tela.get_height()/16),
-                                  (tela.get_width()/4, tela.get_height()/16),
+                        Botao(tela, (6*self.telaW()/8, 13*self.telaH()/16),
+                                  (self.telaW()/4, self.telaH()/16),
                                   DesenhavelRetangulo(tela, (128, 64, 64)),
                                   'Voltar a tela inicial', 40/1080)]
         self.tela = tela
@@ -34,9 +34,9 @@ class SalaFinal(Sala):
     def desenharResto(self):
         self.__jogador_sala_final.desenhar()
         if self.__modo == 2:
-            altura = self.tela.get_height()/2 - (self.__jogador_dimensoes[1] + self.tela.get_height()/8)
+            altura = self.telaH()/2 - (self.__jogador_dimensoes[1] + self.telaH()/8)
             for s in self.__superficies:
-                s.desenhar((self.tela.get_width()/2, altura))
+                s.desenhar((self.telaW()/2, altura))
                 altura -= s.espaco_linha
             for botao in self.botoes:
                 botao.desenhar()
