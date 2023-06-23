@@ -69,7 +69,7 @@ class Mapa(Entidade):
                     if possui(self.salas[i][j], tipo_porta):
                         pos, dimens = self.getPosDimensPorta(i, j)
 
-                        desenhavel = DesenhavelRetangulo(self.tela, self.cor_porta, dimens)
+                        desenhavel = DesenhavelRetangulo(self.tela, self.cor_porta, dimens[tipo_porta])
                         desenhavel.desenhar(pos[tipo_porta])
 
                 marcador = None
