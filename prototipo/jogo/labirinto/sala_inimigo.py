@@ -6,7 +6,7 @@ from basico.desenhavel import DesenhavelRetangulo
 
 class SalaInimigo(Sala):
     def __init__(self, tela, desenhavel, powerups, jogador):
-        super().__init__(desenhavel)
+        super().__init__(tela, desenhavel)
         self.__powerups = powerups
         self.__inimigos = []
         self.__obstaculos = []

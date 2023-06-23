@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pygame as pg
 
-from basico.evento import Evento
+from .evento import Evento
 
 class Entidade(ABC):
     def __init__(self, tela: pg.Surface):

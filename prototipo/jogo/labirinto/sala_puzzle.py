@@ -3,7 +3,7 @@ from .puzzle import Puzzle
 
 class SalaPuzzle(Sala):
     def __init__(self, desenhavel, tela, enigma, resposta, jogador):
-        super().__init__(desenhavel)
+        super().__init__(tela, desenhavel)
         self.__puzzle = Puzzle(tela, enigma, resposta, jogador)
     
     def desenharResto(self):

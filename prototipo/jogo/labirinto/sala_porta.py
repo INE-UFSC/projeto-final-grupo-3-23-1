@@ -60,4 +60,3 @@ class SalaPortaEsquerda(SalaPorta):
         pos_tela = (0, tela.get_height()/2)
         dimensoes = (tela.get_width()/15, tela.get_height()/4)
         super().__init__(tela, sala, porta, pos_tela, dimensoes)
-

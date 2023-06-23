@@ -94,7 +94,7 @@ class Labirinto(Entidade):
 
             self.__salas.append(linha)
         
-        self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
+        self.__salas[0].append(SalaPuzzle('definir desenhavel', tela, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
         self.__salas[1].append(SalaPuzzle('definir desenhavel', tela, 'responda b', 'b', jogador))
         self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
         self.__salas.append([self.sala_final])
@@ -103,8 +103,8 @@ class Labirinto(Entidade):
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)
-            porta.adicionar_sala_porta(sala_porta)
-            sala.adicionar_sala_porta(sala_porta)
+            porta.adicionarSalaPorta(sala_porta)
+            sala.adicionarSalaPorta(sala_porta)
 
         # 0,0 -0- 0,1
         #  |       |

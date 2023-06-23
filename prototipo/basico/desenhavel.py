@@ -55,6 +55,10 @@ class DesenhavelTexto(Desenhavel):
         self.tela.blit(self.__superficie, self.__rect)
 
     @property
+    def superficie(self):
+        return self.__superficie
+
+    @property
     def espaco_linha(self):
         return self.__espaco_linha
     

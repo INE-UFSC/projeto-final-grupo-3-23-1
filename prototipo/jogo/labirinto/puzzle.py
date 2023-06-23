@@ -1,5 +1,5 @@
 from basico.entidade_tela import EntidadeTela
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelTexto
 from basico.evento import EventoApertouBotaoEsquerdo, EventoColisao, EventoApertouTecla
 import pygame as pg
 from menu.botao import Botao
@@ -16,13 +16,10 @@ class Puzzle(EntidadeTela):
         self.__enigma = enigma
         self.__resposta = resposta
         self.__chute = ''
-        self.__fonte = pg.font.SysFont("Comic Sans MS", int(40/1080 * self.tela_h))
         self.__resolvido = False
         self.__modo = 1
         self.__jogador = jogador
-        self.criar_elementos()
-    
-    def criar_elementos(self):
+
         self.__botao_responder = Botao(self.tela, (self.tela_w*25/32, self.tela_h/2), 
                                        (self.tela_w*3/16, self.tela_h/16),
                                        DesenhavelRetangulo(self.tela, (128, 64, 64)),
@@ -40,11 +37,12 @@ class Puzzle(EntidadeTela):
         linha = ''
         for carac in self.__enigma:
             linha += carac
-            superficie = self.__fonte.render(linha, True, (255, 255, 255))
-            if not superficie.get_rect().width < self.tela_w*6/8:
-                self.__superficies.append(superficie)
-                linha = ''
-        if superficie.get_rect().width < self.tela_w*6/8:
+            superficie = DesenhavelTexto(self.tela, linha)
+            if carac == ' ':
+                if not superficie.rect.width < self.tela_w*6/8:
+                    self.__superficies.append(superficie)
+                    linha = ''
+        if superficie.rect.width < self.tela_w*6/8 or carac != ' ':
             self.__superficies.append(superficie)
         self.__superficies.reverse()
         
@@ -74,6 +72,9 @@ class Puzzle(EntidadeTela):
                             self.__modo = 4
                     else:
                         self.__chute += evento.unicode
+                        chute = DesenhavelTexto(self.tela, self.__chute)
+                        if chute.rect.width > self.__caixa_resposta.width:
+                            self.__chute = self.__chute[:-1]
 
                 elif isinstance(evento, EventoApertouBotaoEsquerdo): #se clicar fora da caixa de resposta
                     if not self.__caixa_resposta.collidepoint(evento.pos_mouse): 
@@ -82,7 +83,7 @@ class Puzzle(EntidadeTela):
 
         elif self.__modo == 4:
             self.__jogador.ativo = True
-            if self.__chute == self.__resposta:
+            if self.__chute.strip().lower() == self.__resposta:
                 self.__resolvido = True
                 self.__modo = 5
             else:
@@ -92,26 +93,23 @@ class Puzzle(EntidadeTela):
             self.__botao_tentar_dnv.atualizar(eventos)
             if self.__botao_tentar_dnv.apertou:
                 self.__modo = 2
-                self.__botao_tentar_dnv.apertou = False
+                self.__botao_tentar_dnv.resetApertou()
                 self.__chute = ''
 
         self.__botao_responder.atualizar(eventos)
         if self.__botao_responder.apertou:
             self.__modo = 4
-            self.__botao_responder.apertou = False
+            self.__botao_responder.resetApertou()
     
     def desenhar(self):
-        self.desenhavel.desenhar(self.pos_tela, self.dimensoes)
+        super().desenhar()
         if self.__modo == 2 or self.__modo == 3 or self.__modo == 4:
 
             #desenhar pergunta
-            espaco_linha = self.__fonte.get_linesize()
             altura = self.tela_h*3/8
             for s in self.__superficies:
-                s_rect = s.get_rect()
-                s_rect.center = (self.tela_w/2, altura)
-                self.tela.blit(s, s_rect)
-                altura -= espaco_linha
+                s.desenhar((self.tela_w/2, altura))
+                altura -= s.espaco_linha
 
             #desenhar caixa_reposta
             if self.__modo == 3: #caixa_resposta selecionada
@@ -123,23 +121,20 @@ class Puzzle(EntidadeTela):
 
             #desenhar escrita da caixa_resposta
             if self.__chute == '':
-                text = self.__fonte.render('Digite sua resposta', False, (255, 255, 255))
-                self.tela.blit(text, self.__caixa_resposta)
+                text = DesenhavelTexto(self.tela,'Digite sua resposta')
+                text.desenharSuperiorDireito(self.__caixa_resposta)
             else:
-                text = self.__fonte.render(self.__chute, False, (255, 255, 255))
-                self.tela.blit(text, self.__caixa_resposta)
+                text = DesenhavelTexto(self.tela, self.__chute)
+                text.desenharSuperiorDireito(self.__caixa_resposta)
  
         elif self.__modo == 5:
-            text = self.__fonte.render('Parabéns! Você acertou!', True, (255, 255, 255))
-            rect = text.get_rect()
-            rect.center = (self.tela_w/2, self.tela_h*3/8)
-            self.tela.blit(text, rect)
+            text = DesenhavelTexto(self.tela, 'Parabéns! Você acertou!')
+            text.desenhar((self.tela_w/2, self.tela_h*3/8))
  
         elif self.__modo == 6:
+            text = DesenhavelTexto(self.tela, 'Você errou!')
+            text.desenhar((self.tela_w/2, self.tela_h*3/8))
             self.__botao_tentar_dnv.desenhar()
-
-
-
 
     @property
     def resolvido(self):

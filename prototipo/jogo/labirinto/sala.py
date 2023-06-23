@@ -7,7 +7,8 @@ from .aparencia import Aparencia
 
 
 class Sala(Entidade, ABC):
-    def __init__(self, desenhavel):
+    def __init__(self, desenhavel, tela):
+        super().__init__(tela)
         self.__desenhavel = desenhavel
         self.__sala_portas = []
 
@@ -37,20 +38,14 @@ class Sala(Entidade, ABC):
     def atualizarResto(self, eventos):
         pass
 
-    def adicionar_sala_porta(self, sala_porta):
-        self.__sala_portas.append(sala_porta)
+    def adicionarSalaPorta(self, sala_porta):
+        from .sala_porta import SalaPorta
+        if isinstance(sala_porta, SalaPorta):
+            self.__sala_portas.append(sala_porta)
 
     @property
-    def desenho(self):
-        return self.__desenho
-    
-    @property
-    def largura(self):
-        return self.__largura
-    
-    @property
-    def altura(self):
-        return self.__altura
+    def desenhavel(self):
+        return self.__desenhavel
     
     @property
     def sala_portas(self,):
