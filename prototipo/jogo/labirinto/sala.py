@@ -19,6 +19,9 @@ class Sala(Entidade, ABC):
         return colisores
 
     def desenhar(self):
+        from basico.desenhavel import DesenhavelImagem
+        if isinstance(self.__desenhavel, DesenhavelImagem):
+            self.__desenhavel.desenhar((self.telaW()/2, self.telaH()/2))
         for sala_porta in self.sala_portas:
             sala_porta.desenhar()
         

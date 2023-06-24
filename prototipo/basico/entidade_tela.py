@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 import pygame as pg
 import math
 
@@ -6,6 +6,7 @@ from basico.entidade import Entidade
 from basico.desenhavel import Desenhavel
 
 class EntidadeTela(Entidade, ABC):
+    @abstractmethod
     def __init__(
         self,
         tela: pg.Surface,

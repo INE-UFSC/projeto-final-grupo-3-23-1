@@ -2,7 +2,7 @@ import pygame as pg
 
 from abc import ABC, abstractmethod
 
-class Desenhavel:
+class Desenhavel(ABC):
     def __init__(self, tela):
         self.__tela = tela
 

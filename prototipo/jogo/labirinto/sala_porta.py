@@ -7,6 +7,7 @@ from .sala_inimigo import SalaInimigo
 from .sala_puzzle import SalaPuzzle
 
 class SalaPorta(EntidadeTela, ABC):
+    @abstractmethod
     def __init__(self, tela, sala: Sala, porta: Porta, pos_tela, dimensoes):
         desenhavel = DesenhavelRetangulo(tela, (150, 75, 0), dimensoes)
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=False)
