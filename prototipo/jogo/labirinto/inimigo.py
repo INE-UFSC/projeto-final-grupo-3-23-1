@@ -74,11 +74,11 @@ class Inimigo(EntidadeTela):
 #            while SistemaColisao.colidiu(self, colisor) == True:
 #                self.movimentacao(-1)
 #            
-#        if type(colisor)== Obstaculo:
-#            self.__pode_mexer = False
-#            self.movimento_desvio(colisor)
-#                
-#            #self.movimento_nao_sobressair(colisor)
+        """if type(colisor)== Obstaculo:
+            self.__pode_mexer = False
+            self.movimento_desvio(colisor)
+              
+           #self.movimento_nao_sobressair(colisor)"""
 
                     
 
@@ -94,7 +94,10 @@ class Inimigo(EntidadeTela):
         self.pos_tela = tuple(nova_pos)
 
     def calculo_desvio(self, colisor):
-        
+        a = []
+        meu_x = self.pos_tela[0]
+        meu_y = self.pos_tela[1]
+
         alvo_x = self.__alvo.pos_tela[0]
         alvo_y = self.__alvo.pos_tela[1]
 
@@ -105,47 +108,55 @@ class Inimigo(EntidadeTela):
         dx_ideal = colisor.dimensoes[0] + self.dimensoes[0]
         dy_ideal = colisor.dimensoes[1] + self.dimensoes[1]
 
-        dx_atual = abs(colisor_x - self.__x)
-        dy_atual = abs(colisor_y - self.__y)
+        dx_atual = abs(colisor_x - meu_x)
+        dy_atual = abs(colisor_y - meu_y)
 
         if dy_atual < dy_ideal: 
-            a = "y"
+            e = "y"
+            a.append("y")
 
         if dx_atual < dx_ideal: 
-            a = "x"
+            e = "x"
+            a.append("x") 
 
         else:
-            a = "diagonal"
+            e = "y"
+            a.append("diagonal") 
 
-        return a
+        return e
 
     def movimento_desvio(self, colisor):
 
+        #variaveis auxiliares:
+        meu_x = self.pos_tela[0]
+        meu_y = self.pos_tela[1]
+
         #calcular sinal movimento x :
         if  sin(self.__direction) > 0:
-            sinal_x = 1
+            sinal_y = 1
         elif sin(self.__direction) < 0:
-            sinal_x = -1
+            sinal_y = -1
 
         #calcular sinal movimento y:
         if cos(self.__direction) > 0:
-            sinal_y = 1
-        elif cos(self.__direction) > 0:
-            sinal_y = 1
+            sinal_x= 1
+
+        elif cos(self.__direction) < 0:
+            sinal_x = -1
         
         if self.get_distancia(self, self.alvo) > self.get_distancia(colisor, self.alvo):
             a = self.calculo_desvio(colisor)
 
             if a == "y":
-                self.__y += (self.__velocidade * sin(self.__direction))
+                meu_y += (self.__velocidade * sinal_y)
 
             elif a == "x":
-                self.__x += (self.__velocidade * cos(self.__direction))
+                meu_x += (self.__velocidade * sinal_y)
 
             else:
-                self.__y += (self.__velocidade * sin(self.__direction))
+                meu_y += (self.__velocidade * sinal_y)
 
-            nova_posicao = [self.__x, self.__y]
+            nova_posicao = [meu_x, meu_y]
             self.pos_tela = tuple(nova_posicao)
 
     def ver_se_pode_mexer(self, colisor):

@@ -7,7 +7,7 @@ from basico.entidade_tela import EntidadeTela, Entidade
 from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
-
+from tela_pause.tela_pause import TelaPause
 from jogo.labirinto.porta import Porta
 from jogo.jogador.jogador import Jogador
 from jogo.labirinto.labirinto import Labirinto
@@ -16,6 +16,7 @@ from jogo.mapa.mapa import Mapa
 class Modo(Enum):
     Labirinto = 1
     Mapa = 2
+    Pause = 3
 
 class Jogo(Entidade):
     def __init__(self, tela):
@@ -31,8 +32,9 @@ class Jogo(Entidade):
 
         self.__labirinto = Labirinto(self.tela, self.jogador)
         self.__mapa = Mapa(self.tela, self.labirinto.salas)
-
+        self.__pause = TelaPause(self.tela)
         self.__modo = Modo.Labirinto
+
 
     def atualizar(self, eventos: list[Evento]):
         for evento in eventos:
@@ -43,6 +45,13 @@ class Jogo(Entidade):
                     else:
                         self.modo = Modo.Labirinto
 
+                if evento.tecla == pg.K_ESCAPE:
+                    if self.modo == Modo.Labirinto:
+                        self.modo = Modo.Pause
+
+                    elif self.modo == Modo.Pause:
+                        self.modo = Modo.Labirinto
+
         if self.modo == Modo.Labirinto:
             self.labirinto.atualizar(eventos)
             if self.jogador.ativo:
@@ -51,6 +60,14 @@ class Jogo(Entidade):
             if self.jogador.vida <= 0:
                 print('Fim de jogo')
                 exit()
+
+        elif self.modo == Modo.Pause:
+
+            self.pause.atualizar(eventos)
+            if self.pause.botoes["voltar_jogo"].apertou:
+                self.modo = Modo.Labirinto
+                self.pause.botoes["voltar_jogo"].resetApertou()
+
         else:
             self.mapa.atualizar(eventos)
 
@@ -59,6 +76,9 @@ class Jogo(Entidade):
             self.labirinto.desenhar()
             self.jogador.desenhar()
             self.desenharInformacoes()
+        
+        elif self.modo == Modo.Pause:
+            self.pause.desenhar()
         else:
             self.mapa.desenhar()
 
@@ -117,4 +137,8 @@ class Jogo(Entidade):
     @modo.setter
     def modo(self, modo):
         self.__modo = modo
+
+    @property
+    def pause(self):
+        return self.__pause
 
