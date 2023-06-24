@@ -26,7 +26,7 @@ class Jogo(Entidade):
         dimens_imagem = (3*dimens_jogador[0], 2*dimens_jogador[1])
         self.__jogador = Jogador(
             self.tela, (self.telaW()/2, self.telaH()/2), dimens_jogador,
-            DesenhavelImagem(self.tela, 'imagens/jogador.jpg', dimens_imagem)
+            DesenhavelImagem(self.tela, 'imagens/jogador.jpg', dimens_imagem, 'white')
 #            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
         )
 
