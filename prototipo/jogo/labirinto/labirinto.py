@@ -6,12 +6,15 @@ from jogo.labirinto.aparencia import Aparencia
 from jogo.labirinto.musica import Musica
 from jogo.labirinto.textura import Textura
 from jogo.labirinto.inimigo import Inimigo
+from jogo.labirinto.inimigo_que_atira import InimigoQueAtira
 from jogo.labirinto.sala_inimigo import SalaInimigo
 from jogo.labirinto.sala_porta import *
 from jogo.labirinto.puzzle import Puzzle
 from jogo.labirinto.powerup import *
 from jogo.labirinto.sala_final import SalaFinal
 from jogo.labirinto.obstaculo import *
+import random
+import os
 
 class Labirinto(Entidade):
     def __init__(self, tela, jogador):
@@ -55,83 +58,145 @@ class Labirinto(Entidade):
         self.getSala().desenhar()
 
     def initLabirinto(self, tela, jogador):
-        self.__salas = []
-        self.__portas = [Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta(), Porta()]
-
-        dimens_powerup = (self.telaW()/1980*40, self.telaH()/1080*40)
-        powerups =        [PowerupVelocidadeTiro(tela, (self.telaW()/1980*300, self.telaH()/1080*400),
-                                                dimens_powerup, DesenhavelRetangulo(tela, (255, 255, 0), dimens_powerup), 2),
-                           PowerupCadencia(tela, (self.telaW()/1980*300, self.telaH()/1080*600),
-                                          dimens_powerup, DesenhavelRetangulo(tela, (115, 41, 165), dimens_powerup), 200),
-                           PowerupDano(tela, (self.telaW()/1980*300, self.telaH()/1080*800), 
-                                      dimens_powerup, DesenhavelRetangulo(tela, (149, 27, 27), dimens_powerup), 1)]
-
-        dimens_obstaculo = (self.telaW()/1980*100, self.telaH()/1080*100)
-        obstaculos = [
-            Obstaculo(
-                tela,
-                (self.telaW()/1980*500, self.telaH()/1080*800), 
-                dimens_obstaculo,
-                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
-            ),
-            Obstaculo(
-                tela,
-                (self.telaW()/1980*500, self.telaH()/1080*900), 
-                dimens_obstaculo,
-                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
-            ),
-            Obstaculo(
-                tela,
-                (self.telaW()/1980*599, self.telaH()/1080*800), 
-                dimens_obstaculo,
-                DesenhavelRetangulo(tela, (27, 27, 27), dimens_obstaculo)
-            )
-        ]
-
-        for i in range(2):
-            linha = []
-            for j in range(2):
-                linha.append(SalaInimigo(tela, 'definir desenhavel', [], jogador))
-
-            self.__salas.append(linha)
-        
-        self.__salas[0].append(SalaPuzzle(tela, 'definir desenhavel', 'aaaaaaaaaaaaaaaaaaaaaaaaaaa', 'a', jogador))
-        self.__salas[1].append(SalaPuzzle(tela, 'definir desenhavel', 'responda b', 'b', jogador))
-        self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
-        self.__salas.append([self.sala_final])
-        self.__salas[0][0].powerups = powerups
-        self.__salas[0][0].obstaculos = obstaculos
+        from basico.desenhavel import DesenhavelImagem
 
         def adicionarSalaPorta(sala, porta, tipo):
             sala_porta = tipo(tela, sala, porta)
             porta.adicionarSalaPorta(sala_porta)
             sala.adicionarSalaPorta(sala_porta)
 
-        # 0,0 -0- 0,1
-        #  |       |
-        #  3       1 
-        #  |       |
-        # 1,0 -2- 1,1
+        def formatarPosDim(val_str):
+            valores = val_str.split(',')
+            w = valores[0].split('/')
+            h = valores[1].split('/')
+            
+            return (self.telaW()*int(w[0])/int(w[1]), self.telaH()*int(h[0])/int(h[1].rstrip()))
+        
+        with open("jogo/labirinto/mapa_labirinto_1.txt", "r") as arquivo_mapa:
+            linhas = arquivo_mapa.readlines()
+        
+        n_linhas = len(linhas)-2
+        n_colunas = int(len(linhas[0])/2 - 1)
+        coord_sala_inicial = linhas[n_linhas].split()
+        self.coord_sala_atual = [int(coord_sala_inicial[0]), int(coord_sala_inicial[1])]
+        coord_sala_final = linhas[n_linhas+1].split()
 
-        adicionarSalaPorta(self.__salas[0][0], self.__portas[0], SalaPortaDireita)
-        adicionarSalaPorta(self.__salas[0][1], self.__portas[0], SalaPortaEsquerda)
-        adicionarSalaPorta(self.__salas[0][1], self.__portas[1], SalaPortaBaixo)
-        adicionarSalaPorta(self.__salas[1][1], self.__portas[1], SalaPortaCima)
-        adicionarSalaPorta(self.__salas[1][1], self.__portas[2], SalaPortaEsquerda)
-        adicionarSalaPorta(self.__salas[1][0], self.__portas[2], SalaPortaDireita)
-        adicionarSalaPorta(self.__salas[1][0], self.__portas[3], SalaPortaCima)
-        adicionarSalaPorta(self.__salas[0][0], self.__portas[3], SalaPortaBaixo)
-        adicionarSalaPorta(self.__salas[0][1], self.__portas[4], SalaPortaDireita)
-        adicionarSalaPorta(self.__salas[0][2], self.__portas[4], SalaPortaEsquerda)
-        adicionarSalaPorta(self.__salas[0][2], self.__portas[5], SalaPortaBaixo)
-        adicionarSalaPorta(self.__salas[1][2], self.__portas[5], SalaPortaCima)
-        adicionarSalaPorta(self.__salas[1][2], self.__portas[6], SalaPortaEsquerda)
-        adicionarSalaPorta(self.__salas[1][1], self.__portas[6], SalaPortaDireita)
-        adicionarSalaPorta(self.__salas[2][0], self.__portas[7], SalaPortaCima)
-        adicionarSalaPorta(self.__salas[1][0], self.__portas[7], SalaPortaBaixo)
+        with open("jogo/labirinto/info_salas_puzzle.txt", "r") as arquivo_puzzles:
+            l_puzzle = arquivo_puzzles.readlines()
+        
+        with open("jogo/labirinto/info_salas_inimigo.txt", "r") as arquivo_inimigos:
+            info_salas_ini = arquivo_inimigos.readlines()
 
-        adicionarSalaPorta(self.__salas[1][0], self.__portas[8], SalaPortaEsquerda)
-        adicionarSalaPorta(self.__salas[1][2], self.__portas[8], SalaPortaDireita)
+        for i in range(n_linhas):
+            linha = []
+            for j in range(n_colunas):
+                if i == int(coord_sala_final[0]) and j == int(coord_sala_final[1]):
+                    self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
+                    linha.append(self.sala_final)
+                else:
+                    a = random.randint(0, 1)
+                    if a == 0:
+                        indice = random.randrange(0, len(info_salas_ini))
+                        info_sala = info_salas_ini[indice]
+                        info_salas_ini.remove(info_sala)
+                        lista_info = info_sala.split(' / ')
+                        dict_info = {}
+                        for elem in lista_info:
+                            lista_elem = elem.split(' - ')
+                            dict_info[lista_elem[0]] = lista_elem[1]
+                        print(dict_info)
+                        caminho_im = os.path.join('imagens', 'fundos_sala_ini', dict_info['fundo'])
+                        sala = SalaInimigo(tela,
+                                                 DesenhavelImagem(tela, caminho_im, (self.telaW(), self.telaH())),
+                                                jogador)
+                        linha.append(sala)
+
+                        dimen_obs = formatarPosDim(dict_info['dim_obs'])
+                        caminho_im = os.path.join('imagens', 'obstaculos', dict_info['im_obs'])
+                        for num_obs in range(int(dict_info['quant_obs'])):
+                            pos_obs = formatarPosDim(dict_info[f'pos_obs_{num_obs}'])
+                            sala.addObstaculo(Obstaculo(tela, pos_obs, dimen_obs,
+                                                        DesenhavelImagem(tela, caminho_im, dimen_obs)))
+
+                        dimen_power = (self.telaW()/50, self.telaH()/25)
+                        for num_power in range(int(dict_info['quant_power'])):
+                            pos_power = formatarPosDim(dict_info[f'pos_power_{num_power}'])
+                            incremento = int(dict_info[f'inc_power_{num_power}'])
+                            tipo = dict_info[f'tipo_power_{num_power}']
+                            if tipo == 'd':
+                                caminho_im = os.path.join('imagens', 'powerup', 'dano.png')
+                                powerup = PowerupDano(tela, pos_power, dimen_power,
+                                                    DesenhavelImagem(tela, caminho_im, dimen_power),
+                                                    incremento)
+                            elif tipo == 'v':
+                                caminho_im = os.path.join('imagens', 'powerup', 'velocidade.png')
+                                powerup = PowerupVelocidadeTiro(tela, pos_power, dimen_power,
+                                                    DesenhavelImagem(tela, caminho_im, dimen_power),
+                                                    incremento)
+                            elif tipo == 'c':
+                                caminho_im = os.path.join('imagens', 'powerup', 'cadencia.png')
+                                powerup = PowerupCadencia(tela, pos_power, dimen_power,
+                                                    DesenhavelImagem(tela, caminho_im, dimen_power),
+                                                    incremento)
+                            sala.addPowerup(powerup)
+
+                        caminho_im = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
+                        dim_ini = (self.telaW()*50/1960, self.telaH()*50/1080)
+                        dano_ini = 1
+                        vel_ini = 2
+                        vida_ini = 3
+                        for num_ini in range(int(dict_info['quant_ini'])):
+                            pos_ini = formatarPosDim(dict_info[f'pos_ini_{num_ini}'])
+                            sala.addInimigo(Inimigo(tela, pos_ini, dim_ini,
+                                                    DesenhavelImagem(tela, caminho_im, dim_ini),
+                                                    dano_ini, vel_ini, vida_ini, jogador))
+
+                        caminho_im = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
+                        for num_ini_ati in range(int(dict_info['quant_ini_ati'])):
+                            pos_ini_ati = formatarPosDim(dict_info[f'pos_ini_ati_{num_ini_ati}'])
+                            sala.addInimigo(InimigoQueAtira(tela, pos_ini_ati, dim_ini,
+                                                            DesenhavelImagem(tela, caminho_im, dim_ini),
+                                                            dano_ini, vel_ini, vida_ini, jogador, 1))
+                        
+                    else:
+                        indice = random.randrange(0, len(l_puzzle))
+                        puzz = l_puzzle[indice]
+                        l_puzzle.remove(puzz)
+                        puzz = puzz.split(' / ')
+                        caminho_im = os.path.join('imagens', 'fundos_sala_puzz', puzz[0])
+                        linha.append(SalaPuzzle(tela,
+                                                DesenhavelImagem(tela, caminho_im, (self.telaW(), self.telaH())),
+                                                puzz[1], puzz[2].strip(), jogador))
+            self.__salas.append(linha)
+
+        self.__portas = []
+        for n, linha in enumerate(linhas[:n_linhas]):
+            p = 0
+            q = 0
+            for m, carac in enumerate(linha[1:]):
+                if carac == '|':
+                    porta = Porta()
+                    self.__portas.append(porta)
+                    adicionarSalaPorta(self.__salas[n][p], porta, SalaPortaDireita)
+                    if m == len(linha)-3:
+                        adicionarSalaPorta(self.__salas[n][0], porta, SalaPortaEsquerda)
+
+                    else:
+                        adicionarSalaPorta(self.__salas[n][p+1], porta, SalaPortaEsquerda)
+
+                elif carac == '_':
+                    porta = Porta()
+                    self.__portas.append(porta)
+                    adicionarSalaPorta(self.__salas[n][p], porta, SalaPortaBaixo)
+                    if n == n_linhas-1:
+                        adicionarSalaPorta(self.__salas[0][p], porta, SalaPortaCima)
+
+                    else:
+                        adicionarSalaPorta(self.__salas[n+1][p], porta, SalaPortaCima)
+
+                q += 1
+                if q%2 == 0:
+                    p += 1
 
     def tentarMudarSala(self, eventos):
         from jogo.jogador.jogador import Jogador
@@ -200,3 +265,11 @@ class Labirinto(Entidade):
     def portas(self, portas):
         self.__portas = portas
 
+    @property
+    def sala_final(self):
+        return self.__sala_final
+
+    @sala_final.setter
+    def sala_final(self, sala):
+        if isinstance(sala, SalaFinal):
+            self.__sala_final = sala

@@ -5,29 +5,11 @@ from basico.desenhavel import DesenhavelRetangulo
 
 
 class SalaInimigo(Sala):
-    def __init__(self, tela, desenhavel, powerups, jogador):
+    def __init__(self, tela, desenhavel, jogador):
         super().__init__(tela, desenhavel)
-        self.__powerups = powerups
+        self.__powerups = []
         self.__inimigos = []
         self.__obstaculos = []
-        self.criarInimigos(jogador, tela)
-
-    def criarInimigos(self, jogador, tela):
-        from .inimigo import Inimigo
-        from .inimigo_que_atira import InimigoQueAtira
-
-        for i in range(random.randrange(2, 5)):
-            i = random.randrange(tela.get_width())
-            j = random.randrange(tela.get_height())
-            posicoes = (i, j)
-
-            dimens_inimigo = (self.telaW()*50/1960, self.telaH()*50/1080)
-            self.__inimigos.append(Inimigo(tela, posicoes, dimens_inimigo, 
-                                           DesenhavelRetangulo(tela, (255, 0, 0), dimens_inimigo), 1, 2, 3, jogador))
-            
-        self.__inimigos.append(InimigoQueAtira(tela, posicoes, dimens_inimigo, 
-                                           DesenhavelRetangulo(tela,  (255, 192, 203), dimens_inimigo), 1, 2, 3, jogador, 1))
-            
 
     def definirLocalInimigo(self, tela, eventos):
         for inimigo in self.__inimigos:
@@ -92,12 +74,17 @@ class SalaInimigo(Sala):
     def obstaculos(self):
         return self.__obstaculos
 
-    @powerups.setter
-    def powerups(self, powerups):
-        self.__powerups = powerups
+    def addInimigo(self, inimigo):
+        from .inimigo import Inimigo
+        if isinstance(inimigo, Inimigo):
+            self.__inimigos.append(inimigo)
 
-    @obstaculos.setter
-    def obstaculos(self, obstaculos):
-        self.__obstaculos = obstaculos
+    def addPowerup(self, powerup):
+        from .powerup import Powerup
+        if isinstance(powerup, Powerup):
+            self.__powerups.append(powerup)
 
-    
+    def addObstaculo(self, obs):
+        from .obstaculo import Obstaculo
+        if isinstance(obs, Obstaculo):
+            self.__obstaculos.append(obs)

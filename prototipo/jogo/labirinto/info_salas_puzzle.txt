@@ -1,0 +1,9 @@
+im_puzzle_1.jpg / enigma1 / resposta1
+im_puzzle_2.jpg / enigma2 / resposta2
+im_puzzle_3.jpg / enigma3 / resposta3
+im_puzzle_4.jpg / enigma4 / resposta4
+im_puzzle_5.jpg / enigma5 / resposta5
+im_puzzle_6.jpg / enigma6 / resposta6
+im_puzzle_7.jpg / enigma7 / resposta7
+im_puzzle_8.jpg / enigma8 / resposta8
+im_puzzle_9.jpg / enigma9 / resposta9
