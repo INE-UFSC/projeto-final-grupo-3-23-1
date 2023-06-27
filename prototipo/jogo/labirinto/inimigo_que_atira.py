@@ -40,16 +40,13 @@ class InimigoQueAtira(Inimigo):
         self.set_velocidade()
 
         #limitando movimento
+        self.verificar_movimentacao()
+        """
         if self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
             #self.movimentacao(-1)
             self.se_afastar()
-            self.__pode_mexer = False
+            self.__pode_mexer = False"""
 
-
-        """#limitando movimento
-        while  self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
-            #self.movimentacao(-1)
-            self.se_afastar()"""
         if self.__pode_mexer:
             self.movimentacao()
 
@@ -94,6 +91,14 @@ class InimigoQueAtira(Inimigo):
 
         return d_min
  
+    def verificar_movimentacao(self):
+        distancia_atual = self.get_distancia(self, self.alvo)
+        distancia_minima = int(self.__distancia_min_jogador)
+        for i in range (distancia_minima - 1, distancia_minima +1):
+            if distancia_atual < i: 
+                self.se_afastar()
+                #print("distancia atual:", distancia_atual, "distancia minima:",  distancia_minima, "i:", i)
+                self.__pode_mexer = False
 
     def desenhar(self):
         super().desenhar()

@@ -10,19 +10,31 @@ class TelaPause(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
+        #imagem fundo:
         camino_imagem_fundo = os.path.join('imagens', 'tela_pause.jpg')
         self.__imagem_fundo = pg.image.load(camino_imagem_fundo)
 
-        dimens_botao_voltar_jogo = (self.telaW()/8, self.telaH()/10)
+        #botões:
+        dimensao_botoes = (self.telaW()/8, self.telaH()/12)
 
         #carregar aparência botão: 
         
-        caminho_imagem_botao = os.path.join('imagens', 'botao_voltar_ao_jogo.jpg')
+        #voltar jogo:
+        caminho_img_botao_voltar_jogo = os.path.join('imagens', 'botao_voltar_jogo.png')
+        desenhavel_botao_voltar_jogo = DesenhavelImagem(self.tela, caminho_img_botao_voltar_jogo, dimensao_botoes)
+        botao_voltar_jogo_pos_tela = (self.telaW()/2, self.telaH()*9/10)
 
-        desenhavel_botao_voltar_jogo = DesenhavelImagem(self.tela, caminho_imagem_botao, dimens_botao_voltar_jogo)
+        #instruções:
+        caminho_img_botao_instrucoes = os.path.join('imagens', 'botao_instr_pause.png')
+        desenhavel_botao_instrucoes = DesenhavelImagem(self.tela, caminho_img_botao_instrucoes, dimensao_botoes)
+
+
         self.__botoes = {"voltar_jogo": Botao(tela, (self.telaW()/2, self.telaH()*9/10),
-                               dimens_botao_voltar_jogo, 
-                               desenhavel_botao_voltar_jogo,"")}
+                               dimensao_botoes, 
+                               desenhavel_botao_voltar_jogo,""),
+                               "instrucoes": Botao(tela, (botao_voltar_jogo_pos_tela[0], botao_voltar_jogo_pos_tela[0]+2),
+                               dimensao_botoes, 
+                               desenhavel_botao_instrucoes,"")}
 
 
     def desenhar(self):
