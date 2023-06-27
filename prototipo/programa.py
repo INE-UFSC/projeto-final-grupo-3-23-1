@@ -150,6 +150,7 @@ class Programa(Entidade):
     def trocarModo(self):
         if self.menu.botoes[0].apertou:
             self.modo = 2
+            self.jogo = Jogo(self.tela)
             self.menu.botoes[0].resetApertou()
         if self.menu.botoes[1].apertou:
             self.modo = 3
