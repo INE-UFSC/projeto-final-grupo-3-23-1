@@ -9,7 +9,8 @@ class Instrucoes(Entidade):
         self.__teclas = [DesenhavelTexto(tela, 'Use as teclas:'),
                         DesenhavelTexto(tela, '- WASD para se movimentar Talam'),
                         DesenhavelTexto(tela, '- K para atirar bolinhas de luz com sua varinha'),
-                        DesenhavelTexto(tela, '- TAB para abrir/fechar o mapa do labirinto')]
+                        DesenhavelTexto(tela, '- TAB para abrir/fechar o mapa do labirinto'),
+                        DesenhavelTexto(tela, '- Esc para pausar/despausar')]
         explicacao = 'Você é o Talam! Movimente-se pelo labirinto de sua mente representado por salas até chegar em uma sala em que você alcançará o autoconhecimento. Mas cuidado! Durante essa jornada, você encontrará inimigos e para derrotá-los deve atirar bolinhas de luz com sua varinha até que eles percam o foco em lhe atacar. Além disso, também haverá enigmas para você decifrar!'
         self.__explicacao = []
         linha = ''

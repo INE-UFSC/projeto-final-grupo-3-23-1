@@ -11,12 +11,14 @@ from tela_pause.tela_pause import TelaPause
 from jogo.labirinto.porta import Porta
 from jogo.jogador.jogador import Jogador
 from jogo.labirinto.labirinto import Labirinto
+from jogo.tela_game_over import TelaGameOver
 from jogo.mapa.mapa import Mapa
 
-class Modo(Enum):
+class ModoJogo(Enum):
     Labirinto = 1
     Mapa = 2
     Pause = 3
+    GameOver = 4
 
 class Jogo(Entidade):
     def __init__(self, tela):
@@ -33,54 +35,68 @@ class Jogo(Entidade):
         self.__labirinto = Labirinto(self.tela, self.jogador)
         self.__mapa = Mapa(self.tela, self.labirinto.salas)
         self.__pause = TelaPause(self.tela)
-        self.__modo = Modo.Labirinto
+        self.__tela_game_over = TelaGameOver(self.tela)
+        self.__modo = ModoJogo.Labirinto
 
 
     def atualizar(self, eventos: list[Evento]):
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_TAB:
-                    if self.modo == Modo.Labirinto:
-                        self.modo = Modo.Mapa
+                    if self.modo == ModoJogo.Labirinto:
+                        self.modo = ModoJogo.Mapa
                     else:
-                        self.modo = Modo.Labirinto
+                        self.modo = ModoJogo.Labirinto
 
                 if evento.tecla == pg.K_ESCAPE:
-                    if self.modo == Modo.Labirinto:
-                        self.modo = Modo.Pause
+                    if self.modo == ModoJogo.Labirinto:
+                        self.modo = ModoJogo.Pause
 
-                    elif self.modo == Modo.Pause:
-                        self.modo = Modo.Labirinto
+                    elif self.modo == ModoJogo.Pause:
+                        self.modo = ModoJogo.Labirinto
 
-        if self.modo == Modo.Labirinto:
+        if self.modo == ModoJogo.Labirinto:
             self.labirinto.atualizar(eventos)
             if self.jogador.ativo:
                 self.jogador.atualizar(eventos)
                     
             if self.jogador.vida <= 0:
-                print('Fim de jogo')
+                self.modo = ModoJogo.GameOver
+
+            if self.labirinto.sala_final.botoes[0].apertou:
+                self.labirinto.sala_final.botoes[0].resetApertou()
+                pg.quit()
                 exit()
 
-        elif self.modo == Modo.Pause:
+        elif self.modo == ModoJogo.Pause:
 
             self.pause.atualizar(eventos)
             if self.pause.botoes["voltar_jogo"].apertou:
-                self.modo = Modo.Labirinto
+                self.modo = ModoJogo.Labirinto
                 self.pause.botoes["voltar_jogo"].resetApertou()
 
-        else:
+        elif self.modo == ModoJogo.Mapa:
             self.mapa.atualizar(eventos)
 
+        elif self.modo == ModoJogo.GameOver:
+            self.tela_game_over.atualizar(eventos)
+            if self.__tela_game_over.botoes[0].apertou:
+                self.__tela_game_over.botoes[0].resetApertou()
+                pg.quit()
+                exit()
+
     def desenhar(self):
-        if self.modo == Modo.Labirinto:
+        if self.modo == ModoJogo.Labirinto:
             self.labirinto.desenhar()
             self.jogador.desenhar()
             self.desenharInformacoes()
         
-        elif self.modo == Modo.Pause:
+        elif self.modo == ModoJogo.Pause:
             self.pause.desenhar()
-        else:
+        elif self.modo == ModoJogo.Mapa:
             self.mapa.desenhar()
+        elif self.modo == ModoJogo.GameOver:
+            self.__tela_game_over.desenhar()
 
     def getColisores(self):
         colisores = []
@@ -142,3 +158,6 @@ class Jogo(Entidade):
     def pause(self):
         return self.__pause
 
+    @property
+    def tela_game_over(self):
+        return self.__tela_game_over

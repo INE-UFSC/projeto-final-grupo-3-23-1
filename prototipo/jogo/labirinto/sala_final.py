@@ -22,7 +22,7 @@ class SalaFinal(Sala):
                         Botao(tela, (6*self.telaW()/8, 13*self.telaH()/16),
                                   dimens_botao,
                                   DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
-                                  'Voltar a tela inicial', 40/1080)]
+                                  'Voltar ao menu', 40/1080)]
         self.tela = tela
     
         #criando mensagem final:

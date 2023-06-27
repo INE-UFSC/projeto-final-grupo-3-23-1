@@ -7,8 +7,13 @@ from basico.entidade import Entidade
 
 from jogo.jogo import Jogo
 from menu.menu import Menu
-from menu.instrucoes import Instrucoes
-from menu.creditos import Creditos
+
+from enum import Enum
+
+class ModoPrograma(Enum):
+    Menu = 1
+    Jogo = 2
+
 
 class Programa(Entidade):
     def __init__(self):
@@ -21,10 +26,8 @@ class Programa(Entidade):
 
         self.__jogo = Jogo(self.tela)
         self.__menu = Menu(self.tela)
-        self.__instrucoes = Instrucoes(self.tela)
-        self.__creditos = Creditos(self.tela)
 
-        self.__modo = 1
+        self.__modo = ModoPrograma.Menu
 
         self.__colisoes = []
 
@@ -34,8 +37,7 @@ class Programa(Entidade):
 
     @jogo.setter
     def jogo(self, jogo):
-        if isinstance(jogo, Jogo):
-            self.__jogo = jogo
+        self.__jogo = jogo
 
     @property
     def menu(self):
@@ -43,26 +45,7 @@ class Programa(Entidade):
 
     @menu.setter
     def menu(self, menu):
-        if isinstance(menu, Menu):
-            self.__menu = menu
-
-    @property
-    def instrucoes(self):
-        return self.__instrucoes
-
-    @instrucoes.setter
-    def instrucoes(self, instrucoes):
-        if isinstance(instrucoes, Instrucoes):
-            self.__instrucoes = instrucoes
-    
-    @property
-    def creditos(self):
-        return self.__creditos
-    
-    @creditos.setter
-    def creditos(self, creditos):
-        if isinstance(creditos, Creditos):
-            self.__creditos = creditos
+        self.__menu = menu
 
     @property
     def modo(self):
@@ -104,25 +87,17 @@ class Programa(Entidade):
             self.trocarModo()
 
     def atualizar(self, eventos):
-        if self.modo == 1:
+        if self.modo == ModoPrograma.Menu:
             self.menu.atualizar(eventos)
-        elif self.modo == 2:
+        elif self.modo == ModoPrograma.Jogo:
             self.jogo.atualizar(eventos)
-        elif self.modo == 3:
-            self.instrucoes.atualizar(eventos)
-        elif self.modo == 4:
-            self.creditos.atualizar(eventos)
 
     def desenhar(self):
         self.tela.fill((0, 0, 0))
-        if self.modo == 1:
+        if self.modo == ModoPrograma.Menu:
             self.menu.desenhar()
-        elif self.modo == 2:
+        elif self.modo == ModoPrograma.Jogo:
             self.jogo.desenhar()
-        elif self.modo == 3:
-            self.instrucoes.desenhar()
-        elif self.modo == 4:
-            self.creditos.desenhar()
 
     def getEventos(self):
         eventos = []
@@ -149,24 +124,14 @@ class Programa(Entidade):
 
     def trocarModo(self):
         if self.menu.botoes[0].apertou:
-            self.modo = 2
+            self.modo = ModoPrograma.Jogo
             self.jogo = Jogo(self.tela)
             self.menu.botoes[0].resetApertou()
-        if self.menu.botoes[1].apertou:
-            self.modo = 3
-            if self.instrucoes.botao_voltar.apertou:
-                self.modo = 1
-                self.menu.botoes[1].resetApertou()
-                self.instrucoes.botao_voltar.resetApertou()
-        if self.menu.botoes[2].apertou:
-            self.modo = 4
-            if self.creditos.botao_voltar.apertou:
-                self.modo = 1
-                self.menu.botoes[2].resetApertou()
-                self.creditos.botao_voltar.resetApertou()
-        if self.menu.botoes[3].apertou or self.jogo.labirinto.sala_final.botoes[0].apertou:
-            pg.quit()
-            exit()
+
         if self.jogo.labirinto.sala_final.botoes[1].apertou:
-            self.modo = 1
+            self.modo = ModoPrograma.Menu
             self.jogo.labirinto.sala_final.botoes[1].resetApertou()
+
+        if self.jogo.tela_game_over.botoes[1].apertou:
+            self.jogo.tela_game_over.botoes[1].resetApertou()
+            self.modo = ModoPrograma.Menu
