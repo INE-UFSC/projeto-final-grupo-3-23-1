@@ -77,11 +77,11 @@ class Jogador(EntidadeTela):
                     and evento.possui(self):
                 from jogo.labirinto.inimigo import Inimigo
 
-                #if evento.possuiTipo(Inimigo):
-                    #self.perderVida()
+                if evento.possuiTipo(Inimigo):
+                    self.perderVida()
 
-                #if evento.possuiTipo(Projetil) and evento.getElemDoTipo(Projetil).inimigo:
-                    #self.perderVida()
+                if evento.possuiTipo(Projetil) and evento.getElemDoTipo(Projetil).inimigo:
+                    self.perderVida()
 
                 if evento.possuiTipo(Powerup):
                     powerup = evento.getElemDoTipo(Powerup)
