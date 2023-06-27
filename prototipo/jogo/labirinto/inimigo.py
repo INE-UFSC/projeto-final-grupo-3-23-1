@@ -57,7 +57,8 @@ class Inimigo(EntidadeTela):
         from jogo.jogador.projetil import Projetil
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
         if type(colisor) == Inimigo:
-            self.ver_se_pode_mexer(colisor)
+            pass
+#            self.ver_se_pode_mexer(colisor)
             #self.movimento_desvio(colisor)
 
             #while SistemaColisao.colidiu(self, colisor) == True:

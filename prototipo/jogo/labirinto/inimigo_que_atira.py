@@ -23,6 +23,7 @@ class InimigoQueAtira(Inimigo):
         self.set_valores()
     
         self.__distancia_min_jogador = self.set_distancia_min_jogador()
+        print(self.__distancia_min_jogador)
 
     def set_valores(self):
         self.__cadencia = self.__valores_projetil[self.__nivel][0]
@@ -35,26 +36,24 @@ class InimigoQueAtira(Inimigo):
         #trata eventos:
         self.tratar_eventos(eventos)
 
-        # dados de movimento:
-        self.set_direction()
-        self.set_velocidade()
-
-        #limitando movimento
-        self.verificar_movimentacao()
-        """
-        if self.get_distancia(self, self.alvo) < self.__distancia_min_jogador:
-            #self.movimentacao(-1)
-            self.se_afastar()
-            self.__pode_mexer = False"""
-
-        if self.__pode_mexer:
-            self.movimentacao()
+        self.movimentar()
 
         #verifica se tá vivo ainda
         self.verificar_vida()
 
         self.atualizar_meus_tiros(eventos)
         self.atirar()
+
+    def movimentar(self):
+        # dados de movimento:
+        self.set_direction()
+        self.set_velocidade()
+
+        #limitando movimento
+        self.verificar_movimentacao()
+
+        if self.__pode_mexer:
+            self.movimentacao()
 
     def se_afastar(self):
         periodo_afastamento = 10
@@ -94,11 +93,14 @@ class InimigoQueAtira(Inimigo):
     def verificar_movimentacao(self):
         distancia_atual = self.get_distancia(self, self.alvo)
         distancia_minima = int(self.__distancia_min_jogador)
-        for i in range (distancia_minima - 1, distancia_minima +1):
-            if distancia_atual < i: 
-                self.se_afastar()
-                #print("distancia atual:", distancia_atual, "distancia minima:",  distancia_minima, "i:", i)
-                self.__pode_mexer = False
+        intervalo = 2
+
+        if distancia_atual < distancia_minima - intervalo: 
+            self.se_afastar()
+            #print("distancia atual:", distancia_atual, "distancia minima:",  distancia_minima, "i:", i)
+            self.__pode_mexer = False
+        elif distancia_minima - intervalo < distancia_atual < distancia_minima + intervalo:
+            self.__pode_mexer = False
 
     def desenhar(self):
         super().desenhar()
