@@ -80,10 +80,14 @@ class Labirinto(Entidade):
             else:
                 cor_im = None
             return cor_im
-            
-            
         
-        with open("jogo/labirinto/mapa_labirinto_1.txt", "r") as arquivo_mapa:
+        arq_opcoes_mapas = os.path.join('jogo', 'labirinto', 'opcoes_mapa.txt')
+        with open(arq_opcoes_mapas, "r") as arquivo_opcoes_mapas:
+            opcoes = arquivo_opcoes_mapas.readlines()
+        mapa = opcoes[random.randrange(0, len(opcoes))].strip()
+
+        arq_mapa = os.path.join('jogo', 'labirinto', mapa)
+        with open(arq_mapa, "r") as arquivo_mapa:
             linhas = arquivo_mapa.readlines()
         
         n_linhas = len(linhas)-2
@@ -92,10 +96,12 @@ class Labirinto(Entidade):
         self.coord_sala_atual = [int(coord_sala_inicial[0]), int(coord_sala_inicial[1])]
         coord_sala_final = linhas[n_linhas+1].split()
 
-        with open("jogo/labirinto/info_salas_puzzle.txt", "r") as arquivo_puzzles:
+        arq_puzz = os.path.join('jogo', 'labirinto', 'info_salas_puzzle.txt')
+        with open(arq_puzz, "r") as arquivo_puzzles:
             l_puzzle = arquivo_puzzles.readlines()
-        
-        with open("jogo/labirinto/info_salas_inimigo.txt", "r") as arquivo_inimigos:
+
+        arq_ini = os.path.join('jogo', 'labirinto', 'info_salas_inimigo.txt')
+        with open(arq_ini, "r") as arquivo_inimigos:
             info_salas_ini = arquivo_inimigos.readlines()
 
         for i in range(n_linhas):
