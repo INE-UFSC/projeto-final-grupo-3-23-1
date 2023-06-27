@@ -14,10 +14,10 @@ class InimigoQueAtira(Inimigo):
         self.__tempo_ultimo_tiro = 0
         self.__tempo_ultimo_movimento = 0
 
-        self.__valores_projetil = {0: (3000, 7) ,
-                               1: (2700, 9) , 
-                               2: (2450, 10) ,
-                               3: (2400, 11)}
+        self.__valores_projetil = {0: (3000, 1, 7) ,
+                               1: (2700, 1, 9) , 
+                               2: (2450, 1, 10) ,
+                               3: (2400, 1 , 11)}
          # Crie um objeto Clock para controlar o tempo
         self.__clock = pg.time.Clock()
         self.set_valores()
