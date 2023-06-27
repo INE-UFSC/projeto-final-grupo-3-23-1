@@ -23,7 +23,6 @@ class InimigoQueAtira(Inimigo):
         self.set_valores()
     
         self.__distancia_min_jogador = self.set_distancia_min_jogador()
-        print(self.__distancia_min_jogador)
 
     def set_valores(self):
         self.__cadencia = self.__valores_projetil[self.__nivel][0]

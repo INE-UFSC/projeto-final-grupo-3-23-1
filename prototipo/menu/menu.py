@@ -1,8 +1,18 @@
 from basico.entidade import Entidade
 from .botao import Botao
 from basico.desenhavel import DesenhavelRetangulo
+from .instrucoes import Instrucoes
+from .creditos import Creditos
+from jogo.tela_game_over import TelaGameOver
+
+from enum import Enum
 
 import pygame as pg
+
+class ModoMenu(Enum):
+    TelaPrincipal = 1
+    Instrucoes = 2
+    Creditos = 3
 
 class Menu(Entidade):
     def __init__(self, tela):
@@ -22,26 +32,71 @@ class Menu(Entidade):
                        Botao(tela, (self.telaW()/2, 6*self.telaH()/7), dimens_botao,
                               DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Sair")
                        ]
-        self.modo = ""
-        self.font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))
+
+        self.__instrucoes = Instrucoes(tela)
+        self.__creditos = Creditos(tela)
+        self.__modo = ModoMenu.TelaPrincipal
+        self.__font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))
 
     def atualizar(self, eventos: list):
-        for botao in self.botoes:
-            botao.atualizar(eventos)
+        if self.modo == ModoMenu.TelaPrincipal:
+            for botao in self.botoes:
+                botao.atualizar(eventos)
+        elif self.modo == ModoMenu.Instrucoes:
+            self.instrucoes.atualizar(eventos)
+        elif self.modo == ModoMenu.Creditos:
+            self.creditos.atualizar(eventos)
+
+        self.trocarModo()
 
     def desenhar(self):
-        self.tela.blit(self.font.render("Labirinto de Talam", False, (255, 255, 255)),
-                        (self.telaW()/11, self.telaH()/6))
+        if self.modo == ModoMenu.TelaPrincipal:
+            self.tela.blit(self.font.render("Labirinto de Talam", False, (255, 255, 255)),
+                            (self.telaW()/11, self.telaH()/6))
 
-        for botao in self.botoes:
-            botao.desenhar()
+            for botao in self.botoes:
+                botao.desenhar()
+        elif self.modo == ModoMenu.Instrucoes:
+            self.instrucoes.desenhar()
+        elif self.modo == ModoMenu.Creditos:
+            self.creditos.desenhar()
 
-    def rodar(self):
-        cor_fundo = (255, 255, 255)
+    def trocarModo(self):
+        if self.botoes[1].apertou:
+            self.modo = ModoMenu.Instrucoes
+            if self.instrucoes.botao_voltar.apertou:
+                self.modo = ModoMenu.TelaPrincipal
+                self.instrucoes.botao_voltar.resetApertou()
+                self.botoes[1].resetApertou()
 
-        self.tela.fill(cor_fundo)
+        elif self.botoes[2].apertou:
+            self.modo = ModoMenu.Creditos
+            if self.creditos.botao_voltar.apertou:
+                self.modo = ModoMenu.TelaPrincipal
+                self.creditos.botao_voltar.resetApertou()
+                self.botoes[2].resetApertou()
 
-        self.atualizar()
-        self.desenhar()
+        elif self.botoes[3].apertou:
+            pg.quit()
+            exit()
 
+    @property
+    def instrucoes(self):
+        return self.__instrucoes
     
+    @property
+    def creditos(self):
+        return self.__creditos
+    
+    @property
+    def modo(self):
+        return self.__modo
+    
+    @modo.setter
+    def modo(self, modo):
+        self.__modo = modo
+    
+    @property
+    def font(self):
+        return self.__font
+
