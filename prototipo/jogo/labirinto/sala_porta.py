@@ -27,6 +27,10 @@ class SalaPorta(EntidadeTela, ABC):
         elif isinstance(self.__sala, SalaPuzzle):
             if self.__sala.puzzle.resolvido:
                 self.__porta.abrir()
+        else:
+            from .sala_final import SalaFinal
+            if not isinstance(self.__sala, SalaFinal):
+                self.__porta.abrir()
     
     @property
     def porta(self):

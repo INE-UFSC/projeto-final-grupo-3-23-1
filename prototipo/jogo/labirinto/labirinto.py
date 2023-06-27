@@ -104,6 +104,9 @@ class Labirinto(Entidade):
                 if i == int(coord_sala_final[0]) and j == int(coord_sala_final[1]):
                     self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
                     linha.append(self.sala_final)
+                elif [i, j] == self.coord_sala_atual:
+                    caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
+                    linha.append(Sala(tela, DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))))
                 else:
                     a = random.randint(0, 1)
                     if a == 0:

@@ -33,7 +33,8 @@ class SalaFinal(Sala):
         self.__superficies.reverse()
 
 
-    def desenharResto(self):
+    def desenhar(self):
+        super().desenhar()
         self.__jogador_sala_final.desenhar()
         if self.__modo == 2:
             altura = self.telaH()/2 - (self.__jogador_dimensoes[1] + self.telaH()/8)
@@ -43,7 +44,8 @@ class SalaFinal(Sala):
             for botao in self.botoes:
                 botao.desenhar()
     
-    def atualizarResto(self, eventos):
+    def atualizar(self, eventos):
+        super().atualizar(eventos)
         for evento in eventos:
             if isinstance(evento, EventoColisao):
                 if evento.possui(self.__jogador_sala_final):

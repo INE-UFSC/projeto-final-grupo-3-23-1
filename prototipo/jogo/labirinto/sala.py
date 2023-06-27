@@ -1,12 +1,11 @@
 import pygame as pg
 from pygame.locals import *
 
-from abc import ABC, abstractmethod
 from basico.entidade import Entidade
 from .aparencia import Aparencia
 
 
-class Sala(Entidade, ABC):
+class Sala(Entidade):
     def __init__(self, tela, desenhavel):
         super().__init__(tela)
         self.__desenhavel = desenhavel
@@ -24,22 +23,10 @@ class Sala(Entidade, ABC):
             self.__desenhavel.desenhar((self.telaW()/2, self.telaH()/2))
         for sala_porta in self.sala_portas:
             sala_porta.desenhar()
-        
-        self.desenharResto()
-    
-    @abstractmethod
-    def desenharResto(self):
-        pass
-    
+
     def atualizar(self, eventos):
         for sala_porta in self.__sala_portas:
             sala_porta.atualizar(eventos)
-
-        self.atualizarResto(eventos)        
-
-    @abstractmethod
-    def atualizarResto(self, eventos):
-        pass
 
     def adicionarSalaPorta(self, sala_porta):
         from .sala_porta import SalaPorta
