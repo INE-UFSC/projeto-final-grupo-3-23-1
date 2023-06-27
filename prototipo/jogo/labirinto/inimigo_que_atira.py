@@ -14,10 +14,10 @@ class InimigoQueAtira(Inimigo):
         self.__tempo_ultimo_tiro = 0
         self.__tempo_ultimo_movimento = 0
 
-        self.__valores_projetil = {0: (3000, 0.5, 7) ,
-                               1: (2700, 0,5, 9) , 
-                               2: (2450, 1, 10) ,
-                               3: (2400, 1 , 11)}
+        self.__valores_projetil = {0: (3000, 7) ,
+                               1: (2700, 9) , 
+                               2: (2450, 10) ,
+                               3: (2400, 11)}
          # Crie um objeto Clock para controlar o tempo
         self.__clock = pg.time.Clock()
         self.set_valores()
@@ -26,8 +26,7 @@ class InimigoQueAtira(Inimigo):
 
     def set_valores(self):
         self.__cadencia = self.__valores_projetil[self.__nivel][0]
-        self.__forca_projetil = self.__valores_projetil[self.__nivel][1]
-        self.__velocidade_projetil = self.__valores_projetil[self.__nivel][2]
+        self.__velocidade_projetil = self.__valores_projetil[self.__nivel][1]
 
     def atualizar(self, eventos):
         self.__pode_mexer = True
@@ -85,7 +84,7 @@ class InimigoQueAtira(Inimigo):
             projetil_direcao = math.degrees(self.direction)
             self.__projeteis.append(Projetil(self.tela, self.pos_tela,
                                    (self.telaW()*20/1980, self.telaH()*20/1080) , 
-                                   projetil_direcao, True, self.__forca_projetil, self.__velocidade_projetil))
+                                   projetil_direcao, True, 1, self.__velocidade_projetil))
 
     def set_distancia_min_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)
