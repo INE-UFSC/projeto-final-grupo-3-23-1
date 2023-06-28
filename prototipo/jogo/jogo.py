@@ -13,6 +13,7 @@ from jogo.jogador.jogador import Jogador
 from jogo.labirinto.labirinto import Labirinto
 from jogo.tela_game_over import TelaGameOver
 from jogo.mapa.mapa import Mapa
+from tela_pause.tela_pause import ModoPause
 
 class ModoJogo(Enum):
     Labirinto = 1
@@ -53,6 +54,7 @@ class Jogo(Entidade):
                         self.modo = ModoJogo.Pause
 
                     elif self.modo == ModoJogo.Pause:
+                        self.pause.reset()
                         self.modo = ModoJogo.Labirinto
 
         if self.modo == ModoJogo.Labirinto:
@@ -69,11 +71,15 @@ class Jogo(Entidade):
                 exit()
 
         elif self.modo == ModoJogo.Pause:
-
+            #print("modo pause")
             self.pause.atualizar(eventos)
-            if self.pause.botoes["voltar_jogo"].apertou:
+
+            if self.pause.modo == ModoPause.SairPause:
+                print("saindo do pause")
+                self.pause.reset()
                 self.modo = ModoJogo.Labirinto
-                self.pause.botoes["voltar_jogo"].resetApertou()
+        
+                
 
         elif self.modo == ModoJogo.Mapa:
             self.mapa.atualizar(eventos)

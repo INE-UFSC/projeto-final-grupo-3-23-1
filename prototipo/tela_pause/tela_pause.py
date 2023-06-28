@@ -1,6 +1,6 @@
 from basico.desenhavel import *
 from basico.entidade import Entidade
-from basico.evento import Evento
+from basico.evento import *
 from menu.botao import Botao
 from menu.instrucoes import Instrucoes
 
@@ -9,7 +9,7 @@ import pygame as pg
 from pygame.locals import *
 import os
 
-class Modo(Enum):
+class ModoPause(Enum):
     PausePrincipal = 1
     Instrucoes = 2
     Menu = 3
@@ -19,8 +19,10 @@ class TelaPause(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
+        self.__modo = ModoPause.PausePrincipal
+
         #tela instuções:
-        self.__instrucoes = Instrucoes(self.tela)
+        self.__instrucoes = Instrucoes(tela)
 
         #imagem fundo:
         camino_imagem_fundo = os.path.join('imagens', 'tela_pause.jpg')
@@ -55,40 +57,62 @@ class TelaPause(Entidade):
                                "voltar_menu": Botao(tela, (botao_voltar_jogo_pos_tela[0]+300, botao_voltar_jogo_pos_tela[1]),
                                dimensao_botoes, 
                                desenhavel_botao_vlt_menu,"")}
-        print("BOTÃO VOLTAR = ", botao_voltar_jogo_pos_tela, "BOTAO INSTRUCOES:", botao_instrucoes_pos_tela)
 
 
     def desenhar(self):
-        self.tela.blit(self.imagem_fundo , (0, 0))
 
-        for botao in self.botoes.values():
-            botao.desenhar()
+        if self.modo == ModoPause.PausePrincipal:
+            self.tela.blit(self.imagem_fundo , (0, 0))
+            for botao in self.botoes.values():
+                botao.desenhar()
+
+        if self.modo == ModoPause.Instrucoes:
+            self.instrucoes.desenhar()
 
     def atualizar(self, eventos):
+        #print("atualizou pause")
         for botao in self.botoes.values():
+            #print("Atualizou botão:", botao)
             botao.atualizar(eventos)
+        #for botao in self.botoes.keys():
+            #print("botão:", botao, self.botoes[botao].apertou)
 
-        self.trocar_modo()
-
-
-    def trocar_modo(self):
-
-        if self.botoes["voltar_jogo"].apertou:
-            self.modo = Modo.SairPause
-            self.botoes["voltar_jogo"].resetApertou()
-
-        elif self.botoes["instrucoes"].apertou:
-            self.modo = Modo.Instrucoes
-            self.botoes["instrucoes"].resetApertou()
-            
-        elif self.botoes["voltar_menu"].apertou:
-            self.modo = Modo.Menu
-            self.botoes["voltar_menu"].resetApertou()
-
-        else:
-             self.modo = Modo.PausePrincipal
+        self.trocar_modo(eventos)
 
         
+
+        if self.modo == ModoPause.Menu:
+            pass
+
+
+    def trocar_modo(self, eventos):
+        """for evento in eventos:
+            if isinstance(evento, EventoApertouTecla):
+                if evento.tecla == pg.K_ESCAPE:
+
+                    if self.modo == ModoPause.PausePrincipal:
+                        self.modo = ModoPause.SairPause
+                        self.botoes["voltar_jogo"].resetApertou()"""
+
+        if self.modo == ModoPause.PausePrincipal: 
+            if self.botoes["voltar_jogo"].apertou:
+                self.modo = ModoPause.SairPause
+                self.botoes["voltar_jogo"].resetApertou()
+
+            elif self.botoes["instrucoes"].apertou:
+                self.modo = ModoPause.Instrucoes
+                self.botoes["instrucoes"].resetApertou()
+                
+            elif self.botoes["voltar_menu"].apertou:
+                self.modo = ModoPause.Menu
+                self.botoes["voltar_menu"].resetApertou()
+
+        #else:
+             #self.modo = ModoPause.PausePrincipal
+
+    def reset(self):
+        print("resetou pause")
+        self.modo = ModoPause.PausePrincipal
 
     @property
     def botoes(self):
@@ -97,3 +121,15 @@ class TelaPause(Entidade):
     @property
     def imagem_fundo(self):
         return self.__imagem_fundo
+
+    @property
+    def instrucoes(self):
+        return self.__instrucoes
+    
+    @property
+    def modo(self):
+        return self.__modo
+    
+    @modo.setter
+    def modo(self, modo):
+        self.__modo = modo
