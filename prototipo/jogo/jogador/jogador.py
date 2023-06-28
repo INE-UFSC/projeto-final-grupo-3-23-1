@@ -12,12 +12,11 @@ class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=True)
 
-        self.__velocidade = 5
+        self.__velocidade = 10
         self.__direcao = 0
         self.__vida = 3
         self.__powerups = []
         self.__projeteis = []
-        self.__obstaculos = []
 
         self.__invulnerabilidade = False
         self.__ultimo_tick_inv = 0
@@ -29,18 +28,18 @@ class Jogador(EntidadeTela):
 
 
     def atualizar(self, eventos: list):
-        self.obstaculos = []
-
         if pg.time.get_ticks() - self.ultima_colisao > 3000:
             self.invulnerabilidade = False
-            self.desenhavel.cor = (0, 255, 0)
+            self.desenhavel.imagem.set_alpha(255)
 
         if self.invulnerabilidade:
-            if pg.time.get_ticks() - self.last_tick > 250:
-                if self.desenhavel.cor == (0, 255, 0):
-                    self.desenhavel.cor = (255, 255, 255)
-                elif self.desenhavel.cor == (255, 255, 255):
-                    self.desenhavel.cor = (0, 255, 0) 
+            if pg.time.get_ticks() - self.last_tick > 150:
+                if self.desenhavel.imagem.get_alpha() == 100:
+                    self.desenhavel.imagem.set_alpha(255)
+                    print('a')
+                elif self.desenhavel.imagem.get_alpha() == 255:
+                    self.desenhavel.imagem.set_alpha(100)
+                    print('b')
                 self.last_tick = pg.time.get_ticks() 
         
         apertadas = []
@@ -95,8 +94,6 @@ class Jogador(EntidadeTela):
                     elif isinstance(powerup, PowerupDano):
                         self.dano_projeteis += powerup.incremento
 
-
-                
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)
                     if sala_porta.porta.aberta:
@@ -113,25 +110,11 @@ class Jogador(EntidadeTela):
                         elif isinstance(sala_porta, SalaPortaEsquerda):
                             self.pos_tela = (self.telaW()-(sala_porta.dimensoes[0]+self.dimensoes[0]/2), 
                                              self.pos_tela[1])
-                
-                if evento.possuiTipo(Obstaculo):
-                    self.obstaculos.append(evento.getElemDoTipo(Obstaculo))
                     
         if moveu:
             nova_pos = list(self.pos_tela)
             nova_pos[0] += self.velocidade * cos(radians(self.direcao))
             nova_pos[1] += self.velocidade * sin(radians(self.direcao))
-
-            """
-            if nova_pos[0] > self.tela.get_width()-self.dimensoes[0]/2:
-                nova_pos[0] = self.tela.get_width()-self.dimensoes[0]/2
-            if nova_pos[0] < self.dimensoes[0]/2:
-                nova_pos[0] = self.dimensoes[0]/2
-            if nova_pos[1] > self.tela.get_height()-self.dimensoes[1]/2:
-                nova_pos[1] = self.tela.get_height()-self.dimensoes[1]/2
-            if nova_pos[1] < self.dimensoes[1]/2:
-                nova_pos[1] = self.dimensoes[1]/2
-            """
             
             self.pos_tela = tuple(nova_pos)
         
@@ -194,10 +177,6 @@ class Jogador(EntidadeTela):
         return self.__projeteis
     
     @property
-    def obstaculos(self):
-        return self.__obstaculos
-
-    @property
     def invulnerabilidade(self):
         return self.__invulnerabilidade
 
@@ -241,10 +220,6 @@ class Jogador(EntidadeTela):
     def projeteis(self, projeteis): 
         self.__projeteis = projeteis
     
-    @obstaculos.setter
-    def obstaculos(self, obs):
-        self.__obstaculos = obs
-
     @invulnerabilidade.setter
     def invulnerabilidade(self, invul):
         self.__invulnerabilidade = invul
