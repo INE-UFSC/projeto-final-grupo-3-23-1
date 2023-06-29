@@ -36,10 +36,10 @@ class Jogador(EntidadeTela):
             if pg.time.get_ticks() - self.last_tick > 150:
                 if self.desenhavel.imagem.get_alpha() == 100:
                     self.desenhavel.imagem.set_alpha(255)
-                    print('a')
+#                    print('a')
                 elif self.desenhavel.imagem.get_alpha() == 255:
                     self.desenhavel.imagem.set_alpha(100)
-                    print('b')
+#                    print('b')
                 self.last_tick = pg.time.get_ticks() 
         
         apertadas = []

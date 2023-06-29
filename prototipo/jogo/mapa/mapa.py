@@ -21,22 +21,23 @@ class Mapa(Entidade):
             if isinstance(evento, EventoApertouBotaoEsquerdo):
                 pos_mouse = evento.pos_mouse
 
+                pos = self.posParaPaleta(*pos_mouse)
+                if pos is not None:
+                    Marcador.cor_i = pos
+
                 pos = self.posParaSala(*pos_mouse)
+                if pos is not None:
+                    i, j = pos
 
-                if pos is None:
-                    continue
+                    marcador = None
+                    for m in self.marcadores:
+                        if m.pos == (i, j):
+                            marcador = m
 
-                i, j = pos
-
-                marcador = None
-                for m in self.marcadores:
-                    if m.pos == (i, j):
-                        marcador = m
-
-                if marcador is None:
-                    self.marcadores.append(Marcador((i, j)))
-                else:
-                    self.marcadores.remove(marcador)
+                    if marcador is None:
+                        self.marcadores.append(Marcador((i, j)))
+                    else:
+                        self.marcadores.remove(marcador)
             elif isinstance(evento, EventoApertouTecla):
                 tecla = evento.tecla
 
@@ -54,6 +55,38 @@ class Mapa(Entidade):
         """
 
         qtd_salas = self.getQtdSalas()
+
+        pos_paleta = self.getPosPaleta()
+        for i in range(len(pos_paleta)):
+            dimens_paleta = self.getDimensPaleta()
+            desenhavel_paleta = DesenhavelRetangulo(self.tela, Marcador.cores[i], dimens_paleta)
+            desenhavel_paleta.desenhar(pos_paleta[i])
+
+            x, y = pos_paleta[i]
+            w, h = dimens_paleta
+
+            # desenhar borda
+            dimens_min = min(self.dimens_tela)
+            expessura = dimens_min*1/100
+            if i == Marcador.cor_i:
+                pos_dimens_borda = [
+                    ( # esquerda
+                        (x - w/2, y), (expessura, h + expessura)
+                    ),
+                    ( # direita
+                        (x + w/2, y), (expessura, h + expessura)
+                    ),
+                    ( # cima
+                        (x, y - h/2), (w + expessura, expessura)
+                    ),
+                    ( # baixo
+                        (x, y + h/2), (w + expessura, expessura)
+                    )
+                ]
+
+                for pos, dimens in pos_dimens_borda:
+                    desenhavel = DesenhavelRetangulo(self.tela, (255, 255, 255), dimens)
+                    desenhavel.desenhar(pos)
 
         for i in range(qtd_salas):
             for j in range(qtd_salas):
@@ -77,7 +110,7 @@ class Mapa(Entidade):
                     if m.pos == (i, j):
                         marcador = m
 
-                pos, dimens = self.getPosDimensSala(i, j)
+                pos, dimens_sala = self.getPosDimensSala(i, j)
 
                 """
                 print('i, j =', i, j)
@@ -85,11 +118,41 @@ class Mapa(Entidade):
                 """
 
                 if marcador is None:
-                    desenhavel = DesenhavelRetangulo(self.tela, self.cor_sala, dimens)
+                    desenhavel = DesenhavelRetangulo(self.tela, self.cor_sala, dimens_sala)
                 else:
-                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor, dimens)
-
+                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor, dimens_sala)
                 desenhavel.desenhar(pos)
+
+    def getPosPaleta(self):
+        dimens_min = min(self.dimens_tela)
+
+        pos = [
+            (dimens_min*1/8, dimens_min*1/8),
+            (dimens_min*1/8, dimens_min*2/8),
+            (dimens_min*1/8, dimens_min*3/8)
+        ]
+
+        return pos
+
+    def getDimensPaleta(self):
+        dimens_min = min(self.dimens_tela)
+
+        dimens = dimens_min * 1/10
+        return dimens, dimens
+
+    def posParaPaleta(self, x, y):
+        pos_paleta = self.getPosPaleta()
+
+        for i in range(len(pos_paleta)):
+            pos = pos_paleta[i]
+            dimens = self.getDimensPaleta()
+
+            rect = pg.Rect((0, 0), dimens)
+            rect.center = pos
+
+            if rect.collidepoint(x, y):
+                return i
+        return None
 
     def posParaSala(self, x, y):
         for i in range(self.getQtdSalas()):
@@ -172,7 +235,6 @@ class Mapa(Entidade):
 
     def getTiposPorta(self):
         return [SalaPortaCima, SalaPortaEsquerda, SalaPortaDireita, SalaPortaBaixo]
-
 
     @property
     def tela(self):
