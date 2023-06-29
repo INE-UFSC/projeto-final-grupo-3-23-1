@@ -54,8 +54,9 @@ class Jogo(Entidade):
                         self.modo = ModoJogo.Pause
 
                     elif self.modo == ModoJogo.Pause:
-                        self.pause.reset()
-                        self.modo = ModoJogo.Labirinto
+                        if self.pause.modo == ModoPause.PausePrincipal:
+                            self.pause.reset()
+                            self.modo = ModoJogo.Labirinto
 
         if self.modo == ModoJogo.Labirinto:
             self.labirinto.atualizar(eventos)

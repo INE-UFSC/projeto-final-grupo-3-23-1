@@ -86,13 +86,12 @@ class TelaPause(Entidade):
 
 
     def trocar_modo(self, eventos):
-        """for evento in eventos:
+        for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_ESCAPE:
-
-                    if self.modo == ModoPause.PausePrincipal:
-                        self.modo = ModoPause.SairPause
-                        self.botoes["voltar_jogo"].resetApertou()"""
+                    if self.modo == ModoPause.Instrucoes:
+                        self.modo = ModoPause.PausePrincipal
+                        #self.botoes["voltar_jogo"].resetApertou()
 
         if self.modo == ModoPause.PausePrincipal: 
             if self.botoes["voltar_jogo"].apertou:
@@ -106,6 +105,10 @@ class TelaPause(Entidade):
             elif self.botoes["voltar_menu"].apertou:
                 self.modo = ModoPause.Menu
                 self.botoes["voltar_menu"].resetApertou()
+
+       # if self.modo == ModoPause.Instrucoes:
+            #if self.
+
 
         #else:
              #self.modo = ModoPause.PausePrincipal
