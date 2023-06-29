@@ -1,15 +1,17 @@
 import pygame as pg
 from basico.entidade import Entidade
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from jogo.labirinto.sala_porta import *
+from jogo.labirinto.sala_final import SalaFinal
 from basico.evento import *
 
 class Mapa(Entidade):
-    def __init__(self, tela, salas):
+    def __init__(self, tela, salas, imagem_jogador):
         self.__tela = tela
         self.__salas = salas
         self.__marcadores = []
         self.__marcador_ativo = 0
+        self.__imagem_jogador = imagem_jogador
 
         self.__dimens_tela = tela.get_size()
 
@@ -26,7 +28,8 @@ class Mapa(Entidade):
                     Marcador.cor_i = pos
 
                 pos = self.posParaSala(*pos_mouse)
-                if pos is not None:
+
+                if pos is not None and not isinstance(self.__salas[pos[0]][pos[1]], SalaFinal):
                     i, j = pos
 
                     marcador = None
@@ -118,10 +121,16 @@ class Mapa(Entidade):
                 """
 
                 if marcador is None:
-                    desenhavel = DesenhavelRetangulo(self.tela, self.cor_sala, dimens_sala)
+                    cor = self.cor_sala
                 else:
-                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor, dimens_sala)
+                    cor = marcador.cor
+
+                desenhavel = DesenhavelRetangulo(self.tela, cor, dimens_sala)
                 desenhavel.desenhar(pos)
+
+                if isinstance(self.__salas[i][j], SalaFinal):
+                    desenhavel_jogador = DesenhavelImagem(self.tela, self.__imagem_jogador, dimens_sala, 'white')
+                    desenhavel_jogador.desenhar(pos)
 
     def getPosPaleta(self):
         dimens_min = min(self.dimens_tela)

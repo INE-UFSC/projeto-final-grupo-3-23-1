@@ -27,14 +27,16 @@ class Jogo(Entidade):
 
         dimens_jogador = (50*self.telaW()/1960, 50*self.telaH()/1080)
         dimens_imagem = (3*dimens_jogador[0], 2*dimens_jogador[1])
+
+        imagem_jogador = 'imagens/jogador.jpg'
         self.__jogador = Jogador(
             self.tela, (self.telaW()/2, self.telaH()/2), dimens_jogador,
-            DesenhavelImagem(self.tela, 'imagens/jogador.jpg', dimens_imagem, 'white')
+            DesenhavelImagem(self.tela, imagem_jogador, dimens_imagem, 'white')
 #            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
         )
 
         self.__labirinto = Labirinto(self.tela, self.jogador)
-        self.__mapa = Mapa(self.tela, self.labirinto.salas)
+        self.__mapa = Mapa(self.tela, self.labirinto.salas, imagem_jogador)
         self.__pause = TelaPause(self.tela)
         self.__tela_game_over = TelaGameOver(self.tela)
         self.__modo = ModoJogo.Labirinto
