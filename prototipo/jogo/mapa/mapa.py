@@ -14,7 +14,7 @@ class Mapa(Entidade):
         self.__dimens_tela = tela.get_size()
 
         self.__cor_sala = (255, 255, 255)
-        self.__cor_porta = (0, 255, 0)
+        self.__cor_porta = (150, 75, 0)
 
     def atualizar(self, eventos):
         for evento in eventos:
@@ -165,7 +165,6 @@ class Mapa(Entidade):
                 if rect.collidepoint(x, y):
                     return i, j
         return None
-
 
     def getTamanhos(self):
         qtd_salas = self.getQtdSalas()
