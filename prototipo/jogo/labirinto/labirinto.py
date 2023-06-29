@@ -142,23 +142,22 @@ class Labirinto(Entidade):
                         dimen_power = (self.telaW()/50, self.telaH()/25)
                         for num_power in range(int(dict_info['quant_power'])):
                             pos_power = formatarPosDim(dict_info[f'pos_power_{num_power}'])
-                            incremento = int(dict_info[f'inc_power_{num_power}'])
                             tipo = dict_info[f'tipo_power_{num_power}']
                             if tipo == 'd':
                                 caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
                                 powerup = PowerupDano(tela, pos_power, dimen_power,
                                                     DesenhavelImagem(tela, caminho_im_dano, dimen_power),
-                                                    incremento)
+                                                    0.5)
                             elif tipo == 'v':
                                 caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
                                 powerup = PowerupVelocidadeTiro(tela, pos_power, dimen_power,
                                                     DesenhavelImagem(tela, caminho_im_vel, dimen_power),
-                                                    incremento)
+                                                    1)
                             elif tipo == 'c':
                                 caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
                                                     DesenhavelImagem(tela, caminho_im_cad, dimen_power),
-                                                    incremento)
+                                                    25)
                             sala.addPowerup(powerup)
 
                         caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
@@ -295,5 +294,4 @@ class Labirinto(Entidade):
 
     @sala_final.setter
     def sala_final(self, sala):
-        if isinstance(sala, SalaFinal):
-            self.__sala_final = sala
+        self.__sala_final = sala
