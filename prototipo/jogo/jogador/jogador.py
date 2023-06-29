@@ -93,6 +93,9 @@ class Jogador(EntidadeTela):
 
                     elif isinstance(powerup, PowerupDano):
                         self.dano_projeteis += powerup.incremento
+                    
+                    elif isinstance(powerup, PowerupVida):
+                        self.vida += powerup.incremento
 
                 if evento.possuiTipo(SalaPorta):
                     sala_porta = evento.getElemDoTipo(SalaPorta)

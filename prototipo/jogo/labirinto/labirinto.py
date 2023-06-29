@@ -114,8 +114,8 @@ class Labirinto(Entidade):
                     caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
                     linha.append(Sala(tela, DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))))
                 else:
-                    a = random.randint(0, 1)
-                    if a == 0:
+                    a = random.randint(0, 2)
+                    if a == 0 or a== 1:
                         indice = random.randrange(0, len(info_salas_ini))
                         info_sala = info_salas_ini[indice]
                         info_salas_ini.remove(info_sala)
@@ -158,6 +158,11 @@ class Labirinto(Entidade):
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
                                                     DesenhavelImagem(tela, caminho_im_cad, dimen_power),
                                                     25)
+                            elif tipo == 'f':
+                                caminho_im_vida = os.path.join('imagens', 'powerup', 'cadencia.png')
+                                powerup = PowerupVida(tela, pos_power, dimen_power,
+                                                      DesenhavelImagem(tela, caminho_im_vida, dimen_power),
+                                                      1)
                             sala.addPowerup(powerup)
 
                         caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
