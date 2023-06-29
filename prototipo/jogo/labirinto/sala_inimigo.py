@@ -11,14 +11,14 @@ class SalaInimigo(Sala):
         self.__inimigos = []
         self.__obstaculos = []
 
-    def definirLocalInimigo(self, tela, eventos):
+    def definirLocalInimigo(self, tela, eventos): #para o inimigo estiver longe do jogador quando ele trocar de sala
         for inimigo in self.__inimigos:
             inimigo.alvo.atualizar(eventos)
             if inimigo.ativo:
-                while inimigo.pos_tela[0] >= inimigo.alvo.pos_tela[0]-inimigo.alvo.dimensoes[0]-inimigo.dimensoes[0] \
-                    and inimigo.pos_tela[0] <= inimigo.alvo.pos_tela[0]+inimigo.alvo.dimensoes[0]+inimigo.dimensoes[0] \
-                    and inimigo.pos_tela[1] >= inimigo.alvo.pos_tela[1]-inimigo.alvo.dimensoes[1]-inimigo.dimensoes[1] \
-                    and inimigo.pos_tela[1] <= inimigo.alvo.pos_tela[1]+inimigo.alvo.dimensoes[1]+inimigo.dimensoes[1]:
+                while inimigo.pos_tela[0] >= inimigo.alvo.pos_tela[0]-inimigo.alvo.dimensoes[0]-inimigo.dimensoes[0]*3 \
+                    and inimigo.pos_tela[0] <= inimigo.alvo.pos_tela[0]+inimigo.alvo.dimensoes[0]+inimigo.dimensoes[0]*3 \
+                    and inimigo.pos_tela[1] >= inimigo.alvo.pos_tela[1]-inimigo.alvo.dimensoes[1]-inimigo.dimensoes[1]*3 \
+                    and inimigo.pos_tela[1] <= inimigo.alvo.pos_tela[1]+inimigo.alvo.dimensoes[1]+inimigo.dimensoes[1]*3:
                     i = random.randrange(tela.get_width())
                     j = random.randrange(tela.get_height())
                     inimigo.pos_tela = (i, j)
