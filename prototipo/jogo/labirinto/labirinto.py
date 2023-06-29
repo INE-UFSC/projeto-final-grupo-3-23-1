@@ -158,6 +158,11 @@ class Labirinto(Entidade):
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
                                                     DesenhavelImagem(tela, caminho_im_cad, dimen_power),
                                                     25)
+                            elif tipo == 'f':
+                                caminho_im_vida = os.path.join('imagens', 'powerup', 'cadencia.png')
+                                powerup = PowerupVida(tela, pos_power, dimen_power,
+                                                      DesenhavelImagem(tela, caminho_im_vida, dimen_power),
+                                                      1)
                             sala.addPowerup(powerup)
 
                         caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])

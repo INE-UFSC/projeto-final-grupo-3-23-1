@@ -32,3 +32,6 @@ class PowerupDano(Powerup):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, incremento):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, incremento)
         
+class PowerupVida(Powerup):
+    def __init__(self, tela, pos_tela, dimensoes, desenhavel, incremento):
+        super().__init__(tela, pos_tela, dimensoes, desenhavel, incremento)

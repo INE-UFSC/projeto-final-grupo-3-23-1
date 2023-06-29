@@ -1,42 +1,46 @@
 import pygame as pg
 from basico.entidade import Entidade
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from jogo.labirinto.sala_porta import *
+from jogo.labirinto.sala_final import SalaFinal
 from basico.evento import *
 
 class Mapa(Entidade):
-    def __init__(self, tela, salas):
+    def __init__(self, tela, salas, imagem_jogador):
         self.__tela = tela
         self.__salas = salas
         self.__marcadores = []
         self.__marcador_ativo = 0
+        self.__imagem_jogador = imagem_jogador
 
         self.__dimens_tela = tela.get_size()
 
         self.__cor_sala = (255, 255, 255)
-        self.__cor_porta = (0, 255, 0)
+        self.__cor_porta = (150, 75, 0)
 
     def atualizar(self, eventos):
         for evento in eventos:
             if isinstance(evento, EventoApertouBotaoEsquerdo):
                 pos_mouse = evento.pos_mouse
 
+                pos = self.posParaPaleta(*pos_mouse)
+                if pos is not None:
+                    Marcador.cor_i = pos
+
                 pos = self.posParaSala(*pos_mouse)
 
-                if pos is None:
-                    continue
+                if pos is not None and not isinstance(self.__salas[pos[0]][pos[1]], SalaFinal):
+                    i, j = pos
 
-                i, j = pos
+                    marcador = None
+                    for m in self.marcadores:
+                        if m.pos == (i, j):
+                            marcador = m
 
-                marcador = None
-                for m in self.marcadores:
-                    if m.pos == (i, j):
-                        marcador = m
-
-                if marcador is None:
-                    self.marcadores.append(Marcador((i, j)))
-                else:
-                    self.marcadores.remove(marcador)
+                    if marcador is None:
+                        self.marcadores.append(Marcador((i, j)))
+                    else:
+                        self.marcadores.remove(marcador)
             elif isinstance(evento, EventoApertouTecla):
                 tecla = evento.tecla
 
@@ -54,6 +58,38 @@ class Mapa(Entidade):
         """
 
         qtd_salas = self.getQtdSalas()
+
+        pos_paleta = self.getPosPaleta()
+        for i in range(len(pos_paleta)):
+            dimens_paleta = self.getDimensPaleta()
+            desenhavel_paleta = DesenhavelRetangulo(self.tela, Marcador.cores[i], dimens_paleta)
+            desenhavel_paleta.desenhar(pos_paleta[i])
+
+            x, y = pos_paleta[i]
+            w, h = dimens_paleta
+
+            # desenhar borda
+            dimens_min = min(self.dimens_tela)
+            expessura = dimens_min*1/100
+            if i == Marcador.cor_i:
+                pos_dimens_borda = [
+                    ( # esquerda
+                        (x - w/2, y), (expessura, h + expessura)
+                    ),
+                    ( # direita
+                        (x + w/2, y), (expessura, h + expessura)
+                    ),
+                    ( # cima
+                        (x, y - h/2), (w + expessura, expessura)
+                    ),
+                    ( # baixo
+                        (x, y + h/2), (w + expessura, expessura)
+                    )
+                ]
+
+                for pos, dimens in pos_dimens_borda:
+                    desenhavel = DesenhavelRetangulo(self.tela, (255, 255, 255), dimens)
+                    desenhavel.desenhar(pos)
 
         for i in range(qtd_salas):
             for j in range(qtd_salas):
@@ -77,7 +113,7 @@ class Mapa(Entidade):
                     if m.pos == (i, j):
                         marcador = m
 
-                pos, dimens = self.getPosDimensSala(i, j)
+                pos, dimens_sala = self.getPosDimensSala(i, j)
 
                 """
                 print('i, j =', i, j)
@@ -85,11 +121,47 @@ class Mapa(Entidade):
                 """
 
                 if marcador is None:
-                    desenhavel = DesenhavelRetangulo(self.tela, self.cor_sala, dimens)
+                    cor = self.cor_sala
                 else:
-                    desenhavel = DesenhavelRetangulo(self.tela, marcador.cor, dimens)
+                    cor = marcador.cor
 
+                desenhavel = DesenhavelRetangulo(self.tela, cor, dimens_sala)
                 desenhavel.desenhar(pos)
+
+                if isinstance(self.__salas[i][j], SalaFinal):
+                    desenhavel_jogador = DesenhavelImagem(self.tela, self.__imagem_jogador, dimens_sala, 'white')
+                    desenhavel_jogador.desenhar(pos)
+
+    def getPosPaleta(self):
+        dimens_min = min(self.dimens_tela)
+
+        pos = [
+            (dimens_min*1/8, dimens_min*1/8),
+            (dimens_min*1/8, dimens_min*2/8),
+            (dimens_min*1/8, dimens_min*3/8)
+        ]
+
+        return pos
+
+    def getDimensPaleta(self):
+        dimens_min = min(self.dimens_tela)
+
+        dimens = dimens_min * 1/10
+        return dimens, dimens
+
+    def posParaPaleta(self, x, y):
+        pos_paleta = self.getPosPaleta()
+
+        for i in range(len(pos_paleta)):
+            pos = pos_paleta[i]
+            dimens = self.getDimensPaleta()
+
+            rect = pg.Rect((0, 0), dimens)
+            rect.center = pos
+
+            if rect.collidepoint(x, y):
+                return i
+        return None
 
     def posParaSala(self, x, y):
         for i in range(self.getQtdSalas()):
@@ -102,7 +174,6 @@ class Mapa(Entidade):
                 if rect.collidepoint(x, y):
                     return i, j
         return None
-
 
     def getTamanhos(self):
         qtd_salas = self.getQtdSalas()
@@ -172,7 +243,6 @@ class Mapa(Entidade):
 
     def getTiposPorta(self):
         return [SalaPortaCima, SalaPortaEsquerda, SalaPortaDireita, SalaPortaBaixo]
-
 
     @property
     def tela(self):
