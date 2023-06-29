@@ -114,8 +114,8 @@ class Labirinto(Entidade):
                     caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
                     linha.append(Sala(tela, DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))))
                 else:
-                    a = random.randint(0, 2)
-                    if a == 0 or a== 1:
+                    a = random.randint(0, 1)
+                    if a == 0:
                         indice = random.randrange(0, len(info_salas_ini))
                         info_sala = info_salas_ini[indice]
                         info_salas_ini.remove(info_sala)
