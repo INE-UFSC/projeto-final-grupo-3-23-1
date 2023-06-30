@@ -1,9 +1,10 @@
 from basico.entidade import Entidade
 from .botao import Botao
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from .instrucoes import Instrucoes
 from .creditos import Creditos
 from jogo.tela_game_over import TelaGameOver
+import os
 
 from enum import Enum
 
@@ -18,6 +19,8 @@ class Menu(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
+        arq_fundo = os.path.join('imagens', 'menu', 'menu.png')
+        self.__fundo = DesenhavelImagem(tela, arq_fundo, (self.telaW(), self.telaH()))
         dimens_botao = (5/16 *self.telaW(), 125/1080 *self.telaH())
 
         self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), dimens_botao,
@@ -51,8 +54,7 @@ class Menu(Entidade):
 
     def desenhar(self):
         if self.modo == ModoMenu.TelaPrincipal:
-            self.tela.blit(self.font.render("Labirinto de Talam", False, (255, 255, 255)),
-                            (self.telaW()/11, self.telaH()/6))
+            self.fundo.desenhar((self.telaW()/2, self.telaH()/2))
 
             for botao in self.botoes:
                 botao.desenhar()
@@ -79,6 +81,10 @@ class Menu(Entidade):
         elif self.botoes[3].apertou:
             pg.quit()
             exit()
+
+    @property
+    def fundo(self):
+        return self.__fundo
 
     @property
     def instrucoes(self):
