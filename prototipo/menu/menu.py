@@ -1,6 +1,6 @@
 from basico.entidade import Entidade
 from .botao import Botao
-from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
+from basico.desenhavel import DesenhavelImagem
 from .instrucoes import Instrucoes
 from .creditos import Creditos
 from jogo.tela_game_over import TelaGameOver
@@ -21,19 +21,25 @@ class Menu(Entidade):
 
         arq_fundo = os.path.join('imagens', 'menu', 'menu.png')
         self.__fundo = DesenhavelImagem(tela, arq_fundo, (self.telaW(), self.telaH()))
-        dimens_botao = (5/16 *self.telaW(), 125/1080 *self.telaH())
+
+        arq_botao_jogar = os.path.join('imagens', 'botoes', 'jogar.png')
+        arq_botao_instrucoes = os.path.join('imagens', 'botoes', 'instrucoes.png')
+        arq_botao_creditos = os.path.join('imagens', 'botoes', 'creditos.png')
+        arq_botao_sair = os.path.join('imagens', 'botoes', 'sair.png')
+        dimens_botao = (1/6 *self.telaW(), 1/9 *self.telaH())
+        dimens_botao_1 = (1/7*self.telaW(), 8/84*self.telaH())
 
         self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), dimens_botao,
-                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Jogar"),
+                              DesenhavelImagem(tela, arq_botao_jogar, dimens_botao), ""),
 
-                       Botao(tela, (self.telaW()/2, 4*self.telaH()/7), dimens_botao,
-                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Instruções"),
+                       Botao(tela, (self.telaW()/4, 4*self.telaH()/7), dimens_botao,
+                              DesenhavelImagem(tela, arq_botao_instrucoes, dimens_botao_1), ""),
 
-                       Botao(tela, (self.telaW()/2, 5*self.telaH()/7), dimens_botao,
-                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Créditos"),
+                       Botao(tela, (self.telaW()/4, 5*self.telaH()/7), dimens_botao,
+                              DesenhavelImagem(tela, arq_botao_creditos, dimens_botao_1), ""),
 
-                       Botao(tela, (self.telaW()/2, 6*self.telaH()/7), dimens_botao,
-                              DesenhavelRetangulo(tela, (153, 76, 0), dimens_botao), "Sair")
+                       Botao(tela, (self.telaW()*3/4, 4.5*self.telaH()/7), dimens_botao,
+                              DesenhavelImagem(tela, arq_botao_sair, dimens_botao_1), "")
                        ]
 
         self.__instrucoes = Instrucoes(tela)
