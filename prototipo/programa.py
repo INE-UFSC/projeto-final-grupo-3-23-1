@@ -5,7 +5,7 @@ from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
 from basico.entidade import Entidade
 
-from jogo.jogo import Jogo
+from jogo.jogo import *
 from menu.menu import Menu
 
 from enum import Enum
@@ -14,12 +14,6 @@ class ModoPrograma(Enum):
     Menu = 1
     Jogo = 2
 
-class ModoJogo(Enum):
-    Labirinto = 1
-    Mapa = 2
-    Pause = 3
-    GameOver = 4
-    IrParaMenu = 5
 
 class Programa(Entidade):
     def __init__(self):
@@ -146,7 +140,5 @@ class Programa(Entidade):
 
 
         if self.modo == ModoPrograma.Jogo:
-            print("modo atual jogo = ", self.jogo.modo)
             if self.jogo.modo == ModoJogo.IrParaMenu:
-                print("Modo programa = menu")
                 self.modo = ModoPrograma.Menu

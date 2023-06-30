@@ -78,12 +78,10 @@ class Jogo(Entidade):
             self.pause.atualizar(eventos)
 
             if self.pause.modo == ModoPause.SairPause:
-                print("saindo do pause")
                 self.pause.reset()
                 self.modo = ModoJogo.Labirinto
         
             if self.pause.modo == ModoPause.Menu:
-                print("modo jogo = ir para menu")
                 self.modo = ModoJogo.IrParaMenu
 
                 

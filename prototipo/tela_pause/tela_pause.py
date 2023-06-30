@@ -77,13 +77,7 @@ class TelaPause(Entidade):
         self.trocar_modo(eventos)
 
         if self.modo == ModoPause.Instrucoes:
-            self.instrucoes.desenhar()
             self.instrucoes.atualizar(eventos)
-        
-
-        if self.modo == ModoPause.Menu:
-            pass
-
 
     def trocar_modo(self, eventos):
 
@@ -96,7 +90,6 @@ class TelaPause(Entidade):
 
         if self.modo == ModoPause.PausePrincipal: 
             if self.botoes["voltar_jogo"].apertou:
-                print("clicou no botão voltar jogo")
                 self.modo = ModoPause.SairPause
                 self.botoes["voltar_jogo"].resetApertou()
 
@@ -105,21 +98,15 @@ class TelaPause(Entidade):
                 self.botoes["instrucoes"].resetApertou()
                 
             elif self.botoes["voltar_menu"].apertou:
-                print("modo pause = menu")
                 self.modo = ModoPause.Menu
                 self.botoes["voltar_menu"].resetApertou()
 
-        if self.modo == ModoPause.Instrucoes:
+        elif self.modo == ModoPause.Instrucoes:
             if self.instrucoes.botao_voltar.apertou:
                 self.modo = ModoPause.PausePrincipal
                 self.instrucoes.botao_voltar.resetApertou()
 
-
-        #else:
-             #self.modo = ModoPause.PausePrincipal
-
     def reset(self):
-        print("resetou pause")
         self.modo = ModoPause.PausePrincipal
 
     @property
