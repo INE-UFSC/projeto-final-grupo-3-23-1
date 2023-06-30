@@ -20,6 +20,7 @@ class ModoJogo(Enum):
     Mapa = 2
     Pause = 3
     GameOver = 4
+    IrParaMenu = 5
 
 class Jogo(Entidade):
     def __init__(self, tela):
@@ -74,7 +75,6 @@ class Jogo(Entidade):
                 exit()
 
         elif self.modo == ModoJogo.Pause:
-            #print("modo pause")
             self.pause.atualizar(eventos)
 
             if self.pause.modo == ModoPause.SairPause:
@@ -82,6 +82,10 @@ class Jogo(Entidade):
                 self.pause.reset()
                 self.modo = ModoJogo.Labirinto
         
+            if self.pause.modo == ModoPause.Menu:
+                print("modo jogo = ir para menu")
+                self.modo = ModoJogo.IrParaMenu
+
                 
 
         elif self.modo == ModoJogo.Mapa:

@@ -14,6 +14,12 @@ class ModoPrograma(Enum):
     Menu = 1
     Jogo = 2
 
+class ModoJogo(Enum):
+    Labirinto = 1
+    Mapa = 2
+    Pause = 3
+    GameOver = 4
+    IrParaMenu = 5
 
 class Programa(Entidade):
     def __init__(self):
@@ -89,8 +95,10 @@ class Programa(Entidade):
     def atualizar(self, eventos):
         if self.modo == ModoPrograma.Menu:
             self.menu.atualizar(eventos)
+
         elif self.modo == ModoPrograma.Jogo:
             self.jogo.atualizar(eventos)
+            
 
     def desenhar(self):
         self.tela.fill((0, 0, 0))
@@ -135,3 +143,10 @@ class Programa(Entidade):
         if self.jogo.tela_game_over.botoes[1].apertou:
             self.jogo.tela_game_over.botoes[1].resetApertou()
             self.modo = ModoPrograma.Menu
+
+
+        if self.modo == ModoPrograma.Jogo:
+            print("modo atual jogo = ", self.jogo.modo)
+            if self.jogo.modo == ModoJogo.IrParaMenu:
+                print("Modo programa = menu")
+                self.modo = ModoPrograma.Menu

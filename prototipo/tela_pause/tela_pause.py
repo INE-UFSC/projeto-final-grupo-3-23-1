@@ -70,15 +70,15 @@ class TelaPause(Entidade):
             self.instrucoes.desenhar()
 
     def atualizar(self, eventos):
-        #print("atualizou pause")
-        for botao in self.botoes.values():
-            #print("Atualizou botão:", botao)
-            botao.atualizar(eventos)
-        #for botao in self.botoes.keys():
-            #print("botão:", botao, self.botoes[botao].apertou)
+        if self.modo == ModoPause.PausePrincipal:
+            for botao in self.botoes.values():
+                botao.atualizar(eventos)
 
         self.trocar_modo(eventos)
 
+        if self.modo == ModoPause.Instrucoes:
+            self.instrucoes.desenhar()
+            self.instrucoes.atualizar(eventos)
         
 
         if self.modo == ModoPause.Menu:
@@ -86,15 +86,17 @@ class TelaPause(Entidade):
 
 
     def trocar_modo(self, eventos):
+
         for evento in eventos:
             if isinstance(evento, EventoApertouTecla):
                 if evento.tecla == pg.K_ESCAPE:
                     if self.modo == ModoPause.Instrucoes:
                         self.modo = ModoPause.PausePrincipal
-                        #self.botoes["voltar_jogo"].resetApertou()
+                        
 
         if self.modo == ModoPause.PausePrincipal: 
             if self.botoes["voltar_jogo"].apertou:
+                print("clicou no botão voltar jogo")
                 self.modo = ModoPause.SairPause
                 self.botoes["voltar_jogo"].resetApertou()
 
@@ -103,11 +105,14 @@ class TelaPause(Entidade):
                 self.botoes["instrucoes"].resetApertou()
                 
             elif self.botoes["voltar_menu"].apertou:
+                print("modo pause = menu")
                 self.modo = ModoPause.Menu
                 self.botoes["voltar_menu"].resetApertou()
 
-       # if self.modo == ModoPause.Instrucoes:
-            #if self.
+        if self.modo == ModoPause.Instrucoes:
+            if self.instrucoes.botao_voltar.apertou:
+                self.modo = ModoPause.PausePrincipal
+                self.instrucoes.botao_voltar.resetApertou()
 
 
         #else:
