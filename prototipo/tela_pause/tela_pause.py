@@ -34,17 +34,17 @@ class TelaPause(Entidade):
         #carregar aparência botão: 
         
         #voltar jogo:
-        caminho_img_botao_voltar_jogo = os.path.join('imagens', 'botao_voltar_jogo.png')
+        caminho_img_botao_voltar_jogo = os.path.join('imagens', 'botao_voltar_ao_jogo.png')
         desenhavel_botao_voltar_jogo = DesenhavelImagem(self.tela, caminho_img_botao_voltar_jogo, dimensao_botoes)
         botao_voltar_jogo_pos_tela = (self.telaW()/2, self.telaH()*9/10)
 
         #instruções:
-        caminho_img_botao_instrucoes = os.path.join('imagens', 'botao_instr_pause.png')
+        caminho_img_botao_instrucoes = os.path.join('imagens', 'botao_instrucoes.png')
         desenhavel_botao_instrucoes = DesenhavelImagem(self.tela, caminho_img_botao_instrucoes, dimensao_botoes)
         botao_instrucoes_pos_tela = (botao_voltar_jogo_pos_tela[0], botao_voltar_jogo_pos_tela[1]-2)
 
         #voltar menu:
-        caminho_img_botao_vlt_menu = os.path.join('imagens', 'botao_voltar_menu.png')
+        caminho_img_botao_vlt_menu = os.path.join('imagens', 'botao_voltar_ao_menu.png')
         desenhavel_botao_vlt_menu = DesenhavelImagem(self.tela, caminho_img_botao_vlt_menu, dimensao_botoes)
 
 
