@@ -6,6 +6,9 @@ class Porta:
     
     def abrir(self):
         self.__aberta = True
+
+    def fechar(self):
+        self.__aberta = False
     
     def adicionarSalaPorta(self, sala_porta):
         from .sala_porta import SalaPorta

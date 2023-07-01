@@ -16,12 +16,15 @@ from jogo.labirinto.obstaculo import *
 import random
 import os
 
+import pygame as pg
+
 class Labirinto(Entidade):
     def __init__(self, tela, jogador):
         super().__init__(tela)
         self.__coord_sala_atual = [0, 0]
         self.__salas = []
         self.__portas = []
+        self.__ganhou = False
         self.initLabirinto(tela, jogador)
 
     def getSala(self):
@@ -35,6 +38,15 @@ class Labirinto(Entidade):
                     return [i, j]
 
     def atualizar(self, eventos):
+        sala = self.getSala()
+        if not self.__ganhou and isinstance(sala, SalaFinal):
+            self.__ganhou = True
+            for sala_porta in sala.sala_portas:
+                sala_porta.fechar() 
+
+            pg.mixer.music.load('musica/temple_of_freedom.mp3')
+            pg.mixer.music.play(-1)
+
         self.getSala().atualizar(eventos)
         self.tentarMudarSala(eventos)
     

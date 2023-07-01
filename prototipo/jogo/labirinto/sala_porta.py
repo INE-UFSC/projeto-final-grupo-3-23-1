@@ -15,6 +15,7 @@ class SalaPorta(EntidadeTela, ABC):
         self.__sala = sala
         self.__porta = porta
         self.__arq_im_porta_aberta = arq_im_porta_aberta
+        self.__desenhavel_sala_porta_trancada = DesenhavelImagem(self.tela, arq_im_porta_trancada, self.dimensoes)
     
     def atualizar(self, eventos):
         if not self.__porta.aberta:
@@ -39,6 +40,11 @@ class SalaPorta(EntidadeTela, ABC):
         self.__porta.abrir()
         for sala_porta in self.__porta.sala_portas:
             sala_porta.desenhavel = DesenhavelImagem(self.tela, self.__arq_im_porta_aberta, self.dimensoes)
+
+    def fechar(self):
+        self.__porta.fechar()
+        for sala_porta in self.__porta.sala_portas:
+            sala_porta.desenhavel = self.__desenhavel_sala_porta_trancada
 
     @property
     def porta(self):
