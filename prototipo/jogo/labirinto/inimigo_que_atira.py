@@ -78,10 +78,26 @@ class InimigoQueAtira(Inimigo):
         if pg.time.get_ticks() - self.__tempo_ultimo_tiro > self.__cadencia:
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
             projetil_direcao = math.degrees(self.direction)
-            arq_im_projetil = os.path.join('imagens', 'poder', 'poder_inimigo.png')
+
+            if projetil_direcao == 0:
+                arq_im_projetil = 'poder_inimigo_0.png'
+            elif projetil_direcao == 45:
+                arq_im_projetil = 'poder_inimigo_45.png'
+            elif projetil_direcao == 90:
+                arq_im_projetil = 'poder_inimigo_90.png'
+            elif projetil_direcao == 135:
+                arq_im_projetil = 'poder_inimigo_135.png'
+            elif projetil_direcao == 180:
+                arq_im_projetil = 'poder_inimigo_180.png'
+            elif projetil_direcao == 225:
+                arq_im_projetil = 'poder_inimigo_225.png'
+            elif projetil_direcao == 270:
+                arq_im_projetil = 'poder_inimigo_270.png'
+            else:
+                arq_im_projetil = 'poder_inimigo_315.png'
             self.__projeteis.append(Projetil(self.tela, self.pos_tela,
                                    (self.telaW()/70, self.telaW()/70) , 
-                                   projetil_direcao, arq_im_projetil, True, 1,
+                                   projetil_direcao, os.path.join('imagens', 'poder', arq_im_projetil), True, 1,
                                    self.__velocidade_projetil))
 
     def set_distancia_min_jogador(self):
