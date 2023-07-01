@@ -139,29 +139,29 @@ class Labirinto(Entidade):
                             sala.addObstaculo(Obstaculo(tela, pos_obs, dimen_obs,
                                                         DesenhavelImagem(tela, caminho_im_obs, dimen_obs, cor_im_obs)))
 
-                        dimen_power = (self.telaW()/50, self.telaH()/25)
+                        dimen_power = (self.telaW()/35, self.telaW()/35)
                         for num_power in range(int(dict_info['quant_power'])):
                             pos_power = formatarPosDim(dict_info[f'pos_power_{num_power}'])
                             tipo = dict_info[f'tipo_power_{num_power}']
                             if tipo == 'd':
                                 caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
                                 powerup = PowerupDano(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_dano, dimen_power),
+                                                    DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0)),
                                                     0.5)
                             elif tipo == 'v':
                                 caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
                                 powerup = PowerupVelocidadeTiro(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_vel, dimen_power),
+                                                    DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0)),
                                                     1)
                             elif tipo == 'c':
                                 caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_cad, dimen_power),
+                                                    DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0)),
                                                     25)
                             elif tipo == 'f':
-                                caminho_im_vida = os.path.join('imagens', 'powerup', 'cadencia.png')
+                                caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
                                 powerup = PowerupVida(tela, pos_power, dimen_power,
-                                                      DesenhavelImagem(tela, caminho_im_vida, dimen_power),
+                                                      DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0)),
                                                       1)
                             sala.addPowerup(powerup)
 

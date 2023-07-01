@@ -19,8 +19,8 @@ class Menu(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
 
-        arq_fundo = os.path.join('imagens', 'menu', 'menu.png')
-        self.__fundo = DesenhavelImagem(tela, arq_fundo, (self.telaW(), self.telaH()))
+        arq_im_fundo = os.path.join('imagens', 'menu', 'menu.png')
+        self.__im_fundo = DesenhavelImagem(tela, arq_im_fundo, (self.telaW(), self.telaH()))
 
         arq_botao_jogar = os.path.join('imagens', 'botoes', 'jogar.png')
         arq_botao_instrucoes = os.path.join('imagens', 'botoes', 'instrucoes.png')
@@ -61,7 +61,7 @@ class Menu(Entidade):
 
     def desenhar(self):
         if self.modo == ModoMenu.TelaPrincipal:
-            self.fundo.desenhar((self.telaW()/2, self.telaH()/2))
+            self.im_fundo.desenhar((self.telaW()/2, self.telaH()/2))
 
             for botao in self.botoes:
                 botao.desenhar()
@@ -90,8 +90,8 @@ class Menu(Entidade):
             exit()
 
     @property
-    def fundo(self):
-        return self.__fundo
+    def im_fundo(self):
+        return self.__im_fundo
 
     @property
     def instrucoes(self):
