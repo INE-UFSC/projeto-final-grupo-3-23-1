@@ -3,8 +3,9 @@ from .jogador_sala_final import JogadorSalaFinal
 from basico.evento import EventoColisao
 from jogo.jogador.jogador import Jogador
 import pygame as pg
+import os
 from menu.botao import Botao
-from basico.desenhavel import DesenhavelRetangulo, DesenhavelTexto
+from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 
 class SalaFinal(Sala):
     def __init__(self, tela, desenhavel, jogador):
@@ -12,36 +13,28 @@ class SalaFinal(Sala):
         self.__jogador_sala_final = JogadorSalaFinal(tela, jogador)
         self.__modo = 1
         self.__jogador_dimensoes = jogador.dimensoes
-        self.__superficies = []
 
-        dimens_botao = (self.telaW()/4, self.telaH()/16)
-        self.botoes = [Botao(tela, (6*self.telaW()/8, 15*self.telaH()/16),
-                                  dimens_botao,
-                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
-                                  'Sair', 40/1080),
-                        Botao(tela, (6*self.telaW()/8, 13*self.telaH()/16),
-                                  dimens_botao,
-                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
-                                  'Voltar ao menu', 40/1080)]
-        self.tela = tela
-    
-        #criando mensagem final:
-        mensagem = 'Felicitações!\nVocê finalizou sua jornada de autoconhecimento\ne chegou ao centro de seu “eu”'
-        linhas = mensagem.split('\n')
-        for linha in linhas:
-            self.__superficies.append(DesenhavelTexto(tela, linha))
-        self.__superficies.reverse()
+        self.__texto_final = DesenhavelImagem(tela, os.path.join('imagens', 'sala_final', 'texto_final.png'),
+                                              (self.telaW()*5/8, self.telaH()/3))
 
+        dimens_botao = (self.telaW()/6, self.telaH()/9)
+        arq_im_botao_sair = os.path.join('imagens', 'botoes', 'sair_branco.png')
+        arq_im_botao_voltar_menu = os.path.join('imagens', 'botoes', 'voltar_ao_menu_branco.png')
+        self.__botoes = [Botao(tela, (6*self.telaW()/8, 25*self.telaH()/32),
+                                  dimens_botao,
+                                  DesenhavelImagem(tela, arq_im_botao_sair, dimens_botao),
+                                  ''),
+                        Botao(tela, (6*self.telaW()/8, 29*self.telaH()/32),
+                                  dimens_botao,
+                                  DesenhavelImagem(tela, arq_im_botao_voltar_menu, dimens_botao),
+                                  '')]
 
     def desenhar(self):
         super().desenhar()
         self.__jogador_sala_final.desenhar()
         if self.__modo == 2:
-            altura = self.telaH()/2 - (self.__jogador_dimensoes[1] + self.telaH()/8)
-            for s in self.__superficies:
-                s.desenhar((self.telaW()/2, altura))
-                altura -= s.espaco_linha
-            for botao in self.botoes:
+            self.__texto_final.desenhar((self.telaW()/2, self.telaH()*2.25/8))
+            for botao in self.__botoes:
                 botao.desenhar()
     
     def atualizar(self, eventos):
@@ -51,10 +44,14 @@ class SalaFinal(Sala):
                 if evento.possui(self.__jogador_sala_final):
                     if evento.possuiTipo(Jogador):
                         self.__modo = 2
-        for botao in self.botoes:
+        for botao in self.__botoes:
             botao.atualizar(eventos)
 
     def getColisores(self):
         colisores = super().getColisores()
         colisores.append(self.__jogador_sala_final)
         return colisores
+
+    @property
+    def botoes(self):
+        return self.__botoes
