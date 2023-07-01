@@ -9,8 +9,8 @@ import os
 class Mapa(Entidade):
     def __init__(self, tela, salas, imagem_jogador):
         super().__init__(tela)
-        arq_fundo = os.path.join('imagens', 'fundo_mapa.png')
-        self.__imagem_fundo = DesenhavelImagem(tela, arq_fundo, (self.telaW(), self.telaH()))
+        arq_im_fundo = os.path.join('imagens', 'fundo_mapa.png')
+        self.__im_fundo = DesenhavelImagem(tela, arq_im_fundo, (self.telaW(), self.telaH()))
         self.__tela = tela
         self.__salas = salas
         self.__marcadores = []
@@ -60,7 +60,7 @@ class Mapa(Entidade):
         print(unidade)
         print(dimens_min)
         """
-        self.__fundo.desenhar((self.telaW()/2, self.telaH()/2))
+        self.im_fundo.desenhar((self.telaW()/2, self.telaH()/2))
         qtd_salas = self.getQtdSalas()
 
         pos_paleta = self.getPosPaleta()
@@ -248,6 +248,9 @@ class Mapa(Entidade):
     def getTiposPorta(self):
         return [SalaPortaCima, SalaPortaEsquerda, SalaPortaDireita, SalaPortaBaixo]
 
+    @property
+    def im_fundo(self):
+        return self.__im_fundo
     @property
     def tela(self):
         return self.__tela

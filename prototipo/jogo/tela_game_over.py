@@ -1,41 +1,26 @@
 from basico.entidade import Entidade
-from basico.desenhavel import DesenhavelImagem, DesenhavelTexto, DesenhavelRetangulo
+from basico.desenhavel import DesenhavelImagem, DesenhavelRetangulo
 from menu.botao import Botao
 import os
 
 class TelaGameOver(Entidade):
     def __init__(self, tela):
         super().__init__(tela)
-        caminho_im = os.path.join('imagens', 'game_over.jpg')
+        caminho_im = os.path.join('imagens', 'game_over.png')
         self.__desenhavel = DesenhavelImagem(tela, caminho_im, (self.telaW(), self.telaH()))
 
-        dimens_botao = (self.telaW()/4, self.telaH()/16)
-        self.__botoes = [Botao(tela, (6*self.telaW()/8, 15*self.telaH()/16),
+        arq_botao_sair = os.path.join('imagens', 'botoes', 'sair_preto.png')
+        arq_botao_voltar_ao_menu = os.path.join('imagens', 'botoes', 'voltar_ao_menu_preto.png')
+        dimens_botao = (self.telaW()/6, self.telaH()/9)
+        self.__botoes = [Botao(tela, (self.telaW()/2, 25*self.telaH()/32),
                                   dimens_botao,
-                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
-                                  'Sair', 40/1080),
-                        Botao(tela, (6*self.telaW()/8, 13*self.telaH()/16),
+                                  DesenhavelImagem(tela, arq_botao_sair, dimens_botao), ''),
+                        Botao(tela, (self.telaW()/2, 29*self.telaH()/32),
                                   dimens_botao,
-                                  DesenhavelRetangulo(tela, (128, 64, 64), dimens_botao),
-                                  'Voltar ao menu', 40/1080)]
-
-        #criando mensagem de game over:
-        mensagem = 'Você não se manteve firme em sua missão\ne foi dominado pelos obstáculos.\nPerdeu seu foco e sucumbiu aos testes de sua mente'
-        linhas = mensagem.split('\n')
-        self.__superficies = []
-        for linha in linhas:
-            self.__superficies.append(DesenhavelTexto(tela, linha, cor_texto=(0, 0, 0)))
-        self.__superficies.reverse()
-
+                                  DesenhavelImagem(tela, arq_botao_voltar_ao_menu, dimens_botao), '')]
 
     def desenhar(self):
         self.__desenhavel.desenhar((self.telaW()/2, self.telaH()/2))
-
-        espaco_linha = (-1) * self.__superficies[0].espaco_linha
-        altura = 0
-        for s in self.__superficies:
-            altura += espaco_linha
-            s.desenhar((self.telaW()/2, self.telaH()/2 + altura))
 
         for botao in self.__botoes:
             botao.desenhar()

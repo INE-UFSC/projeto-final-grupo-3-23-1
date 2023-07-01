@@ -27,8 +27,8 @@ class TelaPause(Entidade):
         self.__instrucoes = Instrucoes(tela, arq_instrucoes, arq_botao_voltar)
 
         #imagem fundo:
-        arq_imagem_fundo = os.path.join('imagens', 'pause', 'pause.png')
-        self.__imagem_fundo = DesenhavelImagem(tela, arq_imagem_fundo, (self.telaW(), self.telaH()))
+        arq_im_fundo = os.path.join('imagens', 'pause', 'pause.png')
+        self.__im_fundo = DesenhavelImagem(tela, arq_im_fundo, (self.telaW(), self.telaH()))
 
         #botões:
         dimensao_botoes = (self.telaW()/8, self.telaH()/12)
@@ -62,7 +62,7 @@ class TelaPause(Entidade):
     def desenhar(self):
 
         if self.modo == ModoPause.PausePrincipal:
-            self.imagem_fundo.desenhar((self.telaW()/2, self.telaH()/2))
+            self.im_fundo.desenhar((self.telaW()/2, self.telaH()/2))
             for botao in self.botoes.values():
                 botao.desenhar()
 
@@ -114,8 +114,8 @@ class TelaPause(Entidade):
         return self.__botoes
         
     @property
-    def imagem_fundo(self):
-        return self.__imagem_fundo
+    def im_fundo(self):
+        return self.__im_fundo
 
     @property
     def instrucoes(self):
