@@ -79,22 +79,22 @@ class InimigoQueAtira(Inimigo):
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
             projetil_direcao = math.degrees(self.direction)
 
-            if projetil_direcao == 0:
-                arq_im_projetil = 'poder_inimigo_0.png'
-            elif projetil_direcao == 45:
-                arq_im_projetil = 'poder_inimigo_45.png'
-            elif projetil_direcao == 90:
-                arq_im_projetil = 'poder_inimigo_90.png'
-            elif projetil_direcao == 135:
-                arq_im_projetil = 'poder_inimigo_135.png'
-            elif projetil_direcao == 180:
-                arq_im_projetil = 'poder_inimigo_180.png'
-            elif projetil_direcao == 225:
-                arq_im_projetil = 'poder_inimigo_225.png'
-            elif projetil_direcao == 270:
-                arq_im_projetil = 'poder_inimigo_270.png'
-            else:
-                arq_im_projetil = 'poder_inimigo_315.png'
+            imagens = [
+                'poder_inimigo_0.png',
+                'poder_inimigo_45.png',
+                'poder_inimigo_90.png',
+                'poder_inimigo_135.png',
+                'poder_inimigo_180.png',
+                'poder_inimigo_225.png',
+                'poder_inimigo_270.png',
+                'poder_inimigo_315.png'
+            ]
+
+            x = int(round(projetil_direcao / 360 * 8))
+            x %= 8
+
+            arq_im_projetil = imagens[x]
+
             self.__projeteis.append(Projetil(self.tela, self.pos_tela,
                                    (self.telaW()/70, self.telaW()/70) , 
                                    projetil_direcao, os.path.join('imagens', 'poder', arq_im_projetil), True, 1,
