@@ -4,9 +4,13 @@ from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
 from jogo.labirinto.sala_porta import *
 from jogo.labirinto.sala_final import SalaFinal
 from basico.evento import *
+import os
 
 class Mapa(Entidade):
     def __init__(self, tela, salas, imagem_jogador):
+        super().__init__(tela)
+        arq_fundo = os.path.join('imagens', 'fundo_mapa.png')
+        self.__imagem_fundo = DesenhavelImagem(tela, arq_fundo, (self.telaW(), self.telaH()))
         self.__tela = tela
         self.__salas = salas
         self.__marcadores = []
@@ -56,7 +60,7 @@ class Mapa(Entidade):
         print(unidade)
         print(dimens_min)
         """
-
+        self.__fundo.desenhar((self.telaW()/2, self.telaH()/2))
         qtd_salas = self.getQtdSalas()
 
         pos_paleta = self.getPosPaleta()
