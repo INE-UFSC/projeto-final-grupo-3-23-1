@@ -44,7 +44,8 @@ class Menu(Entidade):
         arq_instrucoes = os.path.join('imagens', 'menu', 'instrucoes.png')
         arq_botao_voltar = os.path.join('imagens', 'botoes', 'voltar.png')
         self.__instrucoes = Instrucoes(tela, arq_instrucoes, arq_botao_voltar)
-        self.__creditos = Creditos(tela)
+        arq_creditos = os.path.join('imagens', 'menu', 'creditos.png')
+        self.__creditos = Creditos(tela, arq_creditos, arq_botao_voltar)
         self.__modo = ModoMenu.TelaPrincipal
         self.__font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))
 
