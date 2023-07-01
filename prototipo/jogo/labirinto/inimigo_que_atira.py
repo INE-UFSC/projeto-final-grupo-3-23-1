@@ -3,6 +3,7 @@ from jogo.jogador.projetil import Projetil
 import pygame as pg
 from jogo.jogador.jogador import Jogador
 import math
+import os
 
 class InimigoQueAtira(Inimigo):
     def __init__(self, tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador, nivel):
@@ -77,9 +78,11 @@ class InimigoQueAtira(Inimigo):
         if pg.time.get_ticks() - self.__tempo_ultimo_tiro > self.__cadencia:
             self.__tempo_ultimo_tiro = pg.time.get_ticks()
             projetil_direcao = math.degrees(self.direction)
+            arq_im_projetil = os.path.join('imagens', 'poder', 'poder_inimigo.png')
             self.__projeteis.append(Projetil(self.tela, self.pos_tela,
-                                   (self.telaW()*20/1980, self.telaH()*20/1080) , 
-                                   projetil_direcao, True, 1, self.__velocidade_projetil))
+                                   (self.telaW()/70, self.telaW()/70) , 
+                                   projetil_direcao, arq_im_projetil, True, 1,
+                                   self.__velocidade_projetil))
 
     def set_distancia_min_jogador(self):
         minha_diagonl = math.sqrt(self.dimensoes[0]**2 + self.dimensoes[1]**2)

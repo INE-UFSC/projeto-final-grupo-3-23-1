@@ -147,9 +147,11 @@ class Jogador(EntidadeTela):
     def atirar(self, powerups):
         if pg.time.get_ticks() - self.ultimo_tiro > self.cadencia_projeteis:
             self.ultimo_tiro = pg.time.get_ticks()
+            arq_im_projetil = os.path.join('imagens', 'poder', 'poder_jogador.png')
             self.projeteis.append(Projetil(self.tela, self.pos_tela,
-                                   (self.telaW()*20/1980, self.telaH()*20/1080),
-                                    self.direcao, False, self.dano_projeteis, self.velocidade_projeteis))
+                                   (self.telaW()/70, self.telaW()/70),
+                                    self.direcao, arq_im_projetil, False,
+                                    self.dano_projeteis, self.velocidade_projeteis))
     
     def perderVida(self):
         if not self.invulnerabilidade:

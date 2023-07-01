@@ -108,7 +108,10 @@ class Labirinto(Entidade):
             linha = []
             for j in range(n_colunas):
                 if i == int(coord_sala_final[0]) and j == int(coord_sala_final[1]):
-                    self.sala_final = SalaFinal(tela, 'definir desenhavel', jogador)
+                    arq_sala_final = os.path.join('imagens', 'fundo_sala_final.jpg')
+                    self.sala_final = SalaFinal(tela, 
+                                                DesenhavelImagem(tela, arq_sala_final, (self.telaW(), self.telaH())),
+                                                jogador)
                     linha.append(self.sala_final)
                 elif [i, j] == self.coord_sala_atual:
                     caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')

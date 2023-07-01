@@ -1,12 +1,12 @@
 import pygame as pg
 from math import cos, sin, radians
 from basico.entidade_tela import EntidadeTela
-from basico.desenhavel import DesenhavelRetangulo
+from basico.desenhavel import DesenhavelImagem
 from basico.evento import EventoColisao
 
 class Projetil(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, direcao, inimigo = False, dano = 1, velocidade = 10):
-        desenhavel = DesenhavelRetangulo(tela, (0, 255, 255), dimensoes)
+    def __init__(self, tela, pos_tela, dimensoes, direcao, arq_im_projetil, inimigo = False, dano = 1, velocidade = 10):
+        desenhavel = DesenhavelImagem(tela, arq_im_projetil, dimensoes, (0, 0, 0))
         super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=False, movel=False)
 
         self.__direcao = direcao
