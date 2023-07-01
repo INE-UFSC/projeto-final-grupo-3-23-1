@@ -133,7 +133,7 @@ class Labirinto(Entidade):
                     if a == 0:
                         indice = random.randrange(0, len(info_salas_ini))
                         info_sala = info_salas_ini[indice]
-                        info_salas_ini.remove(info_sala)
+                        #info_salas_ini.remove(info_sala)
                         lista_info = info_sala.split(' / ')
                         dict_info = {}
                         for elem in lista_info:
@@ -204,7 +204,7 @@ class Labirinto(Entidade):
                     else:
                         indice = random.randrange(0, len(l_puzzle))
                         puzz = l_puzzle[indice]
-                        l_puzzle.remove(puzz)
+                        #l_puzzle.remove(puzz)
                         puzz = puzz.split(' / ')
                         caminho_im_fundo = os.path.join('imagens', 'fundos_sala_puzz', puzz[0])
                         linha.append(SalaPuzzle(tela,

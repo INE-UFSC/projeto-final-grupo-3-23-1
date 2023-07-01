@@ -1,3 +1,9 @@
 mapa_labirinto_1.txt
 mapa_labirinto_2.txt
 mapa_labirinto_3.txt
+mapa_labirinto_4.txt
+mapa_labirinto_5.txt
+mapa_labirinto_6.txt
+mapa_labirinto_7.txt
+mapa_labirinto_8.txt
+mapa_labirinto_9.txt
