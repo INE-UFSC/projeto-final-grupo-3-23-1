@@ -22,11 +22,13 @@ class TelaPause(Entidade):
         self.__modo = ModoPause.PausePrincipal
 
         #tela instuções:
-        self.__instrucoes = Instrucoes(tela)
+        arq_instrucoes = os.path.join('imagens', 'pause', 'instrucoes.png')
+        arq_botao_voltar = os.path.join('imagens', 'botoes', 'voltar azul.png')
+        self.__instrucoes = Instrucoes(tela, arq_instrucoes, arq_botao_voltar)
 
         #imagem fundo:
-        camino_imagem_fundo = os.path.join('imagens', 'tela_pause.jpg')
-        self.__imagem_fundo = pg.image.load(camino_imagem_fundo)
+        arq_imagem_fundo = os.path.join('imagens', 'pause', 'pause.png')
+        self.__imagem_fundo = DesenhavelImagem(tela, arq_imagem_fundo, (self.telaW(), self.telaH()))
 
         #botões:
         dimensao_botoes = (self.telaW()/8, self.telaH()/12)
@@ -36,12 +38,10 @@ class TelaPause(Entidade):
         #voltar jogo:
         caminho_img_botao_voltar_jogo = os.path.join('imagens', 'botoes', 'voltar ao jogo.png')
         desenhavel_botao_voltar_jogo = DesenhavelImagem(self.tela, caminho_img_botao_voltar_jogo, dimensao_botoes)
-        botao_voltar_jogo_pos_tela = (self.telaW()/2, self.telaH()*9/10)
 
         #instruções:
-        caminho_img_botao_instrucoes = os.path.join('imagens', 'botoes', 'instrucoes.png')
+        caminho_img_botao_instrucoes = os.path.join('imagens', 'botoes', 'instrucoes azul.png')
         desenhavel_botao_instrucoes = DesenhavelImagem(self.tela, caminho_img_botao_instrucoes, dimensao_botoes)
-        botao_instrucoes_pos_tela = (botao_voltar_jogo_pos_tela[0], botao_voltar_jogo_pos_tela[1]-2)
 
         #voltar menu:
         caminho_img_botao_vlt_menu = os.path.join('imagens', 'botoes', 'voltar ao menu.png')
@@ -51,10 +51,10 @@ class TelaPause(Entidade):
         self.__botoes = {"voltar_jogo": Botao(tela, (self.telaW()/2, self.telaH()*9/10),
                                dimensao_botoes, 
                                desenhavel_botao_voltar_jogo,""),
-                               "instrucoes": Botao(tela, (botao_voltar_jogo_pos_tela[0]-300, botao_voltar_jogo_pos_tela[1]),
+                               "instrucoes": Botao(tela, (self.telaW()/4, self.telaH()*9/10),
                                dimensao_botoes, 
                                desenhavel_botao_instrucoes,""),
-                               "voltar_menu": Botao(tela, (botao_voltar_jogo_pos_tela[0]+300, botao_voltar_jogo_pos_tela[1]),
+                               "voltar_menu": Botao(tela, (self.telaW()*3/4, self.telaH()*9/10),
                                dimensao_botoes, 
                                desenhavel_botao_vlt_menu,"")}
 
@@ -62,7 +62,7 @@ class TelaPause(Entidade):
     def desenhar(self):
 
         if self.modo == ModoPause.PausePrincipal:
-            self.tela.blit(self.imagem_fundo , (0, 0))
+            self.imagem_fundo.desenhar((self.telaW()/2, self.telaH()/2))
             for botao in self.botoes.values():
                 botao.desenhar()
 

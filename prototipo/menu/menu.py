@@ -26,23 +26,24 @@ class Menu(Entidade):
         arq_botao_instrucoes = os.path.join('imagens', 'botoes', 'instrucoes.png')
         arq_botao_creditos = os.path.join('imagens', 'botoes', 'creditos.png')
         arq_botao_sair = os.path.join('imagens', 'botoes', 'sair.png')
-        dimens_botao = (1/6 *self.telaW(), 1/9 *self.telaH())
-        dimens_botao_1 = (1/7*self.telaW(), 8/84*self.telaH())
+
+        dimens_botao = (1/7*self.telaW(), 8/84*self.telaH())
 
         self.botoes = [Botao(tela, (self.telaW()/2, 3*self.telaH()/7), dimens_botao,
-                              DesenhavelImagem(tela, arq_botao_jogar, dimens_botao), ""),
+                              DesenhavelImagem(tela, arq_botao_jogar, (1/6 *self.telaW(), 1/9 *self.telaH())), ""),
 
                        Botao(tela, (self.telaW()/4, 4*self.telaH()/7), dimens_botao,
-                              DesenhavelImagem(tela, arq_botao_instrucoes, dimens_botao_1), ""),
+                              DesenhavelImagem(tela, arq_botao_instrucoes, dimens_botao), ""),
 
                        Botao(tela, (self.telaW()/4, 5*self.telaH()/7), dimens_botao,
-                              DesenhavelImagem(tela, arq_botao_creditos, dimens_botao_1), ""),
+                              DesenhavelImagem(tela, arq_botao_creditos, dimens_botao), ""),
 
                        Botao(tela, (self.telaW()*3/4, 4.5*self.telaH()/7), dimens_botao,
-                              DesenhavelImagem(tela, arq_botao_sair, dimens_botao_1), "")
+                              DesenhavelImagem(tela, arq_botao_sair, dimens_botao), "")
                        ]
-
-        self.__instrucoes = Instrucoes(tela)
+        arq_instrucoes = os.path.join('imagens', 'menu', 'instrucoes.png')
+        arq_botao_voltar = os.path.join('imagens', 'botoes', 'voltar.png')
+        self.__instrucoes = Instrucoes(tela, arq_instrucoes, arq_botao_voltar)
         self.__creditos = Creditos(tela)
         self.__modo = ModoMenu.TelaPrincipal
         self.__font = pg.font.SysFont("Comic Sans MT", int(250/1080 * self.telaH()))
