@@ -75,6 +75,38 @@ class DesenhavelTexto(Desenhavel):
     def rect(self):
         return self.__rect
 
+class DesenhavelSurface(Desenhavel):
+    def __init__(self, tela, surface, dimensoes, cor_fundo = None):
+        super().__init__(tela)
+
+        self.__surface = surface
+
+        if cor_fundo is not None:
+            self.__surface.set_colorkey(cor_fundo)
+            self.__surface.convert_alpha()
+
+        self.__surface = pg.transform.scale(self.__surface, dimensoes)
+
+    def desenhar(self, pos_tela):
+        rect = self.__surface.get_rect()
+        rect.center = pos_tela
+
+        self.tela.blit(self.__surface, rect)
+
+    @property
+    def surface(self):
+        return self.__surface
+
+    @surface.setter
+    def surface(self, surface):
+        self.__surface = surface
+
+class DesenhavelImagem(DesenhavelSurface):
+    def __init__(self, tela, arquivo, dimensoes, cor_fundo=None):
+        imagem = pg.image.load(arquivo).convert()
+        super().__init__(tela, imagem, dimensoes, cor_fundo)
+
+"""
 class DesenhavelImagem(Desenhavel):
     def __init__(self, tela, arquivo, dimensoes, cor_fundo=None):
         super().__init__(tela)
@@ -96,20 +128,17 @@ class DesenhavelImagem(Desenhavel):
     def imagem(self):
         return self.__imagem
 
-    """
     @imagem.setter
     def imagem(self, imagem):
         self.__imagem = imagem
-    """
 
     @property
     def dimensoes(self):
         return self.__dimensoes
 
-    """
     @dimensoes.setter
     def dimensoes(self, dimensoes):
         self.__dimensoes = dimensoes
-    """
+"""
 
 

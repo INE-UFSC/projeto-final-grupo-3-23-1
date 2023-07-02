@@ -125,6 +125,7 @@ class Labirinto(Entidade):
         with open(arq_ini, "r") as arquivo_inimigos:
             info_salas_ini = arquivo_inimigos.readlines()
 
+        # pre-carregamento de imagens. Essa eh provavelmente a parte que esta fazendo o jogo demorar para carregar
         info_inimigo = []
         for indice in range(len(info_salas_ini)):
             info_sala = info_salas_ini[indice]

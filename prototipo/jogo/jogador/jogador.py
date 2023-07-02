@@ -3,6 +3,7 @@ from math import sin, cos, radians
 
 from basico.entidade_tela import EntidadeTela
 from basico.evento import *
+from basico.desenhavel import *
 from jogo.labirinto.sala_porta import *
 from jogo.labirinto.powerup import *
 from jogo.labirinto.obstaculo import *
@@ -26,19 +27,35 @@ class Jogador(EntidadeTela):
         self.__cadencia_projeteis = 500
         self.__velocidade_projeteis = 10
 
+        arquivo = os.path.join('imagens', 'jogador', 'jogador.png')
+        sheet = pg.image.load(arquivo).convert()
+
+        w, h = sheet.get_rect().size
+        x = w/3
+        y_offset = h/4
+
+        self.__desenhaveis = []
+        indices = [2, 0, 1, 3]
+        for j in range(4):
+            y = y_offset*indices[j]
+
+            sprite = pg.Surface((w/3, h/4))
+            sprite.blit(sheet, (0, 0), (x, y, w/3, h/4))
+
+            self.__desenhaveis.append(DesenhavelSurface(tela, sprite, (w/3, h/4), 'black'))
 
     def atualizar(self, eventos: list):
         if pg.time.get_ticks() - self.ultima_colisao > 3000:
             self.invulnerabilidade = False
-            self.desenhavel.imagem.set_alpha(255)
+            self.desenhavel.surface.set_alpha(255)
 
         if self.invulnerabilidade:
             if pg.time.get_ticks() - self.last_tick > 150:
-                if self.desenhavel.imagem.get_alpha() == 100:
-                    self.desenhavel.imagem.set_alpha(255)
+                if self.desenhavel.surface.get_alpha() == 100:
+                    self.desenhavel.surface.set_alpha(255)
 #                    print('a')
-                elif self.desenhavel.imagem.get_alpha() == 255:
-                    self.desenhavel.imagem.set_alpha(100)
+                elif self.desenhavel.surface.get_alpha() == 255:
+                    self.desenhavel.surface.set_alpha(100)
 #                    print('b')
                 self.last_tick = pg.time.get_ticks() 
         
@@ -133,6 +150,15 @@ class Jogador(EntidadeTela):
             self.projeteis.remove(projetil)
 
     def desenhar(self):
+        if self.__direcao < 90:
+            self.desenhavel = self.__desenhaveis[0]
+        elif self.__direcao < 180:
+            self.desenhavel = self.__desenhaveis[1]
+        elif self.__direcao < 270:
+            self.desenhavel = self.__desenhaveis[2]
+        elif self.__direcao < 360:
+            self.desenhavel = self.__desenhaveis[3]
+
         super().desenhar()
 
         for p in self.projeteis:
