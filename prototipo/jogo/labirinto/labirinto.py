@@ -152,16 +152,16 @@ class Labirinto(Entidade):
 
             dimen_power = (self.telaW()/35, self.telaW()/35)
             caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
-            imagens['power_d'] = DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0)),
+            imagens['power_d'] = DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0))
 
             caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
-            imagens['power_v'] = DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0)),
+            imagens['power_v'] = DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0))
 
             caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
-            imagens['power_c'] = DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0)),
+            imagens['power_c'] = DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0))
 
             caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
-            imagens['power_f'] = DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0)),
+            imagens['power_f'] = DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0))
 
             caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
             cor_im_ini = definirCorImagem('cor_im_ini')
@@ -170,7 +170,7 @@ class Labirinto(Entidade):
 
             caminho_im_ini_ati = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
             cor_im_ini_ati = definirCorImagem('cor_im_ini_ati')
-            imagens['im_ini_ati'] = DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, cor_im_ini_ati),
+            imagens['im_ini_ati'] = DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, cor_im_ini_ati)
 
             imagens_inimigo.append(imagens)
 
