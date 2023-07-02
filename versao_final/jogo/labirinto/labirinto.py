@@ -7,6 +7,7 @@ from jogo.labirinto.musica import Musica
 from jogo.labirinto.textura import Textura
 from jogo.labirinto.inimigo import Inimigo
 from jogo.labirinto.inimigo_que_atira import InimigoQueAtira
+from jogo.labirinto.inimigo_que_segue import *
 from jogo.labirinto.sala_inimigo import SalaInimigo
 from jogo.labirinto.sala_porta import *
 from jogo.labirinto.puzzle import Puzzle
@@ -243,7 +244,7 @@ class Labirinto(Entidade):
                         vida_ini = 3
                         for num_ini in range(int(dict_info['quant_ini'])):
                             pos_ini = formatarPosDim(dict_info[f'pos_ini_{num_ini}'])
-                            sala.addInimigo(Inimigo(tela, pos_ini, dim_ini,
+                            sala.addInimigo(InimigoQueSegue(tela, pos_ini, dim_ini,
                                                     imagens['im_ini'],
                                                     dano_ini, vel_ini, vida_ini, jogador))
 

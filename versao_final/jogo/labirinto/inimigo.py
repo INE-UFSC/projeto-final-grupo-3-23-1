@@ -82,13 +82,6 @@ class Inimigo(EntidadeTela):
         self.verificar_vida()
 
     def desenhar(self):
-        projetil_direcao = math.degrees(self.direction)
-
-        x = int(round(projetil_direcao / 360 * 8))
-        x %= 8
-
-        self.desenhavel = self.__desenhaveis[x]
-
         super().desenhar()
 
     def tratar_eventos(self, eventos):
@@ -105,8 +98,6 @@ class Inimigo(EntidadeTela):
     def eventoColisao(self, colisor):
         from jogo.jogador.projetil import Projetil
         #verificar se está colidindo com alguma entidade, para não se movimentar para cima dela:
-        if type(colisor) == Inimigo:
-            pass
 #            self.ver_se_pode_mexer(colisor)
             #self.movimento_desvio(colisor)
 
