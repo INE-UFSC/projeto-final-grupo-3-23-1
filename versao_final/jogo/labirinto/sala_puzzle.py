@@ -1,10 +1,12 @@
 from .sala import Sala
-from .puzzle import Puzzle
+from .computador import Computador
 
 class SalaPuzzle(Sala):
-    def __init__(self, tela, desenhavel, enigma, resposta, jogador):
+    def __init__(self, tela, desenhavel, desenhavel_pc, dimen_pc, desenhavel_im_puzzle,
+                 desenhavel_acertou, desenhavel_errou, resposta, jogador):
         super().__init__(tela, desenhavel)
-        self.__puzzle = Puzzle(tela, enigma, resposta, jogador)
+        self.__puzzle = Computador(tela, desenhavel_pc, dimen_pc, desenhavel_im_puzzle,
+                                   desenhavel_acertou, desenhavel_errou, resposta, jogador)
     
     def desenhar(self):
         super().desenhar()
