@@ -139,7 +139,7 @@ class Labirinto(Entidade):
 
             caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
             cor_im_ini = definirCorImagem('cor_im_ini')
-            dim_ini = (self.telaW()*50/1960, self.telaH()*50/1080)
+            dim_ini = (self.telaW()*30/1960, self.telaH()*50/1080)
             dano_ini = 1
             vel_ini = 2
             vida_ini = 3
