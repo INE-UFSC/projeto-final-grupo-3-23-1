@@ -42,7 +42,7 @@ class CaixaDeResposta(EntidadeTela):
         super().desenhar()
 
         if self.__chute == '':
-            text = DesenhavelTexto(self.tela,'Digite sua resposta')
+            text = DesenhavelTexto(self.tela,'Digite sua resposta', nome_fonte='Lora')
         else:
             text = DesenhavelTexto(self.tela, self.chute)
         text.desenharSuperiorDireito(self.getRect())

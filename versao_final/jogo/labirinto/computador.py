@@ -29,8 +29,8 @@ class Computador(EntidadeTela):
         self.__ligado = False
 
         dimens_botao_tentar_dnv = (self.telaW()*3/16, self.telaH()/16)
-        dimens_botao_responder = (self.telaW()/8, self.telaH()/16)
-        self.__botao_responder = Botao(tela, (self.telaW()/2, self.telaH()*3.15/5), 
+        dimens_botao_responder = (self.telaW()/10, self.telaH()/20)
+        self.__botao_responder = Botao(tela, (self.telaW()*2.7/4, self.telaH()*3/5), 
                                        dimens_botao_responder,
                                        DesenhavelImagem(tela, os.path.join('imagens', 'botoes', 'responder.png'),
                                                         dimens_botao_responder), '')
@@ -39,8 +39,8 @@ class Computador(EntidadeTela):
                                        DesenhavelImagem(tela, os.path.join('imagens', 'botoes', 'tentar_novamente.png'),
                                         dimens_botao_tentar_dnv), '')
 
-        self.__caixa_resposta = CaixaDeResposta(tela, (self.telaW()/2, self.telaH()*2.75/5),
-                                                (self.telaW()/3, self.telaH()/20))
+        self.__caixa_resposta = CaixaDeResposta(tela, (self.telaW()*1.8/4, self.telaH()*3/5),
+                                                (self.telaW()/3, self.telaH()/30))
 
         
     
