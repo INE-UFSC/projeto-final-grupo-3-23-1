@@ -9,7 +9,7 @@ from jogo.labirinto.inimigo import Inimigo
 from jogo.labirinto.inimigo_que_atira import InimigoQueAtira
 from jogo.labirinto.sala_inimigo import SalaInimigo
 from jogo.labirinto.sala_porta import *
-from jogo.labirinto.puzzle import Puzzle
+from jogo.labirinto.computador import Computador
 from jogo.labirinto.powerup import *
 from jogo.labirinto.sala_final import SalaFinal
 from jogo.labirinto.obstaculo import *
@@ -176,6 +176,15 @@ class Labirinto(Entidade):
 
             imagens_inimigo.append(imagens)
 
+        imagens_puzzle = {}
+        dimen_pc = (self.telaW()/2, self.telaH()*2/3)
+        arq_im_pc = os.path.join('imagens', 'computador', 'computador.png')
+        imagens_puzzle['pc'] = DesenhavelImagem(tela, arq_im_pc, dimen_pc, (255, 255, 255))
+        arq_im_acertou = os.path.join('imagens', 'computador', 'im_acertou.png')
+        imagens_puzzle['acertou'] = DesenhavelImagem(tela, arq_im_acertou, dimen_pc, (255, 255, 255))
+        arq_im_errou = os.path.join('imagens', 'computador', 'im_errou.png')
+        imagens_puzzle['errou'] = DesenhavelImagem(tela, arq_im_errou, dimen_pc, (255, 255, 255))
+
         for i in range(n_linhas):
             linha = []
             for j in range(n_colunas):
@@ -259,9 +268,13 @@ class Labirinto(Entidade):
                     else:
                         indice = random.randrange(0, len(l_puzzle))
                         puzz = info_puzzle[indice]
+                        arq_im_puzz = os.path.join('imagens', 'computador', puzz[1])
                         linha.append(SalaPuzzle(tela,
-                                                puzz[0],
-                                                puzz[1], puzz[2].strip(), jogador))
+                                    DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH())),
+                                    imagens_puzzle['pc'], dimen_pc, 
+                                    DesenhavelImagem(tela, arq_im_puzz, dimen_pc, (255, 255, 255)),
+                                    imagens_puzzle['acertou'], imagens_puzzle['errou'],
+                                    puzz[2].strip(), jogador))
             self.__salas.append(linha)
 
         SalaPortaBaixo.iniciarClasse(tela)
