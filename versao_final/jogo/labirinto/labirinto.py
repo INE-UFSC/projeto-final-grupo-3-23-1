@@ -137,6 +137,20 @@ class Labirinto(Entidade):
                 dict_info[lista_elem[0]] = lista_elem[1]
             info_inimigo.append(dict_info)
 
+        imagens_powerup = {}
+        dimen_power = (self.telaW()/35, self.telaW()/35)
+        caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
+        imagens_powerup['power_d'] = DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0))
+
+        caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
+        imagens_powerup['power_v'] = DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0))
+
+        caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
+        imagens_powerup['power_c'] = DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0))
+
+        caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
+        imagens_powerup['power_f'] = DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0))
+
         imagens_inimigo = []
         for indice in range(len(info_salas_ini)):
             imagens = {} 
@@ -150,19 +164,6 @@ class Labirinto(Entidade):
             caminho_im_obs = os.path.join('imagens', 'obstaculos', dict_info['im_obs'])
             cor_im_obs = definirCorImagem('cor_im_obs')
             imagens['im_obs'] = DesenhavelImagem(tela, caminho_im_obs, dimen_obs, cor_im_obs)
-
-            dimen_power = (self.telaW()/35, self.telaW()/35)
-            caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
-            imagens['power_d'] = DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0))
-
-            caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
-            imagens['power_v'] = DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0))
-
-            caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
-            imagens['power_c'] = DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0))
-
-            caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
-            imagens['power_f'] = DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0))
 
             caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
             cor_im_ini = definirCorImagem('cor_im_ini')
@@ -215,22 +216,22 @@ class Labirinto(Entidade):
                             if tipo == 'd':
                                 caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
                                 powerup = PowerupDano(tela, pos_power, dimen_power,
-                                                    imagens['power_d'],
+                                                    imagens_powerup['power_d'],
                                                     0.5)
                             elif tipo == 'v':
                                 caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
                                 powerup = PowerupVelocidadeTiro(tela, pos_power, dimen_power,
-                                                    imagens['power_v'],
+                                                    imagens_powerup['power_v'],
                                                     1)
                             elif tipo == 'c':
                                 caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
-                                                    imagens['power_c'],
+                                                    imagens_powerup['power_c'],
                                                     25)
                             elif tipo == 'f':
                                 caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
                                 powerup = PowerupVida(tela, pos_power, dimen_power,
-                                                      imagens['power_f'],
+                                                      imagens_powerup['power_f'],
                                                       1)
                             sala.addPowerup(powerup)
 
