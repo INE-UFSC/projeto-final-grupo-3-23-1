@@ -43,7 +43,7 @@ class SalaPorta(EntidadeTela, ABC):
     def fechar(self):
         self.__porta.fechar()
         for sala_porta in self.__porta.sala_portas:
-            sala_porta.desenhavel = self.__desenhavel_fechada
+            sala_porta.desenhavel = self.__desenhavel_trancada
 
     @property
     def porta(self):
