@@ -5,7 +5,7 @@ class JogadorSalaFinal(EntidadeTela):
         super().__init__(tela, 
                          (tela.get_width()/2, tela.get_height()/2), 
                          jogador.dimensoes, 
-                         jogador.desenhavel)
+                         jogador.desenhaveis[1])
 
     def desenhar(self):
         super().desenhar()

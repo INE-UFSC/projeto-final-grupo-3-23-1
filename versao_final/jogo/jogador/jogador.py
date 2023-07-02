@@ -10,8 +10,8 @@ from jogo.labirinto.obstaculo import *
 from .projetil import Projetil
 
 class Jogador(EntidadeTela):
-    def __init__(self, tela, pos_tela, dimensoes, desenhavel):
-        super().__init__(tela, pos_tela, dimensoes, desenhavel, solido=True, movel=True)
+    def __init__(self, tela, pos_tela, dimensoes, desenhaveis):
+        super().__init__(tela, pos_tela, dimensoes, desenhaveis[0], solido=True, movel=True)
 
         self.__velocidade = 10
         self.__direcao = 0
@@ -27,23 +27,7 @@ class Jogador(EntidadeTela):
         self.__cadencia_projeteis = 500
         self.__velocidade_projeteis = 10
 
-        # imagens
-        arquivo = os.path.join('imagens', 'jogador', 'jogador.png')
-        sheet = pg.image.load(arquivo).convert()
-
-        w, h = sheet.get_rect().size
-        x = w/3
-        y_offset = h/4
-
-        self.__desenhaveis = []
-        indices = [2, 0, 1, 3]
-        for j in range(4):
-            y = y_offset*indices[j]
-
-            sprite = pg.Surface((w/3, h/4))
-            sprite.blit(sheet, (0, 0), (x, y, w/3, h/4))
-
-            self.__desenhaveis.append(DesenhavelSurface(tela, sprite, (w/3, h/4), 'black'))
+        self.__desenhaveis = desenhaveis
 
     def atualizar(self, eventos: list):
         if pg.time.get_ticks() - self.ultima_colisao > 3000:
@@ -252,6 +236,14 @@ class Jogador(EntidadeTela):
     def dano_projeteis(self):
         return self.__dano_projeteis
 
+    @property
+    def desenhaveis(self):
+        return self.__desenhaveis
+
+    @desenhaveis.setter
+    def desenhaveis(self, vel):
+        self.__desenhaveis = vel
+
     @velocidade.setter
     def velocidade(self, vel):
         self.__velocidade = vel
@@ -295,3 +287,5 @@ class Jogador(EntidadeTela):
     @cadencia_projeteis.setter
     def cadencia_projeteis(self, cadencia):
         self.__cadencia_projeteis = cadencia
+
+

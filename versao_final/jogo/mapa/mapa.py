@@ -7,7 +7,7 @@ from basico.evento import *
 import os
 
 class Mapa(Entidade):
-    def __init__(self, tela, salas, imagem_jogador):
+    def __init__(self, tela, salas, desenhavel_jogador):
         super().__init__(tela)
         arq_im_fundo = os.path.join('imagens', 'fundo_mapa.png')
         self.__im_fundo = DesenhavelImagem(tela, arq_im_fundo, (self.telaW(), self.telaH()))
@@ -15,7 +15,7 @@ class Mapa(Entidade):
         self.__salas = salas
         self.__marcadores = []
         self.__marcador_ativo = 0
-        self.__imagem_jogador = imagem_jogador
+        self.__desenhavel_jogador = desenhavel_jogador
 
         self.__dimens_tela = tela.get_size()
 
@@ -133,8 +133,7 @@ class Mapa(Entidade):
                 desenhavel.desenhar(pos)
 
                 if isinstance(self.__salas[i][j], SalaFinal):
-                    desenhavel_jogador = DesenhavelImagem(self.tela, self.__imagem_jogador, dimens_sala, 'white')
-                    desenhavel_jogador.desenhar(pos)
+                    self.__desenhavel_jogador.desenhar(pos)
 
     def getPosPaleta(self):
         dimens_min = min(self.dimens_tela)

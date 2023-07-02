@@ -1,10 +1,11 @@
 import pygame as pg
 from pygame.locals import *
+import os
 
 from enum import Enum
 
 from basico.entidade_tela import EntidadeTela, Entidade
-from basico.desenhavel import DesenhavelRetangulo, DesenhavelImagem
+from basico.desenhavel import *
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
 from tela_pause.tela_pause import TelaPause
@@ -29,15 +30,34 @@ class Jogo(Entidade):
         dimens_jogador = (50*self.telaW()/1960, 50*self.telaH()/1080)
         dimens_imagem = (3*dimens_jogador[0], 2*dimens_jogador[1])
 
-        imagem_jogador = 'imagens/jogador.jpg'
+        # imagens do jogador
+        arquivo = os.path.join('imagens', 'jogador', 'jogador.png')
+        sheet = pg.image.load(arquivo).convert()
+
+        w, h = sheet.get_rect().size
+        x = w/3
+        y_offset = h/4
+
+        desenhaveis = []
+        indices = [2, 0, 1, 3]
+        for j in range(4):
+            y = y_offset*indices[j]
+
+            sprite = pg.Surface((w/3, h/4))
+            sprite.blit(sheet, (0, 0), (x, y, w/3, h/4))
+
+            desenhaveis.append(DesenhavelSurface(tela, sprite, (w/3, h/4), 'black'))
+
         self.__jogador = Jogador(
             self.tela, (self.telaW()/2, self.telaH()/2), dimens_jogador,
-            DesenhavelImagem(self.tela, imagem_jogador, dimens_imagem, 'white')
+            desenhaveis
 #            DesenhavelRetangulo(self.tela, (0, 255, 0), dimens_jogador)
         )
 
+        desenhavel_jogador = desenhaveis[1]
+
         self.__labirinto = Labirinto(self.tela, self.jogador)
-        self.__mapa = Mapa(self.tela, self.labirinto.salas, imagem_jogador)
+        self.__mapa = Mapa(self.tela, self.labirinto.salas, desenhavel_jogador)
         self.__pause = TelaPause(self.tela)
         self.__tela_game_over = TelaGameOver(self.tela)
         self.__modo = ModoJogo.Labirinto
