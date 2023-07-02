@@ -96,16 +96,20 @@ class DesenhavelImagem(Desenhavel):
     def imagem(self):
         return self.__imagem
 
+    """
     @imagem.setter
     def imagem(self, imagem):
         self.__imagem = imagem
+    """
 
     @property
     def dimensoes(self):
         return self.__dimensoes
 
+    """
     @dimensoes.setter
     def dimensoes(self, dimensoes):
         self.__dimensoes = dimensoes
+    """
 
 

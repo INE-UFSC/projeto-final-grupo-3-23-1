@@ -112,47 +112,100 @@ class Labirinto(Entidade):
         with open(arq_puzz, "r") as arquivo_puzzles:
             l_puzzle = arquivo_puzzles.readlines()
 
+        info_puzzle = []
+        for i in range(len(l_puzzle)):
+            puzz = l_puzzle[i]
+            #l_puzzle.remove(puzz)
+            puzz = puzz.split(' / ')
+            caminho_im_fundo = os.path.join('imagens', 'fundos_sala_puzz', puzz[0])
+            des = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
+            info_puzzle.append((des, puzz[1], puzz[2]))
+
         arq_ini = os.path.join('jogo', 'labirinto', 'info_salas_inimigo.txt')
         with open(arq_ini, "r") as arquivo_inimigos:
             info_salas_ini = arquivo_inimigos.readlines()
+
+        info_inimigo = []
+        for indice in range(len(info_salas_ini)):
+            info_sala = info_salas_ini[indice]
+            #info_salas_ini.remove(info_sala)
+            lista_info = info_sala.split(' / ')
+            dict_info = {}
+            for elem in lista_info:
+                lista_elem = elem.split(' - ')
+                dict_info[lista_elem[0]] = lista_elem[1]
+            info_inimigo.append(dict_info)
+
+        imagens_inimigo = []
+        for indice in range(len(info_salas_ini)):
+            imagens = {} 
+
+            dict_info = info_inimigo[indice]
+
+            caminho_im_fundo = os.path.join('imagens', 'fundos_sala_ini', dict_info['fundo'])
+            imagens['fundo'] = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
+
+            dimen_obs = formatarPosDim(dict_info['dim_obs'])
+            caminho_im_obs = os.path.join('imagens', 'obstaculos', dict_info['im_obs'])
+            cor_im_obs = definirCorImagem('cor_im_obs')
+            imagens['im_obs'] = DesenhavelImagem(tela, caminho_im_obs, dimen_obs, cor_im_obs)
+
+            dimen_power = (self.telaW()/35, self.telaW()/35)
+            caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
+            imagens['power_d'] = DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0)),
+
+            caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
+            imagens['power_v'] = DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0)),
+
+            caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
+            imagens['power_c'] = DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0)),
+
+            caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
+            imagens['power_f'] = DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0)),
+
+            caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
+            cor_im_ini = definirCorImagem('cor_im_ini')
+            dim_ini = (self.telaW()*50/1960, self.telaH()*50/1080)
+            imagens['im_ini'] = DesenhavelImagem(tela, caminho_im_ini, dim_ini, cor_im_ini)
+
+            caminho_im_ini_ati = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
+            cor_im_ini_ati = definirCorImagem('cor_im_ini_ati')
+            imagens['im_ini_ati'] = DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, cor_im_ini_ati),
+
+            imagens_inimigo.append(imagens)
 
         for i in range(n_linhas):
             linha = []
             for j in range(n_colunas):
                 if i == int(coord_sala_final[0]) and j == int(coord_sala_final[1]):
                     arq_sala_final = os.path.join('imagens', 'sala_final', 'fundo_sala_final.jpg')
+                    des_sala_final = DesenhavelImagem(tela, arq_sala_final, (self.telaW(), self.telaH()))
                     self.sala_final = SalaFinal(tela, 
-                                                DesenhavelImagem(tela, arq_sala_final, (self.telaW(), self.telaH())),
+                                                des_sala_final,
                                                 jogador)
                     linha.append(self.sala_final)
                 elif [i, j] == self.coord_sala_atual:
                     caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
-                    linha.append(Sala(tela, DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))))
+                    des_sala_inicial = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
+                    linha.append(Sala(tela, des_sala_inicial))
                 else:
                     a = random.randint(0, 1)
                     if a == 0:
                         indice = random.randrange(0, len(info_salas_ini))
-                        info_sala = info_salas_ini[indice]
-                        #info_salas_ini.remove(info_sala)
-                        lista_info = info_sala.split(' / ')
-                        dict_info = {}
-                        for elem in lista_info:
-                            lista_elem = elem.split(' - ')
-                            dict_info[lista_elem[0]] = lista_elem[1]
+                        dict_info = info_inimigo[indice]
 
-                        caminho_im_fundo = os.path.join('imagens', 'fundos_sala_ini', dict_info['fundo'])
+                        imagens = imagens_inimigo[indice]
+                        
                         sala = SalaInimigo(tela,
-                                                 DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH())),
-                                                jogador)
+                                           imagens['fundo'],
+                                           jogador)
                         linha.append(sala)
 
                         dimen_obs = formatarPosDim(dict_info['dim_obs'])
-                        caminho_im_obs = os.path.join('imagens', 'obstaculos', dict_info['im_obs'])
-                        cor_im_obs = definirCorImagem('cor_im_obs')
                         for num_obs in range(int(dict_info['quant_obs'])):
                             pos_obs = formatarPosDim(dict_info[f'pos_obs_{num_obs}'])
                             sala.addObstaculo(Obstaculo(tela, pos_obs, dimen_obs,
-                                                        DesenhavelImagem(tela, caminho_im_obs, dimen_obs, cor_im_obs)))
+                                                        imagens['im_obs']))
 
                         dimen_power = (self.telaW()/35, self.telaW()/35)
                         for num_power in range(int(dict_info['quant_power'])):
@@ -161,22 +214,22 @@ class Labirinto(Entidade):
                             if tipo == 'd':
                                 caminho_im_dano = os.path.join('imagens', 'powerup', 'dano.png')
                                 powerup = PowerupDano(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_dano, dimen_power, (0, 0, 0)),
+                                                    imagens['power_d'],
                                                     0.5)
                             elif tipo == 'v':
                                 caminho_im_vel = os.path.join('imagens', 'powerup', 'velocidade.png')
                                 powerup = PowerupVelocidadeTiro(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_vel, dimen_power, (0, 0, 0)),
+                                                    imagens['power_v'],
                                                     1)
                             elif tipo == 'c':
                                 caminho_im_cad = os.path.join('imagens', 'powerup', 'cadencia.png')
                                 powerup = PowerupCadencia(tela, pos_power, dimen_power,
-                                                    DesenhavelImagem(tela, caminho_im_cad, dimen_power, (0, 0, 0)),
+                                                    imagens['power_c'],
                                                     25)
                             elif tipo == 'f':
                                 caminho_im_vida = os.path.join('imagens', 'powerup', 'vida.png')
                                 powerup = PowerupVida(tela, pos_power, dimen_power,
-                                                      DesenhavelImagem(tela, caminho_im_vida, dimen_power, (0, 0, 0)),
+                                                      imagens['power_f'],
                                                       1)
                             sala.addPowerup(powerup)
 
@@ -189,7 +242,7 @@ class Labirinto(Entidade):
                         for num_ini in range(int(dict_info['quant_ini'])):
                             pos_ini = formatarPosDim(dict_info[f'pos_ini_{num_ini}'])
                             sala.addInimigo(Inimigo(tela, pos_ini, dim_ini,
-                                                    DesenhavelImagem(tela, caminho_im_ini, dim_ini, cor_im_ini),
+                                                    imagens['im_ini'],
                                                     dano_ini, vel_ini, vida_ini, jogador))
 
                         caminho_im_ini_ati = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
@@ -198,19 +251,21 @@ class Labirinto(Entidade):
                             pos_ini_ati = formatarPosDim(dict_info[f'pos_ini_ati_{num_ini_ati}'])
                             nivel = int(dict_info[f'nivel_ini_ati_{num_ini_ati}'].strip())
                             sala.addInimigo(InimigoQueAtira(tela, pos_ini_ati, dim_ini,
-                                                    DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, cor_im_ini_ati),
+                                                    imagens['im_ini_ati'],
                                                     dano_ini, vel_ini, vida_ini, jogador, nivel))
                         
                     else:
                         indice = random.randrange(0, len(l_puzzle))
-                        puzz = l_puzzle[indice]
-                        #l_puzzle.remove(puzz)
-                        puzz = puzz.split(' / ')
-                        caminho_im_fundo = os.path.join('imagens', 'fundos_sala_puzz', puzz[0])
+                        puzz = info_puzzle[indice]
                         linha.append(SalaPuzzle(tela,
-                                                DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH())),
+                                                puzz[0],
                                                 puzz[1], puzz[2].strip(), jogador))
             self.__salas.append(linha)
+
+        SalaPortaBaixo.iniciarClasse(tela)
+        SalaPortaCima.iniciarClasse(tela)
+        SalaPortaDireita.iniciarClasse(tela)
+        SalaPortaEsquerda.iniciarClasse(tela)
 
         self.__portas = []
         for n, linha in enumerate(linhas[:n_linhas]):
@@ -240,6 +295,7 @@ class Labirinto(Entidade):
                 q += 1
                 if q%2 == 0:
                     p += 1
+
 
     def tentarMudarSala(self, eventos):
         from jogo.jogador.jogador import Jogador
