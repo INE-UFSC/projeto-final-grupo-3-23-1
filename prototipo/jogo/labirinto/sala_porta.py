@@ -43,7 +43,7 @@ class SalaPorta(EntidadeTela, ABC):
     def fechar(self):
         self.__porta.fechar()
         for sala_porta in self.__porta.sala_portas:
-            sala_porta.desenhavel = self.__desenhavel_fechada
+            sala_porta.desenhavel = self.__desenhavel_trancada
 
     @property
     def porta(self):
@@ -82,7 +82,7 @@ class SalaPortaCima(SalaPorta):
     def iniciarClasse(cls, tela):
         cls.dimensoes = (tela.get_height()/4, tela.get_width()/15)
 
-        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_baixo_trancada.png')
+        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_cima_trancada.png')
         arq_im_porta_aberta = os.path.join('imagens', 'portas', 'porta_horizontal.png')
         cls.desenhavel_trancada = DesenhavelImagem(tela, arq_im_porta_trancada, cls.dimensoes)
         cls.desenhavel_aberta = DesenhavelImagem(tela, arq_im_porta_aberta, cls.dimensoes)
@@ -100,8 +100,8 @@ class SalaPortaDireita(SalaPorta):
     def iniciarClasse(cls, tela):
         cls.dimensoes = (tela.get_width()/15, tela.get_height()/4)
 
-        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_baixo_trancada.png')
-        arq_im_porta_aberta = os.path.join('imagens', 'portas', 'porta_horizontal.png')
+        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_vertical_trancada.png')
+        arq_im_porta_aberta = os.path.join('imagens', 'portas', 'porta_vertical.png')
         cls.desenhavel_trancada = DesenhavelImagem(tela, arq_im_porta_trancada, cls.dimensoes)
         cls.desenhavel_aberta = DesenhavelImagem(tela, arq_im_porta_aberta, cls.dimensoes)
 
@@ -118,8 +118,8 @@ class SalaPortaEsquerda(SalaPorta):
     def iniciarClasse(cls, tela):
         cls.dimensoes = (tela.get_width()/15, tela.get_height()/4)
 
-        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_baixo_trancada.png')
-        arq_im_porta_aberta = os.path.join('imagens', 'portas', 'porta_horizontal.png')
+        arq_im_porta_trancada = os.path.join('imagens', 'portas', 'porta_vertical_trancada.png')
+        arq_im_porta_aberta = os.path.join('imagens', 'portas', 'porta_vertical.png')
         cls.desenhavel_trancada = DesenhavelImagem(tela, arq_im_porta_trancada, cls.dimensoes)
         cls.desenhavel_aberta = DesenhavelImagem(tela, arq_im_porta_aberta, cls.dimensoes)
 
