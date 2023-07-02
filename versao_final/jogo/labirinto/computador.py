@@ -57,10 +57,13 @@ class Computador(EntidadeTela):
                     self.__jogador.ativo = False
                 else:
                     self.__jogador.ativo = True
+                self.__botao_responder.atualizar(eventos)
+                if self.__botao_responder.apertou:
+                    self.__modo = ModoComputador.ChecarResposta
+                    self.__botao_responder.resetApertou()
 
             elif self.__modo == ModoComputador.ChecarResposta:
                 self.__jogador.ativo = True
-                print(self.__caixa_resposta.chute.strip().lower(), self.__resposta)
                 if self.__caixa_resposta.chute.strip().lower() == self.__resposta:
                     self.__resolvido = True
                     self.__modo = ModoComputador.Acertou
@@ -71,13 +74,8 @@ class Computador(EntidadeTela):
                 self.__botao_tentar_dnv.atualizar(eventos)
                 if self.__botao_tentar_dnv.apertou:
                     self.__modo = ModoComputador.Escrever
-                    self.__botao_tentar_dnv.resetApertou()
                     self.__caixa_resposta.chute = ''
-
-            self.__botao_responder.atualizar(eventos)
-            if self.__botao_responder.apertou:
-                self.__modo = ModoComputador.ChecarResposta
-                self.__botao_responder.resetApertou()
+                    self.__botao_tentar_dnv.resetApertou()
 
     def desenhar(self):
         super().desenhar()
