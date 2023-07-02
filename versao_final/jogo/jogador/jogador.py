@@ -27,6 +27,7 @@ class Jogador(EntidadeTela):
         self.__cadencia_projeteis = 500
         self.__velocidade_projeteis = 10
 
+        # imagens
         arquivo = os.path.join('imagens', 'jogador', 'jogador.png')
         sheet = pg.image.load(arquivo).convert()
 
