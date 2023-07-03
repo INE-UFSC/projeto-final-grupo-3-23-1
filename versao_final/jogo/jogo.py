@@ -141,16 +141,21 @@ class Jogo(Entidade):
     def desenharInformacoes(self):
         from basico.desenhavel import DesenhavelTexto
         tamanho_fonte = 25/1080
-        text_vida = DesenhavelTexto(self.tela, f'pontos de foco: {self.jogador.vida}', tamanho_fonte)
+        cor_texto = (0, 0, 0)
+        text_vida = DesenhavelTexto(self.tela, f'pontos de foco: {self.jogador.vida}',
+                                    tamanho_fonte, cor_texto=cor_texto)
         text_vida.desenharSuperiorDireito((0, 0))
         espaco_linha = text_vida.espaco_linha
-        text_poderes = DesenhavelTexto(self.tela, 'poderes da varinha:', tamanho_fonte)
+        text_poderes = DesenhavelTexto(self.tela, 'poderes da varinha:', tamanho_fonte, cor_texto=cor_texto)
         text_poderes.desenharSuperiorDireito((0, espaco_linha))
-        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_projeteis}', tamanho_fonte)
+        text_dano = DesenhavelTexto(self.tela, f'- dano: {self.jogador.dano_projeteis}',
+                                    tamanho_fonte, cor_texto=cor_texto)
         text_dano.desenharSuperiorDireito((espaco_linha, espaco_linha*2))
-        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_projeteis}', tamanho_fonte)
+        text_velocidade = DesenhavelTexto(self.tela, f'- velocidade: {self.jogador.velocidade_projeteis}',
+                                          tamanho_fonte, cor_texto=cor_texto)
         text_velocidade.desenharSuperiorDireito((espaco_linha, espaco_linha*3))
-        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_projeteis}', tamanho_fonte)
+        text_cadencia = DesenhavelTexto(self.tela, f'- cadencia: {self.jogador.cadencia_projeteis}',
+                                        tamanho_fonte, cor_texto=cor_texto)
         text_cadencia.desenharSuperiorDireito((espaco_linha, espaco_linha*4))
 
     @property
