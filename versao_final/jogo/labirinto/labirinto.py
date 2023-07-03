@@ -2,9 +2,6 @@ from basico.entidade import Entidade
 from .sala import Sala
 from .porta import Porta
 from basico.evento import *
-from jogo.labirinto.aparencia import Aparencia
-from jogo.labirinto.musica import Musica
-from jogo.labirinto.textura import Textura
 from jogo.labirinto.inimigo import Inimigo
 from jogo.labirinto.inimigo_que_atira import InimigoQueAtira
 from jogo.labirinto.inimigo_que_segue import *

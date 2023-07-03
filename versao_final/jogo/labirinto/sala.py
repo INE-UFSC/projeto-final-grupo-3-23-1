@@ -2,7 +2,6 @@ import pygame as pg
 from pygame.locals import *
 
 from basico.entidade import Entidade
-from .aparencia import Aparencia
 
 
 class Sala(Entidade):
