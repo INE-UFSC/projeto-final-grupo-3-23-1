@@ -147,7 +147,7 @@ class Labirinto(Entidade):
                 pos_ini_ati = formatarPosDim(dict_info[f'pos_ini_ati_{num_ini_ati}'])
                 nivel = int(dict_info[f'nivel_ini_ati_{num_ini_ati}'].strip())
                 sala.addInimigo(InimigoQueAtira(tela, pos_ini_ati, dim_ini,
-                                        imagens['im_ini'],
+                                        imagens['im_ini_ati'],
                                         dano_ini, vel_ini, vida_ini, jogador, nivel))
             return linha
         
@@ -241,6 +241,9 @@ class Labirinto(Entidade):
             dim_ini = (self.telaW()*75/1960, self.telaH()*75/1080)
             imagens['im_ini'] = DesenhavelImagem(tela, caminho_im_ini, dim_ini, cor_im_ini)
 
+            caminho_im_ini_ati = os.path.join('imagens', 'inimigos', dict_info['im_ini_ati'])
+            imagens['im_ini_ati'] = DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, (0, 0, 0))
+
             imagens_inimigo.append(imagens)
 
         imagens_puzzle = {}
@@ -263,7 +266,7 @@ class Labirinto(Entidade):
                                                 jogador)
                     linha.append(self.sala_final)
                 elif [i, j] == self.coord_sala_atual:
-                    caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
+                    caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.png')
                     des_sala_inicial = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
                     linha.append(Sala(tela, des_sala_inicial))
                 else:
