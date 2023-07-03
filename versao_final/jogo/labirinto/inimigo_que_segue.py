@@ -16,17 +16,6 @@ class InimigoQueSegue(Inimigo):
     def __init__(self,tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador: Jogador ):
         super().__init__(tela, pos_tela, dimensoes, desenhavel, dano, velocidade, vida_inicial, jogador)
 
-        self.__dano = dano
-        self.__direction = 0
-        self.__nivel_velocidade = velocidade
-        self.__velocidade = 0
-        self.__vida = vida_inicial
-        self.__alvo = jogador
-        # Crie um objeto Clock para controlar o tempo
-        #self.__clock = pg.time.Clock()
-        self.__colidindo = False
-        self.__pode_mexer = True
-
         # imagens
         arquivo = os.path.join('imagens', 'inimigos', 'inimigo.png')
         sheet = pg.image.load(arquivo).convert()
