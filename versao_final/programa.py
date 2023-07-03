@@ -21,7 +21,7 @@ class Programa(Entidade):
 
         info = pg.display.Info()
 #        self.tela = pg.display.set_mode((1366, 768))
-        tela = pg.display.set_mode((info.current_w, info.current_h))
+        tela = pg.display.set_mode((info.current_w, info.current_h*9/10))
         super().__init__(tela)
 
         self.__jogo = Jogo(self.tela)
