@@ -26,42 +26,6 @@ class InimigoQueAtira(Inimigo):
     
         self.__distancia_min_jogador = self.set_distancia_min_jogador()
 
-        # imagens
-        arquivo = os.path.join('imagens', 'inimigos_atira', 'inimigo_que_atira.png')
-        sheet = pg.image.load(arquivo).convert()
-
-        qtd = 9
-
-        w, h = sheet.get_rect().size
-        x = w/qtd
-        y = h/qtd
-
-        indices = [
-            (2, 1),
-            (2, 2),
-            (1, 2),
-            (0, 2),
-            (0, 1),
-            (0, 0),
-            (1, 0),
-            (2, 0)
-        ]
-
-        self.__desenhaveis = []
-
-        i0 = 3
-        j0 = 3
-        for i in range(8):
-            curr_i, curr_j = indices[i]
-
-            x = (i0+curr_i) * w/qtd
-            y = (j0+curr_j) * h/qtd
-
-            sprite = pg.Surface((w/qtd, h/qtd))
-            sprite.blit(sheet, (0, 0), (x, y, w/qtd, h/qtd))
-
-            self.__desenhaveis.append(DesenhavelSurface(tela, sprite, (w/qtd, h/qtd), (90, 139, 205)))
-
     def set_valores(self):
         self.__cadencia = self.__valores_projetil[self.__nivel][0]
         self.__velocidade_projetil = self.__valores_projetil[self.__nivel][1]
@@ -158,13 +122,6 @@ class InimigoQueAtira(Inimigo):
             self.__pode_mexer = False
 
     def desenhar(self):
-        projetil_direcao = math.degrees(self.direction)
-
-        x = int(round(projetil_direcao / 360 * 8))
-        x %= 8
-
-        self.desenhavel = self.__desenhaveis[x]
-
         super().desenhar()
 
         for t in self.__projeteis:

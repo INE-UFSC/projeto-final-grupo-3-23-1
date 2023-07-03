@@ -140,7 +140,7 @@ class Labirinto(Entidade):
             vida_ini = 3
             for num_ini in range(int(dict_info['quant_ini'])):
                 pos_ini = formatarPosDim(dict_info[f'pos_ini_{num_ini}'])
-                sala.addInimigo(Inimigo(self.tela, pos_ini, dim_ini, imagens['im_ini'],
+                sala.addInimigo(InimigoQueSegue(self.tela, pos_ini, dim_ini, imagens['im_ini'],
                                         dano_ini, vel_ini, vida_ini, jogador))
 
             for num_ini_ati in range(int(dict_info['quant_ini_ati'])):
