@@ -13,9 +13,9 @@ class Jogador(EntidadeTela):
     def __init__(self, tela, pos_tela, dimensoes, desenhaveis):
         super().__init__(tela, pos_tela, dimensoes, desenhaveis[0], solido=True, movel=True)
 
-        self.__velocidade = 10
+        self.__velocidade = 7
         self.__direcao = 0
-        self.__vida = 3
+        self.__vida = 5
         self.__powerups = []
         self.__projeteis = []
 

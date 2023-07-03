@@ -64,7 +64,6 @@ class Computador(EntidadeTela):
 
             elif self.__modo == ModoComputador.ChecarResposta:
                 self.__jogador.ativo = True
-                print(self.__resposta)
                 if self.__caixa_resposta.chute.strip().lower() == self.__resposta:
                     self.__resolvido = True
                     self.__modo = ModoComputador.Acertou
