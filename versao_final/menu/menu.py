@@ -3,7 +3,7 @@ from .botao import Botao
 from basico.desenhavel import DesenhavelImagem
 from .instrucoes import Instrucoes
 from .creditos import Creditos
-from jogo.tela_game_over import TelaGameOver
+from jogo.telas.tela_game_over import TelaGameOver
 import os
 
 from enum import Enum

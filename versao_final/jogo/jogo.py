@@ -8,13 +8,13 @@ from basico.entidade_tela import EntidadeTela, Entidade
 from basico.desenhavel import *
 from basico.sistema_colisao import SistemaColisao
 from basico.evento import *
-from tela_pause.tela_pause import TelaPause
+from jogo.telas.tela_pause import TelaPause
 from jogo.labirinto.porta import Porta
 from jogo.jogador.jogador import Jogador
 from jogo.labirinto.labirinto import Labirinto
-from jogo.tela_game_over import TelaGameOver
+from jogo.telas.tela_game_over import TelaGameOver
 from jogo.mapa.mapa import Mapa
-from tela_pause.tela_pause import ModoPause
+from jogo.telas.tela_pause import ModoPause
 
 class ModoJogo(Enum):
     Labirinto = 1
