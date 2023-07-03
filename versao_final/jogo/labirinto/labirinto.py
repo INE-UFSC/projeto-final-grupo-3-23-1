@@ -42,7 +42,7 @@ class Labirinto(Entidade):
             for sala_porta in sala.sala_portas:
                 sala_porta.fechar() 
 
-            pg.mixer.music.load('musica/temple_of_freedom.mp3')
+            pg.mixer.music.load('musica/victory-epic-music.mp3')
             pg.mixer.music.play(-1)
 
         self.getSala().atualizar(eventos)

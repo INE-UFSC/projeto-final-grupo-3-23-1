@@ -135,7 +135,7 @@ class Programa(Entidade):
             self.jogo = Jogo(self.tela)
             self.menu.botoes[0].resetApertou()
 
-            pg.mixer.music.load('musica/wish_youd_never_left.mp3')
+            pg.mixer.music.load('musica/wondrous-waters.mp3')
             pg.mixer.music.play(-1)
 
         if self.jogo.labirinto.sala_final.botoes[1].apertou:
