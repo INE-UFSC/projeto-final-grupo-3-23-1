@@ -266,7 +266,7 @@ class Labirinto(Entidade):
                                                 jogador)
                     linha.append(self.sala_final)
                 elif [i, j] == self.coord_sala_atual:
-                    caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.jpg')
+                    caminho_im_fundo = os.path.join('imagens', 'fundo_sala_inicial.png')
                     des_sala_inicial = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
                     linha.append(Sala(tela, des_sala_inicial))
                 else:
