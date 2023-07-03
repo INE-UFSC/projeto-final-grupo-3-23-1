@@ -44,7 +44,7 @@ class CaixaDeResposta(EntidadeTela):
         if self.__chute == '':
             text = DesenhavelTexto(self.tela,'Digite sua resposta', nome_fonte='Lora')
         else:
-            text = DesenhavelTexto(self.tela, self.chute)
+            text = DesenhavelTexto(self.tela, self.chute, nome_fonte='Lora')
         text.desenharSuperiorDireito(self.getRect())
 
     @property
