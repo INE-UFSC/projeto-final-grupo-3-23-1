@@ -134,27 +134,21 @@ class Labirinto(Entidade):
                                             1)
                 sala.addPowerup(powerup)
 
-            caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
-            cor_im_ini = definirCorImagem('cor_im_ini')
-            dim_ini = (self.telaW()*30/1960, self.telaH()*50/1080)
+            dim_ini = (self.telaW()*75/1960, self.telaH()*75/1080)
             dano_ini = 1
             vel_ini = 2
             vida_ini = 3
             for num_ini in range(int(dict_info['quant_ini'])):
                 pos_ini = formatarPosDim(dict_info[f'pos_ini_{num_ini}'])
-                sala.addInimigo(InimigoQueSegue(tela, pos_ini, dim_ini,
-                                        imagens['im_ini'],
+                sala.addInimigo(Inimigo(self.tela, pos_ini, dim_ini, imagens['im_ini'],
                                         dano_ini, vel_ini, vida_ini, jogador))
 
-            caminho_im_ini_ati = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
-            cor_im_ini_ati = definirCorImagem('cor_im_ini_ati')
             for num_ini_ati in range(int(dict_info['quant_ini_ati'])):
                 pos_ini_ati = formatarPosDim(dict_info[f'pos_ini_ati_{num_ini_ati}'])
                 nivel = int(dict_info[f'nivel_ini_ati_{num_ini_ati}'].strip())
                 sala.addInimigo(InimigoQueAtira(tela, pos_ini_ati, dim_ini,
-                                        imagens['im_ini_ati'],
+                                        imagens['im_ini'],
                                         dano_ini, vel_ini, vida_ini, jogador, nivel))
-            #info_inimigo.pop(indice)
             return linha
         
         def criarSalaPuzzle(linha):
@@ -244,12 +238,8 @@ class Labirinto(Entidade):
 
             caminho_im_ini = os.path.join('imagens', 'inimigos', dict_info['im_ini'])
             cor_im_ini = definirCorImagem('cor_im_ini')
-            dim_ini = (self.telaW()*50/1960, self.telaH()*50/1080)
+            dim_ini = (self.telaW()*75/1960, self.telaH()*75/1080)
             imagens['im_ini'] = DesenhavelImagem(tela, caminho_im_ini, dim_ini, cor_im_ini)
-
-            caminho_im_ini_ati = os.path.join('imagens', 'inimigos_atira', dict_info['im_ini_ati'])
-            cor_im_ini_ati = definirCorImagem('cor_im_ini_ati')
-            imagens['im_ini_ati'] = DesenhavelImagem(tela, caminho_im_ini_ati, dim_ini, cor_im_ini_ati)
 
             imagens_inimigo.append(imagens)
 
