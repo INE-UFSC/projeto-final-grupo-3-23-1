@@ -1,15 +1,15 @@
 fundo_tons_azul.png / enigma_1.png / il viaggio inizia qui
 fundo_verde_amarelo.png / enigma_2.png / satyagraha
 fundo_vermelho2.png / enigma_3.png / a rigidez oprime a flexibilidade eleva
-fundo_azul.png / enigma_4.png / só sei que nada sei
-fundo_roxo_e_azul.png / enigma_5.png / reminiscência
-fundo_roxo.png / enigma_6.png / fédon
-fundo_laranja_e_azul.png / enigma_7.png / sentir é estar distraído
-fundo_azul2.png / enigma_8.png / o mínimo do máximo
+fundo_azul.png / enigma_4.png / so sei que nada sei
+fundo_roxo_e_azul.png / enigma_5.png / reminiscencia
+fundo_roxo.png / enigma_6.png / fedon
+fundo_laranja_e_azul.png / enigma_7.png / sentir e estar distraído
+fundo_azul2.png / enigma_8.png / o minimo do maximo
 fundo_vermelho1.png / enigma_9.png / chacal
-fundo_verde2.png / enigma_10.png / álvaro de campos
-fundo_amarelo.png / enigma_11.png / o pequeno príncipe
+fundo_verde2.png / enigma_10.png / alvaro de campos
+fundo_amarelo.png / enigma_11.png / o pequeno principe
 fundo_rosa.png / enigma_12.png / movimento
 fundo_turquesa.png / enigma_13.png / eu
 fundo_vermelho_azul.png / enigma_14.png / quanto tempo o tempo tem?
-fundo_verde1.png / enigma_11.png / estrelas
+fundo_verde1.png / enigma_15.png / estrelas
