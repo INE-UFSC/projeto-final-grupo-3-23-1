@@ -270,17 +270,14 @@ class Labirinto(Entidade):
                     des_sala_inicial = DesenhavelImagem(tela, caminho_im_fundo, (self.telaW(), self.telaH()))
                     linha.append(Sala(tela, des_sala_inicial))
                 else:
-                    a = random.randint(0, 1)
+                    a = random.randint(0, 3)
                     if a == 0:
                         if len(info_puzzle) != 0:
                             linha = criarSalaPuzzle(linha)
                         else:
                             linha = criarSalaInimigo(linha)
                     else:
-                        if len(info_inimigo) != 0:
-                            linha = criarSalaInimigo(linha)
-                        else:
-                            linha = criarSalaPuzzle(linha)
+                        linha = criarSalaInimigo(linha)
              
             self.__salas.append(linha)
 

@@ -31,7 +31,7 @@ class CaixaDeResposta(EntidadeTela):
             elif evento.tecla != pg.K_RETURN and evento.tecla != pg.K_KP_ENTER:
                 self.chute += evento.unicode
                 chute = DesenhavelTexto(self.tela, self.chute)
-                if chute.rect.width > self.getRect().width:
+                if chute.rect.width > self.getRect().width*1.4:
                     self.chute = self.__chute[:-1]
 
     def desenhar(self):
